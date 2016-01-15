@@ -1,4 +1,11 @@
-# Build the FabScanPi Frontend
+# FabScanPi Frontend
+
+## About
+This is the FabScanPi Frontend. If you want only to use the FabScanPi, visit the [FabScanPi
+server repository](https://github.com/mariolukas/FabScanPi-Frontend). The Frontend repository is
+more related to developers.
+
+## Build the FabScanPi Frontend
 
 First install nodejs for your operating system.
 
