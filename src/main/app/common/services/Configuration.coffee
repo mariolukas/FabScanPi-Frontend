@@ -19,7 +19,7 @@ angular.module(name, []).factory(name, ['$location', ($location) ->
       installation:
         host: host
         websocketurl: 'ws://'+$location.host()+':8010/'
-        httpurl: 'http://'+$location.host()+'/'
+        httpurl: 'http://'+$location.host()+':8080/'
 
     }
 
