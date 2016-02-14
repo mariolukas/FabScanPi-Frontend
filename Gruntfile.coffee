@@ -76,20 +76,12 @@ module.exports = (grunt)->
 						dest:          DEST_INDEX_HTML
 					}
           {
-            src:          "#{STAGE_DIR}/lib/bootstrap/fonts/glyphicons-halflings-regular.ttf"
-            dest:         "#{BUILD_MAIN_DIR}/fonts/glyphicons-halflings-regular.ttf"
+            src:          "#{STAGE_DIR}/lib/bootstrap/fonts/fontawesome-webfont.ttf"
+            dest:         "#{BUILD_MAIN_DIR}/fonts/fontawesome-webfont.ttf"
           }
           {
-              src:          "#{STAGE_DIR}/lib/bootstrap/fonts/glyphicons-halflings-regular.woff"
-              dest:         "#{BUILD_MAIN_DIR}/fonts/glyphicons-halflings-regular.woff"
-          }
-          {
-            src:          "#{STAGE_DIR}/lib/bootstrap/css/bootstrap.css.map"
-            dest:         "#{BUILD_MAIN_DIR}/style/bootstrap-theme.css.map"
-          }
-          {
-              src:          "#{STAGE_DIR}/lib/bootstrap/css/bootstrap.css.map"
-              dest:         "#{BUILD_MAIN_DIR}/style/bootstrap.css.map"
+              src:          "#{STAGE_DIR}/lib/font-awesome/fonts/fontawesome-webfont.woff"
+              dest:         "#{BUILD_MAIN_DIR}/fonts/fontawesome-webfont.woff"
           }
 					{
 						expand:        true
