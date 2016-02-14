@@ -76,7 +76,7 @@ module.exports = (grunt)->
 						dest:          DEST_INDEX_HTML
 					}
           {
-            src:          "#{STAGE_DIR}/lib/bootstrap/fonts/fontawesome-webfont.ttf"
+            src:          "#{STAGE_DIR}/lib/font-awesome/fonts/fontawesome-webfont.ttf"
             dest:         "#{BUILD_MAIN_DIR}/fonts/fontawesome-webfont.ttf"
           }
           {
