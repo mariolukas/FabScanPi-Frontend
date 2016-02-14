@@ -4,5 +4,5 @@ node_js:
   - "4.2"
 before_install:
   - npm install grunt-cli -g
-  - npm install -g
+  - npm install 
 script: grunt dist
