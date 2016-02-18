@@ -52,7 +52,14 @@ angular.module(name, []).controller(name, [
     )
 
     $scope.$on(FSEnumService.events.ON_INFO_MESSAGE, (event, data)->
-      toastr.info(data['message'])
+
+      switch data['level']
+        when "info" then toastr.info(data['message'])
+        when "warn" then toastr.warning(data['message'])
+        when "error" then toastr.error(data['message'])
+        when "success" then toastr.success(data['message'])
+        else toastr.info(data['message'])
+
       $scope.$apply()
     )
 

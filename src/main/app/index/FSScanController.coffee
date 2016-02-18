@@ -70,7 +70,7 @@ angular.module(name, []).controller(name, [
       FSScanService.startSettings()
 
     $scope.stopStream = () ->
-      $scope.streamUrl = " "
+      $scope.streamUrl = "icons/spinner.gif"
       #window.stop()
 
     $scope.manviewhandler = () ->
