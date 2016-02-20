@@ -7,5 +7,6 @@
     "SAVING_POINT_CLOUD": "Saving Point Cloud please wait...",
     "SCAN_COMPLETE": "Scan complete",
     "NO_SERIAL_CONNECTION": "No connection to Arduino",
-    "NO_CAMERA_CONNECTION":  "Camera is not connected"
+    "NO_CAMERA_CONNECTION":  "Camera is not connected",
+    "CONNECTED_TO_SERVER": "Connected to FabScanPi-Server"
 }

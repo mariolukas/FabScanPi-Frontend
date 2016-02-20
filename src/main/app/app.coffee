@@ -18,6 +18,7 @@ mods = [
   'fabscan.services.FSEnumService'
   'fabscan.services.FSWebsocketConnectionFactory'
   'fabscan.services.FSScanService'
+  'fabscan.services.FSi18nService'
 	'common.filters.scanDataAvailableFilter'
 
   'common.services.Configuration'

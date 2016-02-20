@@ -39,6 +39,10 @@ module.exports = (grunt)->
 				locale: 'de',
 				inputdir: "#{SRC_DIR}/main/messages/de/"
 				output: "#{BUILD_MAIN_DIR}/js/locales/de/i18n.js"
+			en:
+				locale: 'en',
+				inputdir: "#{SRC_DIR}/main/messages/en/"
+				output: "#{BUILD_MAIN_DIR}/js/locales/en/i18n.js"
 
 		clean:
 			main:
@@ -83,6 +87,10 @@ module.exports = (grunt)->
               src:          "#{STAGE_DIR}/lib/font-awesome/fonts/fontawesome-webfont.woff"
               dest:         "#{BUILD_MAIN_DIR}/fonts/fontawesome-webfont.woff"
           }
+					{
+						src:          "#{STAGE_DIR}/lib/font-awesome/fonts/fontawesome-webfont.woff2"
+						dest:         "#{BUILD_MAIN_DIR}/fonts/fontawesome-webfont.woff2"
+					}
 					{
 						expand:        true
 						cwd:           STAGE_APP_DIR

@@ -10,7 +10,8 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSMessageHandlerService'
   'fabscan.services.FSEnumService'
   'fabscan.services.FSScanService'
-	($log, $scope, $http, $rootScope,ngProgress, toastr , FSMessageHandlerService, FSEnumService, FSScanService) ->
+  'fabscan.services.FSi18nService'
+	($log, $scope, $http, $rootScope,ngProgress, toastr , FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
 
     $scope.streamUrl = " "
     $scope.settings = {}
@@ -37,7 +38,7 @@ angular.module(name, []).controller(name, [
       _settings.resolution *=-1
       angular.copy(_settings, $scope.settings)
       FSScanService.setScannerState(data['state'])
-
+      toastr.success(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
       $scope.$apply()
     )
 
@@ -53,12 +54,13 @@ angular.module(name, []).controller(name, [
 
     $scope.$on(FSEnumService.events.ON_INFO_MESSAGE, (event, data)->
 
+      message = FSi18nService.translateKey('main',data['message'])
       switch data['level']
-        when "info" then toastr.info(data['message'])
-        when "warn" then toastr.warning(data['message'])
-        when "error" then toastr.error(data['message'])
-        when "success" then toastr.success(data['message'])
-        else toastr.info(data['message'])
+        when "info" then toastr.info(message)
+        when "warn" then toastr.warning(message)
+        when "error" then toastr.error(message)
+        when "success" then toastr.success(message)
+        else toastr.info(message)
 
       $scope.$apply()
     )
