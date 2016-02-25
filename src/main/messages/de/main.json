@@ -1,11 +1,15 @@
 {
     "FABSCAN": "Fabscan",
-    "SCAN_CANCELED": "Scan canceled",
+    "SCAN_CANCELED": "Scan stoped",
     "SCAN_STOPED": "Scan stoped",
-    "SCANNING_OBJECT": "Scanning object",
+    "SCANNING_OBJECT": "Scanning Object",
+    "SCANNING_TEXTURE": "Scanning Texture",
     "NO_LASER_FOUND": "No laser detected. Try other settings",
     "SAVING_POINT_CLOUD": "Saving Point Cloud please wait...",
     "SCAN_COMPLETE": "Scan complete",
     "NO_SERIAL_CONNECTION": "No connection to Arduino",
-    "NO_CAMERA_CONNECTION":  "Camera is not connected"
+    "NO_CAMERA_CONNECTION":  "Camera is not connected",
+    "CONNECTED_TO_SERVER": "Connected to FabScanPi-Server",
+    "SERIAL_CONNECTION_READY": "Arduino/ FabScanPI HAT connected",
+    "CAMERA_READY": "Camera ready"
 }
