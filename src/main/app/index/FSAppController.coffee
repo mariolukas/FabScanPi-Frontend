@@ -38,8 +38,8 @@ angular.module(name, []).controller(name, [
       _settings.resolution *=-1
       angular.copy(_settings, $scope.settings)
       FSScanService.setScannerState(data['state'])
-      $log.debug("Show Server connection message")
-      toastr.info(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
+      $log.debug("WebSocket connection ready...")
+      #toastr.info(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
       $scope.$apply()
     )
 
