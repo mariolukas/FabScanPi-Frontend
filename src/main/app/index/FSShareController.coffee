@@ -14,12 +14,17 @@ angular.module(name, []).controller(name, [
     $scope.ply = null
     $scope.settings = null
     $scope.id = FSScanService.getScanId()
+    $scope.selectedTab = 'download'
+
+    $scope.selectTab  = (tab)->
+      $scope.selectedTab = tab
+
 
     $log.info $scope.shareDialog
     promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
     promise.then (payload) ->
         $log.info payload
-        $scope.stl = payload.data.mesh
+        $scope.mesh = payload.data.mesh
         $scope.ply = payload.data.pointcloud
         $scope.settings = payload.data.settings
 
