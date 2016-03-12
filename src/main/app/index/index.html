@@ -42,8 +42,10 @@
                <!-- Settings View -->
                 <div class="settingsWindow" ng-class="{'open':('SETTINGS' | currentState)}">
                     <div ng-if="('SETTINGS' | currentState)" ng-controller="fabscan.controller.FSSettingsController" >
+
                     <div class="preview-image">
-                        <img ng-if="('SETTINGS' | currentState)" style="position:absolute; width:320px; height:240px;border: 1px solid black; float:left; background-color:black;"  ng-src="{{streamUrl}}">
+                        <mjpeg url="streamUrl"></mjpeg>
+                        <!-- <iframe src="" frameborder="0" scrolling="no" width="100%" height="100%" name="imgbox" id="imgbox" ></iframe> -->
                     </div>
                     <div class="settings-content">
                         <div style="height: 40px;">
@@ -71,16 +73,21 @@
                                 <div  style="display:inline-block; width:5em; color:white; padding-left:1em;">Resolution</div>
                             <slider class="resolution" style="width:70%; margin-left:1em;"  show-steps="true" floor="-16" ceiling="-1" step="4" precision="1" ng-model="settings.resolution"></slider>
                             </div>
-
+                            <!--
                             <div>
-                                <div style="display:inline-block; width:5em; color:white; padding-left:1em;" >Color Scan</div><input  style="width:1em; height:1em; margin-left:1.5em; margin-top:2.5em;" type="checkbox"  ng-change="setColor()" ng-checked="colorIsSelected()" ng-model="settings.color">
-
-                                <a class="hvr-grow" style="margin-right: 13%; margin-top:1em; text-decoration:none; float:right; color:white; font-size:1.5em;" ng-click="startScan()" href="#">Start Scan</a>
+                                <div ng-class="{'longFadeOut':!showResolutionValue}" class="slider-value-label" >{{settings.laser_positions}}</div>
+                                <div  style="display:inline-block; width:5em; color:white; padding-left:1em;">Positions</div>
+                                <slider class="resolution" style="width:70%; margin-left:1em;"  floor="1" ceiling="4" step="1" precision="1" ng-model="settings.laser_positions"></slider>
+                            </div>
+                            -->
+                            <div>
+                                <div style="display:inline-block; width:5em; color:white; padding-left:1em;" >Color Scan</div><input  style="width:1em; height:1em; margin-left:1.5em; margin-top:0.5em;" type="checkbox"  ng-change="setColor()" ng-checked="colorIsSelected()" ng-model="settings.color">
+                                <a class="hvr-grow" style="margin-right: 13%; margin-top:0.2em; text-decoration:none; float:right; color:white; font-size:1.5em;" ng-click="startScan()" href="#">Start Scan</a>
                             </div>
                         </div>
                         <div class="tab-content" ng-show="(selectedTab == 'camera')">
                             <div>
-                                <div ng-class="{'fadeOut':!showContrastValue}" class="slider-value-label" >{{settings.camera.saturation}}</div>
+                                <div ng-class="{'fadeOut':!showSaturationValue}" class="slider-value-label" >{{settings.camera.saturation}}</div>
                                 <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Saturation</div>
                                 <slider style="width:70%; margin-left:1em;" floor="-100" ceiling="100" step="1" precision="1" ng-model="settings.camera.saturation"></slider>
                             </div>
@@ -132,7 +139,11 @@
                          scale="scale"
                          material-type="materialType"
                          new-points="newPoints"
-                         ></div>
+                         >
+
+                             <a href="#" ng-click="renderObjectAsType('MESH')">Show Mesh</a>
+                             <a href="#" ng-click="renderObjectAsType('POINTCLOUD')">Show Pointcloud</a>
+                         </div>
 
                      </div>
                      <!-- Load View -->

@@ -28,6 +28,7 @@ angular.module(name,[]).directive("fsWebgl", [
       colors = undefined
       controls = undefined
       pointcloud = undefined
+      mesh = undefined
       cameraTarget= undefined
       currentPointcloudAngle = 0
       mousedown = false
@@ -39,11 +40,13 @@ angular.module(name,[]).directive("fsWebgl", [
       scope.width = window.innerWidth
       scope.fillcontainer = true
       scope.materialType = 'lambert'
+      scope.objectGeometry = null
 
       scope.setPointHandlerCallback(scope.addPoints)
       scope.setClearViewHandlerCallback(scope.clearView)
       scope.loadPLYHandlerCallback(scope.loadPLY)
       scope.getRendererCallback(renderer)
+      scope.setRenderTypeCallback(scope.renderObjectAsType)
 
       mouseX = 0
       mouseY = 0
@@ -84,20 +87,20 @@ angular.module(name,[]).directive("fsWebgl", [
           directionalLight.castShadow = true
           #directionalLight.shadowCameraVisible = true
 
-          d = 1;
-          directionalLight.shadowCameraLeft = -d
-          directionalLight.shadowCameraRight = d
-          directionalLight.shadowCameraTop = d
-          directionalLight.shadowCameraBottom = -d
+          d = 3;
+          directionalLight.shadow.camera.left = -d
+          directionalLight.shadow.camera.right = d
+          directionalLight.shadow.camera.top = d
+          directionalLight.shadow.camera.bottom = -d
 
-          directionalLight.shadowCameraNear = 1
-          directionalLight.shadowCameraFar = 4
+          directionalLight.shadow.camera.near = 1
+          directionalLight.shadow.camera.far = 4
 
-          directionalLight.shadowMapWidth = 1024
-          directionalLight.shadowMapHeight = 1024
+          #directionalLight.shadow.map.width = 1024
+          #directionalLight.shadow.map.height = 1024
 
-          directionalLight.shadowBias = -0.005
-          directionalLight.shadowDarkness = 0.15
+          directionalLight.shadow.bias = -0.005
+          directionalLight.shadow.darkness = 0.35
 
       scope.init = ->
 
@@ -134,7 +137,7 @@ angular.module(name,[]).directive("fsWebgl", [
         plane.receiveShadow = true
 
         scene.add( new THREE.AmbientLight( 0x777777 ) )
-        scope.addShadowedLight( 1, 1, 1, 0xffffff, 1.35 )
+        scope.addShadowedLight( 1, 1, 1, 0xffffff, 0.35 )
         scope.addShadowedLight( 0.5, 1, -1, 0xffaa00, 1 )
         #Grid
         #gridXZ = new THREE.GridHelper(4000, 100)
@@ -165,6 +168,7 @@ angular.module(name,[]).directive("fsWebgl", [
         material = new THREE.MeshBasicMaterial( {color: 0xDEDEDE} )
         cylinder = new THREE.Mesh( geometry, material )
         scene.add( cylinder )
+
 
         renderer = new THREE.WebGLRenderer(
           preserveDrawingBuffer: true
@@ -243,6 +247,10 @@ angular.module(name,[]).directive("fsWebgl", [
           if pointcloud and scope.scanComplete
             pointcloud.rotation.y +=d
 
+          if mesh
+            mesh.rotation.z += d
+
+
       #scope.onMouseWheel = (evt) ->
 
       #  d = ((if (typeof evt.wheelDelta isnt "undefined") then (-evt.wheelDelta) else evt.detail))
@@ -318,6 +326,49 @@ angular.module(name,[]).directive("fsWebgl", [
         result.set second, firstLength
         result
 
+      scope.renderMesh = () ->
+
+          scope.clearView()
+
+          scope.objectGeometry.computeFaceNormals();
+          material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+          mesh = new THREE.Mesh(scope.objectGeometry, material );
+
+          mesh.position.set( 0, - 0.25, 0 );
+          mesh.rotation.set( - Math.PI / 2, 0 , 0);
+          mesh.scale.set( 0.1, 0.1, 0.1 );
+
+          #mesh.castShadow = true;
+          #mesh.receiveShadow = true;
+
+          scene.add( mesh )
+
+
+      scope.renderPLY = () ->
+          pointcloud = new (THREE.Object3D)
+          material = new (THREE.PointsMaterial)(
+              size: 0.15,
+              vertexColors : THREE.FaceColors
+          )
+          pointcloud = new (THREE.Points)(scope.objectGeometry, material)
+          pointcloud.position.set( 0, - 0.25, 0 );
+          pointcloud.rotation.set( - Math.PI / 2, 0 , 0);
+          pointcloud.scale.set( 0.1, 0.1, 0.1 );
+          #pointcloud.sortParticles = true
+          scene.add(pointcloud)
+
+      scope.renderObjectAsType = (type) ->
+
+          if type == "MESH"
+            scope.clearView()
+            scope.renderMesh()
+
+          if type == "POINTCLOUD"
+            scope.clearView()
+            scope.renderPLY()
+
+
+
       scope.loadPLY = (file) ->
         scope.clearView()
         scope.scanComplete = false
@@ -327,19 +378,11 @@ angular.module(name,[]).directive("fsWebgl", [
         loader.addEventListener 'progress', (item) ->
           scope.progressHandler(item)
 
-        pointcloud = new (THREE.Object3D)
-        loader.load file, (geometry) ->
-          $log.info geometry
-          material = new (THREE.PointCloudMaterial)(
-            size: 0.15,
-            vertexColors : THREE.FaceColors
-            )
-          pointcloud = new (THREE.PointCloud)(geometry, material)
-          pointcloud.position.set( 0, - 0.25, 0 );
-          pointcloud.rotation.set( - Math.PI / 2, 0 , 0);
-          pointcloud.scale.set( 0.1, 0.1, 0.1 );
-          #pointcloud.sortParticles = true
-          scene.add pointcloud
+
+        loader.load file, (objectGeometry) ->
+          scope.objectGeometry = objectGeometry
+          scope.renderPLY()
+
           return
 
       scope.addPoints = (points, progress, resolution) ->
@@ -381,8 +424,8 @@ angular.module(name,[]).directive("fsWebgl", [
           geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
           geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
 
-          material = new THREE.PointCloudMaterial({size: 0.2, vertexColors: THREE.VertexColors })
-          pointcloud = new THREE.PointCloud(geometry, material)
+          material = new THREE.PointsMaterial({size: 0.2, vertexColors: THREE.VertexColors })
+          pointcloud = new THREE.Points(geometry, material)
 
 
           degree =  360/resolution
@@ -414,6 +457,7 @@ angular.module(name,[]).directive("fsWebgl", [
           positions = undefined
           colors = undefined
           scene.remove(pointcloud)
+          scene.remove(mesh)
 
       # -----------------------------------
       # Draw and Animate

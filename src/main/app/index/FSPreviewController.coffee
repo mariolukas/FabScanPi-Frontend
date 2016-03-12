@@ -130,6 +130,9 @@ angular.module(name, []).controller(name, [
       else
         (values[half - 1] + values[half]) / 2.0
 
+    $scope.setRenderTypeCallback = (callback) ->
+      $scope.renderObjectAsType = callback
+
     $scope.loadPLYHandlerCallback = (callback) ->
       $scope.loadPLY = callback
 

@@ -69,6 +69,19 @@ angular.module(name, []).controller(name, [
 
       , true)
 
+      $scope.$watch('settings.laser_positions', (newVal, oldVal)->
+        if newVal != oldVal
+          updateSettings()
+
+          $timeout.cancel($scope.timeout);
+          $scope.showPositionValue = true
+          $scope.timeout = $timeout((->
+            $scope.showPositionValue = false
+            return
+          ),  600)
+
+      , true)
+
       $scope.$watch('settings.threshold', (newVal, oldVal)->
         if newVal != oldVal
           updateSettings()
@@ -83,16 +96,29 @@ angular.module(name, []).controller(name, [
       , true)
 
 
-      $scope.$watch('settings.camera.contrast', (newVal, oldVal)->
+      $scope.$watch('settings.camera.saturation', (newVal, oldVal)->
         if newVal != oldVal
           updateSettings()
 
           $timeout.cancel($scope.timeout);
-          $scope.showContrastValue = true
+          $scope.showSaturationValue = true
           $scope.timeout = $timeout((->
-            $scope.showContrastValue = false
+            $scope.showSaturationValue = false
             return
           ),  200)
+
+      , true)
+
+      $scope.$watch('settings.camera.contrast', (newVal, oldVal)->
+          if newVal != oldVal
+            updateSettings()
+
+            $timeout.cancel($scope.timeout);
+            $scope.showContrastValue = true
+            $scope.timeout = $timeout((->
+              $scope.showContrastValue = false
+              return
+            ),  200)
 
       , true)
 

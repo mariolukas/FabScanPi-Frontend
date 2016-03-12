@@ -59,6 +59,7 @@ angular.module(name, []).controller(name, [
     $scope.exitScanSettings = () ->
       $scope.stopStream()
       $scope.showSettings = false
+      #window.stop()
       FSScanService.exitScan()
 
     $scope.newScan = () ->
@@ -70,8 +71,8 @@ angular.module(name, []).controller(name, [
       FSScanService.startSettings()
 
     $scope.stopStream = () ->
-      $scope.streamUrl = "icons/spinner.gif"
-      #window.stop()
+      $scope.streamUrl = null
+
 
     $scope.manviewhandler = () ->
       if $scope.showSettings

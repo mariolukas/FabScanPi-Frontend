@@ -315,7 +315,7 @@ html, body {
 .tab-content{
     background-color: rgba(53, 53, 53, 0.4);
     height:200px;
-    padding-top: 0.8em;
+    /*padding-top: 0.8em;*/
 }
 
 .options{
