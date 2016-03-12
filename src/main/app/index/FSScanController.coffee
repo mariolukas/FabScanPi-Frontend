@@ -31,7 +31,9 @@ angular.module(name, []).controller(name, [
     $scope.stopScan = () ->
       $scope.scanComplete = false
       $scope.scanLoaded = false
+
       $scope.remainingTime = []
+      $scope.stopStream()
       FSScanService.stopScan()
 
 
@@ -71,7 +73,7 @@ angular.module(name, []).controller(name, [
       FSScanService.startSettings()
 
     $scope.stopStream = () ->
-      $scope.streamUrl = null
+      $scope.streamUrl = " "
 
 
     $scope.manviewhandler = () ->

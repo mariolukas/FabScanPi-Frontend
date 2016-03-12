@@ -51,15 +51,19 @@ angular.module(name, []).controller(name, [
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])
           $scope.scanComplete = true
+          $scope.showTextureScan = false
           $scope.remainingTime = []
           $scope.startTime = null
+          $scope.sampledRemainingTime = 0
           #if ngProgress.status() == 100
           #  ngProgress.complete()
 
-        if data['message'] == 'SCAN_CANCELED'
+        if data['message'] == 'SCAN_CANCELED' || data['message'] == 'SCAN_STOPED'
           $scope.remainingTime = []
+          $scope.showTextureScan = false
           $scope.startTime = null
           $scope.progress = 0
+          $scope.sampledRemainingTime = 0
     )
 
 

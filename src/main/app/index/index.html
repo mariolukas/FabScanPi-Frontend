@@ -37,7 +37,8 @@
                     <div ng-if="('SETTINGS' | currentState)" ng-controller="fabscan.controller.FSSettingsController" >
 
                     <div class="preview-image">
-                        <mjpeg url="streamUrl"></mjpeg>
+                        <div style="background-color: black; width:320px; height:240px; position:absolute; left:0px;"></div>
+                        <mjpeg mode="'preview'" url="streamUrl"></mjpeg>
                     </div>
                     <div class="settings-content">
                         <div style="height: 40px;">
@@ -119,7 +120,7 @@
                <!-- Scan View -->
                  <div  ng-controller="fabscan.controller.FSPreviewController"  style="margin: 0 auto; z-index:-100;">
                      <div ng-if="showTextureScan" class="texture-preview">
-                         <img ng-src="{{streamUrl}}" >
+                         <mjpeg mode="'texture'" url="streamUrl"></mjpeg>
                      </div>
                      <div ng-click="manviewhandler()">
                          <div
@@ -135,10 +136,10 @@
                              <div style="position:absolute; right:10px;">
                                  <span>Server: {{server_version}} <br> Firmware: {{firmware_version}}</span>
                              </div>
-                         <div style="position:absolute;">
+                         <!--<div style="position:absolute;">
                              <a href="#" ng-click="renderObjectAsType('MESH')">Show Mesh</a>
                              <a href="#" ng-click="renderObjectAsType('POINTCLOUD')">Show Pointcloud</a>
-                         </div>
+                         </div>-->
 
                          </div>
 
