@@ -51,6 +51,9 @@
                             <div ng-click="selectTab('light')" class="tab icon settings" ng-class="{'active':(selectedTab == 'light')}">
                                 <i class="fa fa-sun-o fa-2x"></i>
                             </div>
+                            <div ng-click="setCalibrationTab()" class="tab icon settings" ng-class="{'active':(selectedTab == 'calibration')}">
+                                <i class="fa fa-crosshairs fa-2x"></i>
+                            </div>
                             <div class="tab" sytle="width:100%">
                             </div>
                         </div>
@@ -112,6 +115,9 @@
                                 <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Blue</div>
                                <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.blue"></slider>
                             </div>
+                        </div>
+                        <div class="tab-content" ng-if="(selectedTab == 'calibration')">
+                            Calibration Mode...
                         </div>
                         </div>
                     </div>
@@ -183,9 +189,9 @@
                                              <i class="fa fa-download fa-1x"></i>
                                              <a href="{{ply}}">Download raw PLY</a>
                                          </div>
-                                         <div class="icon" ng-if="ply">
+                                         <div class="icon" ng-if="mesh">
                                              <i class="fa fa-download fa-1x"></i>
-                                             <a href="{{ply}}">Download meshed PLY</a>
+                                             <a href="{{mesh}}">Download meshed PLY</a>
                                          </div>
 
                                      </div>
@@ -194,11 +200,11 @@
                                      <div class="options">
                                          <div class="icon" ng-if="ply">
                                              <i class="fa fa-file fa-1x"></i>
-                                             <a href="{{ply}}">Load raw PLY</a>
+                                             <a href="#" ng-click="loadPointCloud('{{ply}}')">Load raw PLY</a>
                                          </div>
                                          <div class="icon" ng-if="mesh">
                                              <i class="fa fa-file fa-1x"></i>
-                                             <a href="{{mesh}}">Load meshed PLY</a>
+                                             <a href="#" ng-click="loadPointCloud('{{mesh}}')">Load meshed PLY</a>
                                          </div>
                                          <!--
                                          <div class="icon" ng-if="settings">
@@ -214,6 +220,10 @@
                                          <div class="icon">
                                              <i class="fa fa-trash fa-1x"></i>
                                              <a href="#" ng-click="deleteScan()">Delete Scan</a>
+                                         </div>
+                                         <div class="icon">
+                                             <i class="fa fa-magic fa-1x"></i>
+                                             <a href="#" ng-click="runMeshlab('{{ply}}')">Run Meshlab Task</a>
                                          </div>
                                      </div>
 

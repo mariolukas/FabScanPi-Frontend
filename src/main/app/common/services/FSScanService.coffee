@@ -64,6 +64,17 @@ angular.module(name, []).factory(name, [
       FSMessageHandlerService.sendData(message)
       $rootScope.$broadcast(FSEnumService.commands.STOP)
 
+    service.runMeshing = (scan_id) ->
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.MESHING
+          scan_id: scan_id
+
+      FSMessageHandlerService.sendData(message)
+
+
     service.exitScan = () ->
 
       message = {}

@@ -24,6 +24,7 @@ angular.module(name, []).factory(name, () ->
           START: 'START'
           STOP: 'STOP'
           UPDATE_SETTINGS: 'UPDATE_SETTINGS'
+          MESHING: 'MESHING'
 
     return FSEnumService
 

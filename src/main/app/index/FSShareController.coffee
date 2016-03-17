@@ -37,6 +37,16 @@ angular.module(name, []).controller(name, [
         FSScanService.setScanId(null)
         $rootScope.$broadcast('clearView')
 
+    $scope.loadPointCloud = (pointcloud) ->
+        $scope.toggleShareDialog()
+        $scope.scanComplete = false
+        toastr.info("Loading file...")
+        $scope.loadPLY(pointcloud)
+
+    $scope.runMeshlab = () ->
+        $scope.toggleShareDialog()
+        FSScanService.runMeshing(FSScanService.getScanId())
+
 
 
 ])

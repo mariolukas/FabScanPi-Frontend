@@ -11,6 +11,8 @@
     "NO_CAMERA_CONNECTION":  "Camera is not connected",
     "CONNECTED_TO_SERVER": "Connected to FabScanPi-Server",
     "SERIAL_CONNECTION_READY": "Arduino/ FabScanPI HAT connected",
-    "CAMERA_READY": "Camera ready"
+    "CAMERA_READY": "Camera ready",
+    "MESHING_STARTED": "Meshing started.",
+    "MESHING_DONE": "Meshed file is available now"
 
 }

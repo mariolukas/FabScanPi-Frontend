@@ -12,9 +12,11 @@ angular.module(name, []).controller(name, [
   ($log, $scope, $timeout, $swipe, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
 
       #if FSScanService.getScannerState() == FSEnumService.states.UPDATING_SETTINGS
-      $scope.streamUrl = Configuration.installation.httpurl+'stream/preview.mjpeg'
-      $scope.previewMode = "Webcam"
+      $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
+     
+      $scope.previewMode = "laser"
       $scope.selectedTab = 'general'
+
 
       $scope.timeout = null
 
@@ -31,21 +33,28 @@ angular.module(name, []).controller(name, [
         $scope.selectedTab = tab
         $scope.$broadcast('refreshSlider')
         updateSettings()
+        $scope.showLaserPreview()
+
+      $scope.setCalibrationTab = () ->
+        $scope.selectedTab = 'calibration'
+        $scope.$broadcast('refreshSlider')
+        updateSettings()
+        $scope.showCalibrationPreview()
 
       $scope.togglePreviewMode = () ->
         $log.info("Do Nothing")
-        #if $scope.previewMode == "Threshold"
-        #  $scope.showWebcamPreview()
-        #else
-        #  $scope.showThresholdPreview()
+        if $scope.previewMode == "laser"
+          $scope.showCalibrationPreview()
+        else
+          $scope.showLaserPreview()
 
-      $scope.showThresholdPreview = () ->
-         $scope.streamUrl = Configuration.installation.httpurl+'stream/threshold.mjpeg'
-         $scope.previewMode = "Threshold"
+      $scope.showCalibrationPreview = () ->
+         $scope.streamUrl = Configuration.installation.httpurl+'stream/calibration.mjpeg'
+         $scope.previewMode = "calibration"
 
-      $scope.showWebcamPreview = () ->
-         $scope.streamUrl = Configuration.installation.httpurl+'+stream/preview.mjpeg'
-         $scope.previewMode = "Webcam"
+      $scope.showLaserPreview = () ->
+         $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
+         $scope.previewMode = "laser"
 
       $scope.setColor = () ->
           updateSettings()

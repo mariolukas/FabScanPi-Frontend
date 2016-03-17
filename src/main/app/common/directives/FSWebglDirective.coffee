@@ -331,7 +331,7 @@ angular.module(name,[]).directive("fsWebgl", [
           scope.clearView()
 
           scope.objectGeometry.computeFaceNormals();
-          material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+          material = new THREE.MeshBasicMaterial( { color: 0x696969, wireframe:true } );
           mesh = new THREE.Mesh(scope.objectGeometry, material );
 
           mesh.position.set( 0, - 0.25, 0 );
@@ -378,10 +378,12 @@ angular.module(name,[]).directive("fsWebgl", [
         loader.addEventListener 'progress', (item) ->
           scope.progressHandler(item)
 
-
         loader.load file, (objectGeometry) ->
           scope.objectGeometry = objectGeometry
-          scope.renderPLY()
+          if file.indexOf("mesh") > -1
+            scope.renderMesh()
+          else
+            scope.renderPLY()
 
           return
 
