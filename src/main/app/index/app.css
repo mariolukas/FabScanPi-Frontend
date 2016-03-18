@@ -13,6 +13,32 @@ body,html {
     margin:0
 }
 
+/* remove standard-styles */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border:none;
+    border-radius: 0;
+    font-size: 1em;
+    width: 100%
+}
+
+select {
+    /* irrelevante Eigenschaften gekürzt */
+    border: 1px solid black;
+    /*padding:.75em 1em .5em 1em;*/
+    box-shadow: 0 2px 1px 0 rgba(0,0,0,1);
+    background-color:#333;
+    color:white;
+    font-size:12px;
+}
+
+option {
+    background:#222;
+    border-top:1px solid #444;
+    padding:.3em 1em .3em 1em;
+}
 
 .timeRemaining{
     height: 10px;

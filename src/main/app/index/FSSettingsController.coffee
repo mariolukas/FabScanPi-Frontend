@@ -13,7 +13,7 @@ angular.module(name, []).controller(name, [
 
       #if FSScanService.getScannerState() == FSEnumService.states.UPDATING_SETTINGS
       $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
-     
+
       $scope.previewMode = "laser"
       $scope.selectedTab = 'general'
 

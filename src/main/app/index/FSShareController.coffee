@@ -15,24 +15,30 @@ angular.module(name, []).controller(name, [
     $scope.settings = null
     $scope.id = FSScanService.getScanId()
     $scope.selectedTab = 'download'
+    $scope.objects = []
+    $scope.filters = []
 
     $scope.selectTab  = (tab)->
       $scope.selectedTab = tab
 
-
-    $log.info $scope.shareDialog
-    promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
-    promise.then (payload) ->
+    filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters/')
+    filter_promise.then (payload) ->
         $log.info payload
-        $scope.mesh = payload.data.mesh
-        $scope.ply = payload.data.pointcloud
+        $scope.filters = payload.data.filters
+
+    scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
+    scan_promise.then (payload) ->
+        $log.info payload
+        $scope.objects = payload.data.objects
         $scope.settings = payload.data.settings
+
 
     $scope.deleteScan = ()->
       $scope.toggleShareDialog()
       promise = $http.get(Configuration.installation.httpurl+'api/v1/delete/'+FSScanService.getScanId())
       promise.then (payload) ->
         $log.info payload.data
+
         toaster.info('Scan '+FSScanService.getScanId()+ ' deleted')
         FSScanService.setScanId(null)
         $rootScope.$broadcast('clearView')

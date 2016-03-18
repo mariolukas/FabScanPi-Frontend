@@ -170,10 +170,10 @@
                              <div class="options-content">
                                  <div style="height: 40px;">
                                      <div ng-click="selectTab('download')" class="tab icon settings" ng-class="{'active':(selectedTab == 'download')}">
-                                         <i class="fa fa-cloud-download fa-2x"></i>
+                                         <i class="fa fa-file-o fa-2x"></i>
                                      </div>
-                                     <div ng-click="selectTab('load')" class="tab icon settings" ng-class="{'active':(selectedTab == 'load')}">
-                                         <i class="fa fa-folder-open fa-2x"></i>
+                                     <div ng-click="selectTab('filter')" class="tab icon settings" ng-class="{'active':(selectedTab == 'filter')}">
+                                         <i class="fa fa-filter fa-2x"></i>
                                      </div>
                                      <div ng-click="selectTab('options')" class="tab icon settings" ng-class="{'active':(selectedTab == 'options')}">
                                          <i class="fa fa-gear fa-2x"></i>
@@ -183,47 +183,37 @@
                                  </div>
 
                                  <div class="tab-content " ng-show="(selectedTab == 'download')">
-
                                      <div class="options">
-                                         <div class="icon" ng-if="ply">
-                                             <i class="fa fa-download fa-1x"></i>
-                                             <a href="{{ply}}">Download raw PLY</a>
+                                         <div ng-repeat="object in objects track by $index" class="icon">
+                                             <a href="{{object['url']}}"><i class="fa fa-download fa-1x"></i></a>
+                                             <a href="#" ng-click="loadPointCloud('{{object['url']}}', '{{id}}')"><i class="fa fa-folder-open fa-1x"></i></a>
+                                             <span style="font-size:12px;">{{object['filter_name']}}</span>
                                          </div>
-                                         <div class="icon" ng-if="mesh">
-                                             <i class="fa fa-download fa-1x"></i>
-                                             <a href="{{mesh}}">Download meshed PLY</a>
-                                         </div>
-
                                      </div>
                                  </div>
-                                 <div class="tab-content" ng-show="(selectedTab == 'load')">
+                                 <div class="tab-content" ng-show="(selectedTab == 'filter')">
+
                                      <div class="options">
-                                         <div class="icon" ng-if="ply">
-                                             <i class="fa fa-file fa-1x"></i>
-                                             <a href="#" ng-click="loadPointCloud('{{ply}}')">Load raw PLY</a>
+                                         <div class="icon">
+                                             <select size="3">
+                                                <option ng-repeat="filter in filters">{{filter.name}}</option>
+                                             </select>
                                          </div>
-                                         <div class="icon" ng-if="mesh">
-                                             <i class="fa fa-file fa-1x"></i>
-                                             <a href="#" ng-click="loadPointCloud('{{mesh}}')">Load meshed PLY</a>
+                                     </div>
+
+                                     <div class="options">
+                                         <div class="icon">
+                                             <i class="fa fa-magic fa-1x"></i>
+                                             <a href="#" ng-click="runMeshlab('{{ply}}')">Run Meshlab</a>
                                          </div>
-                                         <!--
-                                         <div class="icon" ng-if="settings">
-                                             <a href="#">Load settings</a>
-                                         </div>
-                                         -->
                                      </div>
 
                                  </div>
-
                                  <div class="tab-content" ng-show="(selectedTab == 'options')">
                                      <div class="options">
                                          <div class="icon">
                                              <i class="fa fa-trash fa-1x"></i>
                                              <a href="#" ng-click="deleteScan()">Delete Scan</a>
-                                         </div>
-                                         <div class="icon">
-                                             <i class="fa fa-magic fa-1x"></i>
-                                             <a href="#" ng-click="runMeshlab('{{ply}}')">Run Meshlab Task</a>
                                          </div>
                                      </div>
 
@@ -272,8 +262,8 @@
             <!-- Right Icon Group -->
             <div class="icongroup right">
                 <a class="icon"   ng-if="(scanDataIsAvailable() && !('SETTINGS' | currentState))"  ng-click="toggleShareDialog()"  href="#">
-                    <span tooltips title="Share Scan" tooltip-side="top" class="hvr-grow">
-                        <i class="fa fa-share-alt fa-3x"></i>
+                    <span tooltips title="Options" tooltip-side="top" class="hvr-grow">
+                        <i class="fa fa-navicon fa-3x"></i>
                     </span>
                 </a>
 
