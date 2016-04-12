@@ -79,6 +79,14 @@ module.exports = (grunt)->
 						src:           SRC_INDEX_HTML
 						dest:          DEST_INDEX_HTML
 					}
+					{
+						src:          "#{STAGE_DIR}/lib/slick/fonts/slick.woff"
+						dest:         "#{BUILD_MAIN_DIR}/style/fonts/slick.woff"
+					}
+					{
+						src:          "#{STAGE_DIR}/lib/slick/fonts/slick.ttf"
+						dest:         "#{BUILD_MAIN_DIR}/style/fonts/slick.ttf"
+					}
           {
             src:          "#{STAGE_DIR}/lib/font-awesome/fonts/fontawesome-webfont.ttf"
             dest:         "#{BUILD_MAIN_DIR}/fonts/fontawesome-webfont.ttf"

@@ -15,11 +15,23 @@ angular.module(name, []).controller(name, [
     $scope.settings = null
     $scope.id = FSScanService.getScanId()
     $scope.selectedTab = 'download'
-    $scope.objects = []
+    $scope.raw_scans = []
+    $scope.meshes = []
     $scope.filters = []
+
+    #$scope.objects = [{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'}]
+    #$scope.filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
 
     $scope.selectTab  = (tab)->
       $scope.selectedTab = tab
+
+    $scope.nextSubSelection= () ->
+      $('.filter-container').slick('slickNext')
+
+    $scope.previewsSubSelection= () ->
+      $('.filter-container').slick('slickPrev')
+
+
 
     filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters/')
     filter_promise.then (payload) ->
@@ -29,7 +41,9 @@ angular.module(name, []).controller(name, [
     scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
     scan_promise.then (payload) ->
         $log.info payload
-        $scope.objects = payload.data.objects
+        $scope.raw_scans = payload.data.raw_scans
+        $scope.meshes = payload.data.meshes
+
         $scope.settings = payload.data.settings
 
 
@@ -51,6 +65,7 @@ angular.module(name, []).controller(name, [
 
     $scope.runMeshlab = () ->
         $scope.toggleShareDialog()
+        #$scope.previewsSubSelection()
         FSScanService.runMeshing(FSScanService.getScanId())
 
 
