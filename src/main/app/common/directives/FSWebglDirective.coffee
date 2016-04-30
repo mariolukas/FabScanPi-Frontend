@@ -79,28 +79,7 @@ angular.module(name,[]).directive("fsWebgl", [
       )
 
 
-      scope.addShadowedLight = ( x, y, z, color, intensity )->
-          directionalLight = new THREE.DirectionalLight( color, intensity )
-          directionalLight.position.set( x, y, z )
-          scene.add( directionalLight )
 
-          directionalLight.castShadow = true
-          #directionalLight.shadowCameraVisible = true
-
-          d = 3;
-          directionalLight.shadow.camera.left = -d
-          directionalLight.shadow.camera.right = d
-          directionalLight.shadow.camera.top = d
-          directionalLight.shadow.camera.bottom = -d
-
-          directionalLight.shadow.camera.near = 1
-          directionalLight.shadow.camera.far = 4
-
-          #directionalLight.shadow.map.width = 1024
-          #directionalLight.shadow.map.height = 1024
-
-          directionalLight.shadow.bias = -0.005
-          directionalLight.shadow.darkness = 0.35
 
       scope.init = ->
 
@@ -136,9 +115,19 @@ angular.module(name,[]).directive("fsWebgl", [
 
         plane.receiveShadow = true
 
+
         scene.add( new THREE.AmbientLight( 0x777777 ) )
+
+        #light = new THREE.DirectionalLight( 0xffffff );
+        #light.position.set( 0, 1, 1 ).normalize();
+        #scene.add(light);
+
         scope.addShadowedLight( 1, 1, 1, 0xffffff, 0.35 )
         scope.addShadowedLight( 0.5, 1, -1, 0xffaa00, 1 )
+        #scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
+
+        #addShadowedLight( 1, 1, 1, 0xffffff, 1.35 );
+        #addShadowedLight( 0.5, 1, -1, 0xffaa00, 1 );
         #Grid
         #gridXZ = new THREE.GridHelper(4000, 100)
 
@@ -326,12 +315,35 @@ angular.module(name,[]).directive("fsWebgl", [
         result.set second, firstLength
         result
 
+
+      scope.addShadowedLight = (x, y, z, color, intensity) ->
+          directionalLight = new (THREE.DirectionalLight)(color, intensity)
+          directionalLight.position.set x, y, z
+          scene.add directionalLight
+          directionalLight.castShadow = true
+          # directionalLight.shadowCameraVisible = true;
+          d = 1
+          directionalLight.shadowCameraLeft = -d
+          directionalLight.shadowCameraRight = d
+          directionalLight.shadowCameraTop = d
+          directionalLight.shadowCameraBottom = -d
+          directionalLight.shadowCameraNear = 1
+          directionalLight.shadowCameraFar = 4
+          directionalLight.shadowMapWidth = 1024
+          directionalLight.shadowMapHeight = 1024
+          directionalLight.shadowBias = -0.005
+
+
       scope.renderMesh = () ->
 
           scope.clearView()
 
           scope.objectGeometry.computeFaceNormals();
-          material = new THREE.MeshBasicMaterial( { color: 0x696969, wireframe:true } );
+          material = new THREE.MeshBasicMaterial(
+              shininess: 200 ,
+              wireframe:false,
+              vertexColors: THREE.FaceColors
+          )
           mesh = new THREE.Mesh(scope.objectGeometry, material );
 
           mesh.position.set( 0, - 0.25, 0 );

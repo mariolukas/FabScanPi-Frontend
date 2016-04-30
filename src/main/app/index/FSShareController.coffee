@@ -10,46 +10,90 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSScanService'
   ($log, $scope, $rootScope, $http, toaster, Configuration, FSScanService) ->
 
-    $scope.stl = null
-    $scope.ply = null
+
     $scope.settings = null
     $scope.id = FSScanService.getScanId()
     $scope.selectedTab = 'download'
     $scope.raw_scans = []
     $scope.meshes = []
-    $scope.filters = []
 
-    #$scope.objects = [{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0',filter_name:'raw_scan_0',url:'http://irgendwas'}]
-    #$scope.filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
+    $scope.file_formats = ['ply','stl','obj']
+
+    $scope.selectedFilter = $scope.m_filters[0]
+    $scope.selectedFormat = $scope.file_formats[0]
+
+    scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
+    scan_promise.then (payload) ->
+      $log.info payload
+      $scope.raw_scans = payload.data.raw_scans
+      $scope.meshes = payload.data.meshes
+      $scope.settings = payload.data.settings
+
+    #$scope.raw_scans = [{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'}]
+    #$scope.meshes = [{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'}]
+    #$scope.m_filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
+
+    $scope.slickFormatConfig =
+      enabled: true
+      autoplay: false
+      draggable: false
+      autoplaySpeed: 3000
+      slidesToShow:1
+      method: {}
+      event:
+        afterChange: (event, slick, currentSlide, nextSlide) ->
+          $scope.selectedFormat = $(slick.$slides.get(currentSlide)).data('value')
+
+    $scope.slickFilterConfig =
+      enabled: true
+      autoplay: false
+      draggable: false
+      autoplaySpeed: 3000
+      slidesToShow:1
+      method: {}
+      event:
+        afterChange: (event, slick, currentSlide, nextSlide) ->
+          $scope.selectedFilter = $(slick.$slides.get(currentSlide)).data('value')
+
+    $scope.appendFormatListener = ->
+      $('.f_format').on 'afterChange', (event, slick, currentSlide, nextSlide) ->
+        $scope.selectedFormat = $(slick.$slides.get(currentSlide)).data('value')
+      return
+
+    $scope.appendFilterListener = ->
+      $('.m_filter').on 'afterChange', (event, slick, currentSlide, nextSlide) ->
+        $scope.selectedFilter = $(slick.$slides.get(currentSlide)).data('value')
+      return
 
     $scope.selectTab  = (tab)->
       $scope.selectedTab = tab
 
     $scope.nextSubSelection= () ->
       $('.filter-container').slick('slickNext')
+      return false
 
     $scope.previewsSubSelection= () ->
       $('.filter-container').slick('slickPrev')
+      return false
 
 
+    $scope.deleteFile = (filename) ->
+      $scope.toggleShareDialog()
+      promise = $http.delete(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId()+'/files/'+filename)
+      promise.then (payload) ->
+        $log.info payload.data
+        $scope.getScans()
 
-    filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters/')
-    filter_promise.then (payload) ->
-        $log.info payload
-        $scope.filters = payload.data.filters
-
-    scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
-    scan_promise.then (payload) ->
-        $log.info payload
-        $scope.raw_scans = payload.data.raw_scans
-        $scope.meshes = payload.data.meshes
-
-        $scope.settings = payload.data.settings
-
+        if payload.data['response'] == "SCAN_DELETED"
+          toaster.info('Scan "'+payload.data['scan_id']+'" deleted')
+          FSScanService.setScanId(null)
+          $rootScope.$broadcast('clearView')
+        else:
+          toaster.info('File "'+filename+'" deleted')
 
     $scope.deleteScan = ()->
       $scope.toggleShareDialog()
-      promise = $http.get(Configuration.installation.httpurl+'api/v1/delete/'+FSScanService.getScanId())
+      promise = $http.delete(Configuration.installation.httpurl+'api/v1/delete/'+FSScanService.getScanId())
       promise.then (payload) ->
         $log.info payload.data
 
@@ -63,10 +107,9 @@ angular.module(name, []).controller(name, [
         toastr.info("Loading file...")
         $scope.loadPLY(pointcloud)
 
-    $scope.runMeshlab = () ->
+    $scope.runMeshing = () ->
         $scope.toggleShareDialog()
-        #$scope.previewsSubSelection()
-        FSScanService.runMeshing(FSScanService.getScanId())
+        FSScanService.runMeshing(FSScanService.getScanId(), $scope.selectedFilter, $scope.selectedFormat)
 
 
 

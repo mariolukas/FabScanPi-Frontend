@@ -22,17 +22,16 @@ angular.module(name, []).controller(name, [
     $scope.firmware_version = undefined
 
 
+
     $scope.scanDataIsAvailable = ()->
        if $scope.scanLoaded
           $log.info "scan loaded"
+
        if FSScanService.getScanId() != null
          return true
        else
-         # debug
-         #return true
-         # not debug
-
          return false
+
 
     $scope.$on("CONNECTION", (event, connected) ->
         $log.info("Connected")

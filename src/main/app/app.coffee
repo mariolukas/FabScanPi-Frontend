@@ -35,7 +35,7 @@ mods = [
 	'ngProgress'
 
   'vr.directives.slider'
-	'slick'
+	'slickCarousel'
 ]
 
 ### ###########################################################################

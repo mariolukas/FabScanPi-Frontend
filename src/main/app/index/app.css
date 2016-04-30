@@ -33,6 +33,11 @@ body,html {
     color:white;
 }
 
+.filter-select-box{
+    with:400px;
+    border:1px solid red;
+    height: 5em;
+}
 
 /* remove standard-styles */
 select {

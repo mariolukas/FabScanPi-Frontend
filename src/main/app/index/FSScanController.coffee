@@ -18,7 +18,12 @@ angular.module(name, []).controller(name, [
     $scope.shareDialog = false
     $scope.createScreenShot = null
     $scope.scans = []
+    $scope.m_filters = []
 
+    filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters')
+    filter_promise.then (payload) ->
+        $log.info payload
+        $scope.m_filters = payload.data.filters
 
     $scope.startScan = () ->
       $scope.stopStream()
@@ -47,7 +52,7 @@ angular.module(name, []).controller(name, [
 
     $scope.toggleLoadDialog =  () ->
       if !$scope.loadDialog
-        promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/')
+        promise = $http.get(Configuration.installation.httpurl+'api/v1/scans')
         promise.then (payload) ->
             $scope.scans = payload.data.scans
             $scope.scanListLoaded = true

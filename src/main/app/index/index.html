@@ -139,7 +139,7 @@
                          material-type="materialType"
                          new-points="newPoints"
                          >
-                             <div style="position:absolute; right:10px;">
+                             <div style="position:absolute; right:10px; color:white">
                                  <span>Server: {{server_version}} <br> Firmware: {{firmware_version}}</span>
                              </div>
                          <!--<div style="position:absolute;">
@@ -163,10 +163,10 @@
                              </div>
                          </slick>
                      </div>
+
                      <!-- Scan Context View -->
                      <div class="optionsWindow" ng-class="{'open':shareDialog}">
                          <div ng-if="shareDialog" ng-controller="fabscan.controller.FSShareController">
-
                              <div class="options-content">
                                  <div style="height: 40px;">
                                      <div ng-click="selectTab('download')" class="tab icon settings" ng-class="{'active':(selectedTab == 'download')}">
@@ -209,7 +209,7 @@
                                                id="path23" /></g>
                                          </svg>
                                      </div>
-                                     <div ng-click="selectTab('filter')" class="tab icon settings" ng-class="{'active':(selectedTab == 'filter')}">
+                                     <div ng-if="meshes.length > 0" ng-click="selectTab('filter')" class="tab icon settings" ng-class="{'active':(selectedTab == 'filter')}">
 
                                          <svg class="svg-icon"
                                               viewBox="0 0 205 194.99999"
@@ -253,27 +253,33 @@
 
                                  <div class="tab-content " ng-show="(selectedTab == 'download')">
 
-                                     <slick class="filter-container" ng-if="shareDialog" arrows=false adaptiveHeight=true init-onload=false data="raw_scans" >
+                                    <slick class="filter-container" ng-if="shareDialog" arrows=false adaptiveHeight=true init-onload=false data="raw_scans" >
                                          <div class="meshlabfilter" style="outline:none; border:none; padding:1em 5em 0 5em; font-size:1.2em; color:white; height:100%">
                                              <ul>
                                                  <li ng-repeat="raw_scan in raw_scans track by $index" style="padding:0.2em;">
                                                      <a href="#" style="text-decoration: none;">{{raw_scan.name}}</a>
-                                                     <a href="#"><i tooltips title="Delete Scan" class="hvr-grow fa fa-trash fa-1x" style="float:right;"></i></a>
+                                                     <a ng-if="meshes.length == 0" href="#"><i tooltips title="Delete Scan" class="hvr-grow fa fa-trash fa-1x" ng-click="deleteFile(raw_scan.name)" style="float:right;"></i></a>
                                                      <a href="#"><i tooltips title="Select MeshLab Filter" tooltip-side="top" ng-click="nextSubSelection()" class="hvr-grow fa fa-magic fa-1x" style="float:right;"></i></a>
-                                                     <a href="#"><i tooltips title="Donwload Scan" tooltip-side="top" class="hvr-grow fa fa-download fa-1x" style="float:right;"></i></a>
+                                                     <a href="{{raw_scan.url}}"><i tooltips title="Donwload Scan" tooltip-side="top" class="hvr-grow fa fa-download fa-1x" style="float:right;"></i></a>
                                                      <!--<i tooltips title="Open Scan" tooltip-side="top" class="fa fa-folder-open fa-1x" style="float:right;"></i>-->
                                                  </li>
                                              </ul>
-
                                          </div>
                                          <div class="meshlabfilter" style="outline:none;  border:none; padding:1em 5em 0 5em; font-size:1.2em; color:white; height:100%">
-                                             <ul>
-                                                 <li ng-repeat="filter in filters track by $index" style="padding:0.2em;">
-                                                     <a href="#" style="text-decoration:none; " ng-click="runMeshlab()"> {{filter.name}}</a>
-                                                 </li>
-                                             </ul>
+                                             <slick settings="slickFilterConfig">
+                                                 <div data-value="{{m_filter.file_name}}" ng-repeat="m_filter in m_filters" style="text-align:center;margin:0 auto; height:20px">
+                                                     {{m_filter.file_name}}
+                                                 </div>
+                                             </slick>
+
+                                             <slick settings="slickFormatConfig">
+                                                 <div data-value="{{format}}" ng-repeat="format in file_formats" style="text-align:center;margin:0 auto; height:20px">
+                                                     {{format}}
+                                                 </div>
+                                             </slick>
                                              <div>
                                                 <i style="margin-left: -3em; margin-top: 2em;" tooltips title="Back" tooltip-side="right" ng-click="previewsSubSelection()" class="hvr-grow fa fa-chevron-left fa-1x"></i>
+                                                 <a class="hvr-grow" style="margin-left: -3em; margin-top: 1em; text-decoration:none; float:right; color:white; font-size:20px;" ng-click="runMeshing()" href="#">Start Meshing</a>
                                              </div>
                                          </div>
                                      </slick>
@@ -286,8 +292,8 @@
                                          <ul>
                                              <li ng-repeat="mesh in meshes track by $index" style="padding:0.2em;">
                                                  <a href="#" ng-click="loadPointCloud(mesh.url)" style="text-decoration: none;">{{mesh.name}}</a>
-                                                 <a href="#"><i tooltips title="Delete Mesh" class="hvr-grow fa fa-trash fa-1x" style="float:right;"></i></a>
-                                                 <a href="#"><i tooltips title="Donwload Mesh" tooltip-side="top" class="hvr-grow fa fa-download fa-1x" style="float:right;"></i></a>
+                                                 <a href="#" ng-click="deleteFile(mesh.name)"><i tooltips title="Delete Mesh" class="hvr-grow fa fa-trash fa-1x" style="float:right;"></i></a>
+                                                 <a href="{{mesh.url}}"><i tooltips title="Donwload Mesh" tooltip-side="top" class="hvr-grow fa fa-download fa-1x" style="float:right;"></i></a>
                                              </li>
                                          </ul>
                                      </div>
