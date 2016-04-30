@@ -8,14 +8,19 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSEnumService'
   ($log, $scope, $rootScope, FSScanService, FSEnum) ->
 
-
     $scope.loadPointCloud = (pointcloud, id) ->
+        $scope.setScanIsLoading(true)
+        $scope.setScanIsComplete(false)
+        $scope.$apply()
         $scope.toggleLoadDialog()
         FSScanService.setScanId(id)
-        $scope.scanComplete = false
-        toastr.info("Loading Scan "+id)
+        $scope.setScanLoaded(false)
+
+        toastr.info("Loading scanned Pointcloud "+id)
         $scope.loadPLY(pointcloud)
 
+    $scope.loadMesh = (mesh, id) ->
+        return
 
 
 

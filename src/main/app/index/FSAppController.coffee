@@ -20,8 +20,25 @@ angular.module(name, []).controller(name, [
     $scope.remainingTime = []
     $scope.server_version = undefined
     $scope.firmware_version = undefined
+    $scope.scanLoading = false
 
+    $scope.scanIsComplete = () ->
+      return $scope.scanComplete
 
+    $scope.setScanIsComplete = (value) ->
+      $scope.scanComplete = value
+
+    $scope.setScanIsLoading = (value) ->
+      $scope.scanLoading = value
+
+    $scope.scanIsLoading = () ->
+      return $scope.scanLoading
+
+    $scope.setScanLoaded = (value) ->
+      $scope.scanLoaded = value
+
+    $scope.scanIsLoaded = () ->
+      return $scope.scanLoaded
 
     $scope.scanDataIsAvailable = ()->
        if $scope.scanLoaded

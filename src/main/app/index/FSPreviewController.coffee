@@ -50,7 +50,7 @@ angular.module(name, []).controller(name, [
 
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])
-          $scope.scanComplete = true
+          $scope.setScanIsComplete(true)
           $scope.showTextureScan = false
           $scope.remainingTime = []
           $scope.startTime = null
@@ -78,7 +78,7 @@ angular.module(name, []).controller(name, [
 
             if $scope.progress == 1
               $scope.startTime = Date.now()
-              #ngProgress.start()
+              ngProgress.start()
 
             else
               timeTaken = (Date.now() - $scope.startTime)
@@ -91,14 +91,11 @@ angular.module(name, []).controller(name, [
 
               $scope.sampledRemainingTime = Math.floor(median(_time_values))
 
-
-
               $log.info percentage.toFixed(2) + "% complete"
               ngProgress.set(percentage)
 
-              
-
             if percentage >= 100
+              $scope.sampledRemainingTime = 0
               _time_values = []
 
             $scope.addPoints(data['points'],data['progress'],data['resolution'])
@@ -118,12 +115,14 @@ angular.module(name, []).controller(name, [
 
       #toastr.info("Loading Scan "+item.loaded)
       if (item.loaded == item.total)
-        $scope.scanLoaded = true
+
         $scope.progress = 0
         ngProgress.complete()
+        percentage = 0
+        $scope.setScanIsLoading(false)
+        $scope.setScanLoaded(true)
 
         $scope.$apply()
-        #$scope.loadedScan = true
 
     median = (values) ->
       values.sort (a, b) ->
@@ -133,6 +132,7 @@ angular.module(name, []).controller(name, [
         values[half]
       else
         (values[half - 1] + values[half]) / 2.0
+
 
     $scope.setRenderTypeCallback = (callback) ->
       $scope.renderObjectAsType = callback

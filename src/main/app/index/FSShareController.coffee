@@ -22,12 +22,15 @@ angular.module(name, []).controller(name, [
     $scope.selectedFilter = $scope.m_filters[0]
     $scope.selectedFormat = $scope.file_formats[0]
 
-    scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
-    scan_promise.then (payload) ->
-      $log.info payload
-      $scope.raw_scans = payload.data.raw_scans
-      $scope.meshes = payload.data.meshes
-      $scope.settings = payload.data.settings
+    $scope.getScans = () ->
+      scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
+      scan_promise.then (payload) ->
+        $log.info payload
+        $scope.raw_scans = payload.data.raw_scans
+        $scope.meshes = payload.data.meshes
+        $scope.settings = payload.data.settings
+
+    $scope.getScans()
 
     #$scope.raw_scans = [{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'}]
     #$scope.meshes = [{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'}]
@@ -84,9 +87,10 @@ angular.module(name, []).controller(name, [
         $log.info payload.data
         $scope.getScans()
 
-        if payload.data['response'] == "SCAN_DELETED"
+        if payload.data.response == "SCAN_DELETED"
           toaster.info('Scan "'+payload.data['scan_id']+'" deleted')
           FSScanService.setScanId(null)
+          $scope.setScanLoaded(false)
           $rootScope.$broadcast('clearView')
         else:
           toaster.info('File "'+filename+'" deleted')

@@ -257,7 +257,7 @@
                                          <div class="meshlabfilter" style="outline:none; border:none; padding:1em 5em 0 5em; font-size:1.2em; color:white; height:100%">
                                              <ul>
                                                  <li ng-repeat="raw_scan in raw_scans track by $index" style="padding:0.2em;">
-                                                     <a href="#" style="text-decoration: none;">{{raw_scan.name}}</a>
+                                                     <a href="#" ng-click="loadPointCloud(raw_scan.url)" style="text-decoration: none;">{{raw_scan.name}}</a>
                                                      <a ng-if="meshes.length == 0" href="#"><i tooltips title="Delete Scan" class="hvr-grow fa fa-trash fa-1x" ng-click="deleteFile(raw_scan.name)" style="float:right;"></i></a>
                                                      <a href="#"><i tooltips title="Select MeshLab Filter" tooltip-side="top" ng-click="nextSubSelection()" class="hvr-grow fa fa-magic fa-1x" style="float:right;"></i></a>
                                                      <a href="{{raw_scan.url}}"><i tooltips title="Donwload Scan" tooltip-side="top" class="hvr-grow fa fa-download fa-1x" style="float:right;"></i></a>
@@ -331,7 +331,7 @@
                     </span>
                 </a>
 
-                <a class="icon" tooltips title="New Scan" tooltip-side="top" ng-click="newScan()" ng-show="('IDLE' | currentState)"  href="#">
+                <a class="icon" tooltips title="New Scan" tooltip-side="top" ng-click="newScan()" ng-show="(!scanIsLoading() && ('IDLE' | currentState))"  href="#">
                     <span class="hvr-grow">
                         <img style="height:3em; margin-top:0.3em;" src="icons/icon_scan.svg"/>
                       <!-- <i class="fa fa-camera fa-3x"></i>-->
@@ -341,7 +341,7 @@
 
             <!-- Right Icon Group -->
             <div class="icongroup right">
-                <a class="icon"   ng-if="(scanDataIsAvailable() && !('SETTINGS' | currentState))"  ng-click="toggleShareDialog()"  href="#">
+                <a class="icon"   ng-if="(scanIsLoaded() && !('SETTINGS' | currentState) || scanIsComplete())"  ng-click="toggleShareDialog()"  href="#">
                     <span tooltips title="Options" tooltip-side="top" class="hvr-grow">
                         <i class="fa fa-navicon fa-3x"></i>
                     </span>

@@ -78,9 +78,6 @@ angular.module(name,[]).directive("fsWebgl", [
             scope.currentPointcloudAngle = 0
       )
 
-
-
-
       scope.init = ->
 
         # Camera
@@ -202,7 +199,7 @@ angular.module(name,[]).directive("fsWebgl", [
 
       scope.createPreviewImage= (id) ->
         screenshot = renderer.domElement.toDataURL( 'image/png' )
-        $http.post(Configuration.installation.httpurl+"api/v1/scan/preview/add/"+id,
+        $http.post(Configuration.installation.httpurl+"api/v1/scans/"+id+"/previews",
           image: screenshot
           id: id
         ).success (response) ->
