@@ -9,5 +9,18 @@ before_install:
 - npm install grunt-cli -g
 - npm install
 script: grunt dist
-after_script:
-ls
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: KgRKcvguGVdGkv9T6nBK+PehFYVnvbGdb8RPsZ7cYm6rkhohfPdBVeMRCrbORPzHhuXIMFd8t3ygi9T3M76LNeStDGefpsccm6jS7AYPJrT4UewfZVyWtsnPv03i9zYH/32bdZuRBpCd9LHvo2twx//XLHkNULkl/GBpohBsbkl3f+Nk/Po/Pf58jnbfaGVpsv5lBtzORJ2A8KVVyz7U+zS0vEybwJeNdLxFhICjngfNnyI/0hkIwDDZT+p9CVcvGYjGGcgIqPv2hK6VsSowlZScvvg6cjrSGTI+3l5NQueNXZux6UGW+e7Ax3SjHm38XKdnQz99Jpav/yiPqIqKIiioOCCbAXSn3Mmw51UPH2a4BiV0ld2YH62ujgiLOxDP4++l2AtP/smLXzs3Uq66nt6Onhtq4g3igE536c1DU8VPRDcn5XE3/8Wo8xj2LEp54E39/vmOU5PszsKvXGqFV9sU1nrJ0RqFLsWkWFg6eyThImdSKfel9n0yHlYofyLjuVSEX4gS57tTOkBparFGboDNWceR1qVuQsI6eCahDmxNLwhN24INJ+ul7lkQAu/Ds+U8/JkI8RpNS+YDzPp/yqYtLozelt87Jd7OnCzWMzimWZQXZcZ6yevCEmvGxw6jSQFvVzqiy/5Mn/J1RRdFueV6zgx5X/EMgYLeohBBBRw=
+  on:
+    tags: true
+    repo: mariolukas/FabScanPi-Frontend
+after_deploy:
+- ls
+after_success:
+- cd ..
+- git clone https://github.com/mariolukas/FabScanPi-Server.git
+- cd FabScanPi-Server
+- cp -r ../FabScanPi-Frontend/target/build/main/* src/www
