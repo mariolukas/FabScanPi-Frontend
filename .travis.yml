@@ -8,6 +8,11 @@ node_js:
 before_install:
 - npm install grunt-cli -g
 - npm install
+before_script:
+- git config --global user.email "info@fabscan.org"
+- git config --global user.name "FabScan"
+- git remote rm origin
+- git remote add origin https://user:${GH_TOKEN}@github.com/mariolukas/FabScanPi-Server.git
 script: grunt dist
 deploy:
   provider: releases
@@ -24,3 +29,5 @@ after_success:
 - git clone https://github.com/mariolukas/FabScanPi-Server.git
 - cd FabScanPi-Server
 - cp -r ../FabScanPi-Frontend/target/build/main/* src/www
+- git commit -am "added new frontend Version by travis-ci"
+- git push 
