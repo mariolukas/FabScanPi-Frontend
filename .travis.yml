@@ -22,9 +22,7 @@ deploy:
   on:
     tags: true
     repo: mariolukas/FabScanPi-Frontend
-after_deploy:
-- ls
-after_success:
+after_script:
 - cd ..
 - git clone https://github.com/mariolukas/FabScanPi-Server.git
 - cd FabScanPi-Server
