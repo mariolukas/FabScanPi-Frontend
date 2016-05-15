@@ -21,5 +21,5 @@ after_script:
 - git config credential.helper "store --file=.git/credentials"
 - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
 - cp -r ../FabScanPi-Frontend/target/build/main/* src/www
-- git commit -am "added new frontend Version by travis-ci"
+- git commit -am "added new frontend version by travis-ci"
 - git push
