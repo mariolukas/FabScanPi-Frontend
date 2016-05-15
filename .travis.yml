@@ -24,13 +24,12 @@ deploy:
     repo: mariolukas/FabScanPi-Frontend
 after_script:
 - cd ..
-- git config user.name "Travis CI"
-- git config user.email "travis@fabscan.org"
-- git config --global push.default simple
-- git remote rm origin
-- git remote add origin https://mariolukas:${GH_TOKEN}@github.com/mariolukas/FabScanPi-Server.git
 - git clone https://github.com/mariolukas/FabScanPi-Server.git
 - cd FabScanPi-Server
+- git config user.name "Travis CI"
+- git config user.email "travis@fabscan.org"
+- git remote rm origin
+- git remote add origin https://mariolukas:${GH_TOKEN}@github.com/mariolukas/FabScanPi-Server.git
 - cp -r ../FabScanPi-Frontend/target/build/main/* src/www
 - git commit -am "added new frontend Version by travis-ci"
 - git push --force
