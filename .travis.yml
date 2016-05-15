@@ -1,7 +1,10 @@
 dist: trusty
 env:
   global:
-    secure: KgRKcvguGVdGkv9T6nBK+PehFYVnvbGdb8RPsZ7cYm6rkhohfPdBVeMRCrbORPzHhuXIMFd8t3ygi9T3M76LNeStDGefpsccm6jS7AYPJrT4UewfZVyWtsnPv03i9zYH/32bdZuRBpCd9LHvo2twx//XLHkNULkl/GBpohBsbkl3f+Nk/Po/Pf58jnbfaGVpsv5lBtzORJ2A8KVVyz7U+zS0vEybwJeNdLxFhICjngfNnyI/0hkIwDDZT+p9CVcvGYjGGcgIqPv2hK6VsSowlZScvvg6cjrSGTI+3l5NQueNXZux6UGW+e7Ax3SjHm38XKdnQz99Jpav/yiPqIqKIiioOCCbAXSn3Mmw51UPH2a4BiV0ld2YH62ujgiLOxDP4++l2AtP/smLXzs3Uq66nt6Onhtq4g3igE536c1DU8VPRDcn5XE3/8Wo8xj2LEp54E39/vmOU5PszsKvXGqFV9sU1nrJ0RqFLsWkWFg6eyThImdSKfel9n0yHlYofyLjuVSEX4gS57tTOkBparFGboDNWceR1qVuQsI6eCahDmxNLwhN24INJ+ul7lkQAu/Ds+U8/JkI8RpNS+YDzPp/yqYtLozelt87Jd7OnCzWMzimWZQXZcZ6yevCEmvGxw6jSQFvVzqiy/5Mn/J1RRdFueV6zgx5X/EMgYLeohBBBRw=
+    secure: eISi+PPamJlREHhOIGSeMVvf5biKITsspjwFHq7IAvLlJRtLU/GxW/2kVohCED5SNUjBYQvnAnhV8fQ7qR28+U2OjlvFKKduP1uGNgm0uld4BAeVQXN4kEdfXOuMlajMAUc4UGDJXpqIz51/9ToC92SzEmKMF3tNFDBOy6n1m
+lvppOdUuwEBxlGBc/WaVWvMm3VzdmS5q84MN+nalikBnOhKFldJw/BGa1vtVkUWYyEpBT9nYRfVXL4cv1SQGGC+3zDnNDVAZ9kYHXO1L5L3gxXWpYwKNhcgxzdCRWa2oghMJ9BSKDxwu6bJEkA8MvL64SaIRr7iZv3bL5BxHFVgowOd+PQmH/
+XjybV7tdjLIwFBRjDy+WhhxbOgrOZPPseVtQxRICaS1hf9nZeDyQYP7Ap+N8ks/oUXsfqvr3gIKuF6PannlWB4M1w86GP/Xwq6ocViPOKUgMcR2pDSsHS+fL0ukA7njQ4pj54KBPOxtiRYEF4801cYtL+1/2aSSh7Ymnu2mLHfDJqX/8Le2U/
+mckJnRxT9h5G0kLrNPVpKaO7jVC3VGf90mTR1gNf3esdZgcekWLaLpWuiMitNZx8epYgGVZ+snwrdmsQYCj+BHP8aQR0QO23r/KFTb/PK8f/YMj0KeXTS3hXkx4VcOlJfDhDlQaAN65gyWpl9qe5FJhA=
 language: node_js
 node_js:
 - '4.2'
@@ -14,14 +17,6 @@ before_script:
 - git remote rm origin
 - git remote add origin https://mariolukas:${GH_TOKEN}@github.com/mariolukas/FabScanPi-Server.git
 script: grunt dist
-deploy:
-  provider: releases
-  skip_cleanup: true
-  api_key:
-    secure: KgRKcvguGVdGkv9T6nBK+PehFYVnvbGdb8RPsZ7cYm6rkhohfPdBVeMRCrbORPzHhuXIMFd8t3ygi9T3M76LNeStDGefpsccm6jS7AYPJrT4UewfZVyWtsnPv03i9zYH/32bdZuRBpCd9LHvo2twx//XLHkNULkl/GBpohBsbkl3f+Nk/Po/Pf58jnbfaGVpsv5lBtzORJ2A8KVVyz7U+zS0vEybwJeNdLxFhICjngfNnyI/0hkIwDDZT+p9CVcvGYjGGcgIqPv2hK6VsSowlZScvvg6cjrSGTI+3l5NQueNXZux6UGW+e7Ax3SjHm38XKdnQz99Jpav/yiPqIqKIiioOCCbAXSn3Mmw51UPH2a4BiV0ld2YH62ujgiLOxDP4++l2AtP/smLXzs3Uq66nt6Onhtq4g3igE536c1DU8VPRDcn5XE3/8Wo8xj2LEp54E39/vmOU5PszsKvXGqFV9sU1nrJ0RqFLsWkWFg6eyThImdSKfel9n0yHlYofyLjuVSEX4gS57tTOkBparFGboDNWceR1qVuQsI6eCahDmxNLwhN24INJ+ul7lkQAu/Ds+U8/JkI8RpNS+YDzPp/yqYtLozelt87Jd7OnCzWMzimWZQXZcZ6yevCEmvGxw6jSQFvVzqiy/5Mn/J1RRdFueV6zgx5X/EMgYLeohBBBRw=
-  on:
-    tags: true
-    repo: mariolukas/FabScanPi-Frontend
 after_script:
 - cd ..
 - git clone https://github.com/mariolukas/FabScanPi-Server.git
