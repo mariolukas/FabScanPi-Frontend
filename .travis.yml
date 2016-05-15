@@ -24,7 +24,7 @@ deploy:
     repo: mariolukas/FabScanPi-Frontend
 after_script:
 - cd ..
-- git clone https://mariolukas:${GH_TOKEN}@github.com/mariolukas/FabScanPi-Server.git
+- git clone https://github.com/mariolukas/FabScanPi-Server.git
 - cd FabScanPi-Server
 - cp -r ../FabScanPi-Frontend/target/build/main/* src/www
 - git commit -am "added new frontend Version by travis-ci"
