@@ -45,6 +45,7 @@ angular.module(name,[]).directive("fsWebgl", [
       scope.setPointHandlerCallback(scope.addPoints)
       scope.setClearViewHandlerCallback(scope.clearView)
       scope.loadPLYHandlerCallback(scope.loadPLY)
+      scope.loadSTLHandlerCallback(scope.loadSTL)
       scope.getRendererCallback(renderer)
       scope.setRenderTypeCallback(scope.renderObjectAsType)
 
@@ -331,24 +332,36 @@ angular.module(name,[]).directive("fsWebgl", [
           directionalLight.shadowBias = -0.005
 
 
-      scope.renderMesh = () ->
+      scope.renderMesh = (meshFormat) ->
 
           scope.clearView()
 
           scope.objectGeometry.computeFaceNormals();
-          material = new THREE.MeshBasicMaterial(
-              shininess: 200 ,
-              wireframe:false,
-              vertexColors: THREE.FaceColors
-          )
+
+          if meshFormat == 'stl'
+
+              material = new THREE.MeshPhongMaterial(
+                  color: 0x0000FF,
+                  specular: 0x111111,
+                  shininess: 100
+              )
+
+          else
+              material = new THREE.MeshBasicMaterial(
+                  shininess: 200 ,
+                  wireframe:false,
+                  vertexColors: THREE.FaceColors
+              )
+
           mesh = new THREE.Mesh(scope.objectGeometry, material );
 
           mesh.position.set( 0, - 0.25, 0 );
           mesh.rotation.set( - Math.PI / 2, 0 , 0);
           mesh.scale.set( 0.1, 0.1, 0.1 );
 
-          #mesh.castShadow = true;
-          #mesh.receiveShadow = true;
+          if meshFormat == 'stl'
+              mesh.castShadow = true;
+              mesh.receiveShadow = true;
 
           scene.add( mesh )
 
@@ -370,13 +383,24 @@ angular.module(name,[]).directive("fsWebgl", [
 
           if type == "MESH"
             scope.clearView()
-            scope.renderMesh()
+            scope.renderMesh('ply')
 
           if type == "POINTCLOUD"
             scope.clearView()
             scope.renderPLY()
 
+      scope.loadSTL = (file) ->
+        scope.clearView()
+        scope.scanComplete = false
+        loader = new THREE.STLLoader();
 
+        loader.load  file,  ( objectGeometry ) ->
+            #scene.add( new THREE.Mesh( geometry ) )
+            scope.objectGeometry = objectGeometry
+            if file.indexOf("mesh") > -1
+                scope.renderMesh('stl')
+
+         $log.info("Not implemented yet")
 
       scope.loadPLY = (file) ->
         scope.clearView()

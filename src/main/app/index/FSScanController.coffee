@@ -24,6 +24,7 @@ angular.module(name, []).controller(name, [
     filter_promise.then (payload) ->
         $log.info payload
         $scope.m_filters = payload.data.filters
+        $scope.selectedFilter = $scope.m_filters[0]['file_name']
 
     $scope.startScan = () ->
       $scope.stopStream()

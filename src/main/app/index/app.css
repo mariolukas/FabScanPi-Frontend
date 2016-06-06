@@ -13,6 +13,11 @@ body,html {
     margin:0
 }
 
+
+.slick-slider{
+    margin-bottom:0em;
+}
+
 /* unvisited link */
 .tab-content a:link {
     color:white;
@@ -241,7 +246,7 @@ a:active .icon{
 
 .settings-content{
     height: 100%;
-    margin-left: 320px;
+    margin-left: 180px;
 }
 
 .options-content{

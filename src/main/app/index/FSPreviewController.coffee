@@ -22,6 +22,7 @@ angular.module(name, []).controller(name, [
     $scope.newPoints = null
 
     $scope.loadPLY = null
+    $scope.loadSTL = null
     $scope.renderer = null
     $scope.showTextureScan = false
     $scope.startTime = null
@@ -139,6 +140,9 @@ angular.module(name, []).controller(name, [
 
     $scope.loadPLYHandlerCallback = (callback) ->
       $scope.loadPLY = callback
+
+    $scope.loadSTLHandlerCallback = (callback) ->
+      $scope.loadSTL = callback
 
     $scope.setPointHandlerCallback = (callback) ->
       $scope.addPoints = callback

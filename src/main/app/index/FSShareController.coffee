@@ -16,10 +16,13 @@ angular.module(name, []).controller(name, [
     $scope.selectedTab = 'download'
     $scope.raw_scans = []
     $scope.meshes = []
+    # used for debugging...
+    #$scope.raw_scans = [{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'}]
+    #$scope.meshes = [{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'}]
+    #$scope.m_filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
 
-    $scope.file_formats = ['ply','stl','obj']
 
-    $scope.selectedFilter = $scope.m_filters[0]
+    $scope.file_formats = ['stl','ply','obj']
     $scope.selectedFormat = $scope.file_formats[0]
 
     $scope.getScans = () ->
@@ -32,9 +35,6 @@ angular.module(name, []).controller(name, [
 
     $scope.getScans()
 
-    #$scope.raw_scans = [{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'}]
-    #$scope.meshes = [{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'}]
-    #$scope.m_filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
 
     $scope.slickFormatConfig =
       enabled: true
@@ -111,8 +111,27 @@ angular.module(name, []).controller(name, [
         toastr.info("Loading file...")
         $scope.loadPLY(pointcloud)
 
+    $scope.loadSTLMesh = (filename) ->
+        $scope.toggleShareDialog()
+        $scope.scanComplete = false
+        toastr.info("Loading file...")
+        $scope.loadSTL(filename)
+
+    getFileExtension = (filename) ->
+        return filename.split('.').pop()
+
+    $scope.loadMesh = (mesh) ->
+        #do somethein
+        extension = getFileExtension(mesh)
+        if extension == 'stl'
+          $scope.loadSTLMesh(mesh)
+        if extension == 'ply'
+          $scope.loadPLY(mesh)
+
     $scope.runMeshing = () ->
         $scope.toggleShareDialog()
+        $log.info $scope.selectedFilter
+        $log.info $scope.selectedFormat
         FSScanService.runMeshing(FSScanService.getScanId(), $scope.selectedFilter, $scope.selectedFormat)
 
 

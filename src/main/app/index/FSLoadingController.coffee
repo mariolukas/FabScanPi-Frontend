@@ -11,7 +11,6 @@ angular.module(name, []).controller(name, [
     $scope.loadPointCloud = (pointcloud, id) ->
         $scope.setScanIsLoading(true)
         $scope.setScanIsComplete(false)
-        $scope.$apply()
         $scope.toggleLoadDialog()
         FSScanService.setScanId(id)
         $scope.setScanLoaded(false)
