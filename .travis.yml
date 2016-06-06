@@ -1,8 +1,25 @@
 dist: trusty
+env:
+  global:
+    secure: osfKLquk/sxF8Zbk7vp7WaJMlzVb42nAn/0CvWNRhcNlwVMfBmPQVKXTw4JU7DGRQlSIjREj6jh0gy9IK/cH+EKZI2fFbboRiPAFARCrl5zuaBYTgtZ1lZgcPMgDxOvk2Tr6MI9kCl+jan0tjyb4o4AQ+koRk7BmZgDIo5+dsFAoQUOLOhzg7d/0chVMsqbTRigrkdVO0STtDmV21V10vfoKu0NAjdasEklKO5eOG/8eBm97pnY2S4+UnEw70cyRtJ5OhF3K6RsgzdSWQqpLzMU51/pri4Vm0FoKc0u9DEnAfxwFDPUeMO1m6rj0ACOYpfukufJST9ElMSGK9NUTe+New+VhH516oR8ulyxdhHlanIV04VeqIEEgeYkr+Nbv3PY0xYVXfxZ4ccTQz/HWQlKYg/k8wasVreUAWgp3+R9zuDwHaQCcVT/OGNaEDn6yLmGfkhi/QBzeWFWvPnMDlvNYhyqv7Bolda1idS9W8L5l2LGCaEwSpGo05bx3Oiufy0KV8BKNOQTTZ5YP2QmiN/y2XAmyHM8xt92maFTW5xY07UjdB5BkzpJ/+n9R5eV9BKlqBd/a3LhCz7QL1hmbo2r3+rjQftwmpx2xdufriGxo7AGFoMFX+gKcMdDypWe76DBg8Nsuq0cuv3s2+VkmDNtTg680GTOwzz45WXf3CnM=
 language: node_js
 node_js:
-  - "4.2"
+- '4.2'
 before_install:
-  - npm install grunt-cli -g
-  - npm install
+- npm install grunt-cli -g
+- npm install
+before_script:
+- git config --global user.email "info@fabscan.org"
+- git config --global user.name "FabScan"
+- git remote rm origin
+- git remote add origin https://mariolukas:${GH_TOKEN}@github.com/mariolukas/FabScanPi-Server.git
 script: grunt dist
+after_script:
+- cd ..
+- git clone https://github.com/mariolukas/FabScanPi-Server.git
+- cd FabScanPi-Server
+- git config credential.helper "store --file=.git/credentials"
+- echo "https://${GH_TOKEN}:@github.com" > .git/credentials
+- cp -r ../FabScanPi-Frontend/target/build/main/* src/www
+- git commit -am "added new frontend version by travis-ci"
+- git push
