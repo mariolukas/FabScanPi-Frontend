@@ -7,6 +7,7 @@ angular.module(name, []).factory(name, () ->
 
   # override some default settings
   # window.toastr.options.timeOut = 1000
-
+  window.toastr.options.progressBar = true
+  window.toastr.options.newestOnTop = true
   return window.toastr
 )

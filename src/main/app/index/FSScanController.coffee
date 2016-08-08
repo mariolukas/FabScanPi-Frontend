@@ -16,15 +16,34 @@ angular.module(name, []).controller(name, [
     $scope.scanListLoaded = false
     $scope.loadDialog = false
     $scope.shareDialog = false
+    $scope.configDialog = false
     $scope.createScreenShot = null
     $scope.scans = []
     $scope.m_filters = []
 
-    filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters')
-    filter_promise.then (payload) ->
+
+
+    $scope.loadFilters = () ->
+
+      filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters')
+      filter_promise.then (payload) ->
         $log.info payload
         $scope.m_filters = payload.data.filters
+
+        $scope.m_filters.sort (a, b) ->
+          x = a.file_name.toLowerCase()
+          y = b.file_name.toLowerCase()
+          if x < y then -1 else if x > y then 1 else 0
+
         $scope.selectedFilter = $scope.m_filters[0]['file_name']
+
+    $scope.loadFilters()
+
+    $scope.upgradeServer = () ->
+      FSScanService.upgradeServer()
+
+    $scope.restartServer = () ->
+      FSScanService.restartServer()
 
     $scope.startScan = () ->
       $scope.stopStream()
@@ -33,15 +52,19 @@ angular.module(name, []).controller(name, [
       $scope.scanLoaded = false
       FSScanService.startScan()
 
-
     $scope.stopScan = () ->
       $scope.scanComplete = false
       $scope.scanLoaded = false
-
       $scope.remainingTime = []
       $scope.stopStream()
       FSScanService.stopScan()
 
+    $scope.showConfigDialog = () ->
+      $log.debug("Open Config Dialog")
+      $scope.configDialog = true
+
+    $scope.hideConfigDialog = () ->
+      $scope.configDialog = false
 
     $scope.toggleShareDialog = () ->
       if $scope.shareDialog
@@ -49,7 +72,6 @@ angular.module(name, []).controller(name, [
       else
         $scope.loadDialog = false
         $scope.shareDialog = true
-
 
     $scope.toggleLoadDialog =  () ->
       if !$scope.loadDialog
@@ -59,10 +81,12 @@ angular.module(name, []).controller(name, [
             $scope.scanListLoaded = true
             $scope.loadDialog = true
             $scope.shareDialog = false
+
       else
         $scope.scanListLoaded =false
         $scope.loadDialog = false
         $scope.shareDialog = false
+
 
     $scope.exitScanSettings = () ->
       $scope.stopStream()

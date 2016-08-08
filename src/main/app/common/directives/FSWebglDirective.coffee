@@ -34,6 +34,7 @@ angular.module(name,[]).directive("fsWebgl", [
       mousedown = false
       scanLoaded = false
       scanLoaded = false
+      turntable = undefined
       rad = 0
 
       scope.height = window.innerHeight
@@ -66,12 +67,22 @@ angular.module(name,[]).directive("fsWebgl", [
       scope.$on(FSEnumService.events.ON_STATE_CHANGED, (events,data) ->
           if data['state'] == FSEnumService.states.SCANNING
             scope.clearView()
+
       )
 
       scope.$on(FSEnumService.events.ON_INFO_MESSAGE, (event, data) ->
 
+          if data['message'] == 'SCANNING_TEXTURE'
+            scene.remove( turntable )
+
+          if data['message'] == 'SCANNING_OBJECT'
+            if not scene.getObjectByName('turntable')
+              scene.add(turntable)
+
           if data['message'] == 'SCAN_CANCELED'
             scope.clearView()
+            if not scene.getObjectByName('turntable')
+              scene.add(turntable)
 
           if data['message'] == 'SCAN_COMPLETE'
             scope.createPreviewImage(data['scan_id'])
@@ -153,8 +164,9 @@ angular.module(name,[]).directive("fsWebgl", [
 
         geometry = new THREE.CylinderGeometry( 7, 7, 0.2, 32 );
         material = new THREE.MeshBasicMaterial( {color: 0xDEDEDE} )
-        cylinder = new THREE.Mesh( geometry, material )
-        scene.add( cylinder )
+        turntable = new THREE.Mesh( geometry, material )
+        turntable.name = "turntable"
+        scene.add( turntable )
 
 
         renderer = new THREE.WebGLRenderer(
@@ -233,8 +245,7 @@ angular.module(name,[]).directive("fsWebgl", [
             pointcloud.rotation.z += d
           if pointcloud and scope.scanComplete
             pointcloud.rotation.y +=d
-
-          if mesh
+          if mesh and scope.scanLoaded
             mesh.rotation.z += d
 
 
@@ -399,6 +410,9 @@ angular.module(name,[]).directive("fsWebgl", [
             scope.objectGeometry = objectGeometry
             if file.indexOf("mesh") > -1
                 scope.renderMesh('stl')
+
+        loader.addEventListener 'progress', (item) ->
+          scope.progressHandler(item)
 
          $log.info("Not implemented yet")
 

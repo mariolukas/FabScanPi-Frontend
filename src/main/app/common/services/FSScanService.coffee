@@ -53,6 +53,25 @@ angular.module(name, []).factory(name, [
 
       FSMessageHandlerService.sendData(message)
 
+    service.upgradeServer = () ->
+      $log.debug("Upgrade Server called.")
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.UPGRADE_SERVER
+
+      FSMessageHandlerService.sendData(message)
+
+    service.restartServer = () ->
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.RESTART_SERVER
+
+      FSMessageHandlerService.sendData(message)
+
     service.stopScan = () ->
       service.setScanId(null)
       message = {}

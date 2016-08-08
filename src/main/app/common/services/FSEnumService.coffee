@@ -13,7 +13,6 @@ angular.module(name, []).factory(name, () ->
           SCAN_LOADED: "SCAN_LOADED"
 
 
-
     FSEnumService.states =
           IDLE: 'IDLE'
           SCANNING: 'SCANNING'
@@ -25,6 +24,8 @@ angular.module(name, []).factory(name, () ->
           STOP: 'STOP'
           UPDATE_SETTINGS: 'UPDATE_SETTINGS'
           MESHING: 'MESHING'
+          UPGRADE_SERVER: 'UPGRADE_SERVER'
+          RESTART_SERVER: 'RESTART_SERVER'
 
     return FSEnumService
 

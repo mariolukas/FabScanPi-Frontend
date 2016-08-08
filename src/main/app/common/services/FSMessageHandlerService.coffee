@@ -24,16 +24,18 @@ angular.module(name, []).factory(name, [
 
         socket.onopen = (event) ->
             scope.isConnected = true
+            $rootScope.$broadcast("CONNECTION_STATE_CHANGED", scope.isConnected)
             console.log 'Websocket connected to '+socket.url
 
 
         socket.onerror = (event) ->
+
             console.error event
 
         socket.onclose = (event) ->
             scope.isConnected = false
             socket = null
-            $rootScope.$broadcast("CONNECTION", scope.isConnected)
+            $rootScope.$broadcast("CONNECTION_STATE_CHANGED", scope.isConnected)
             $timeout(() ->
               FSMessageHandlerService.connectToScanner(scope)
             ,2000)
