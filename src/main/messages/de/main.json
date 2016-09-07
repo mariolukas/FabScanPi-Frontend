@@ -1,7 +1,7 @@
 {
     "FABSCAN": "Fabscan",
-    "SCAN_CANCELED": "Scan stoped",
-    "SCAN_STOPED": "Scan stoped",
+    "SCAN_CANCELED": "Scan stopped",
+    "SCAN_STOPED": "Scan stopped",
     "SCANNING_OBJECT": "Scanning Object",
     "SCANNING_TEXTURE": "Scanning Texture",
     "NO_LASER_FOUND": "No laser detected. Try other settings",

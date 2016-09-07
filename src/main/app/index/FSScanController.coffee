@@ -39,14 +39,12 @@ angular.module(name, []).controller(name, [
 
     $scope.loadFilters()
 
-    $scope.upgradeServer = () ->
-      FSScanService.upgradeServer()
-
     $scope.restartServer = () ->
       FSScanService.restartServer()
 
     $scope.startScan = () ->
       $scope.stopStream()
+      $scope.remainingTime = []
       $scope.showSettings = false
       $scope.scanComplete = false
       $scope.scanLoaded = false

@@ -410,6 +410,7 @@ angular.module(name,[]).directive("fsWebgl", [
             scope.objectGeometry = objectGeometry
             if file.indexOf("mesh") > -1
                 scope.renderMesh('stl')
+            scope.scanLoaded = true
 
         loader.addEventListener 'progress', (item) ->
           scope.progressHandler(item)

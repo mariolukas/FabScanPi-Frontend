@@ -56,6 +56,7 @@ angular.module(name, []).controller(name, [
           $scope.remainingTime = []
           $scope.startTime = null
           $scope.sampledRemainingTime = 0
+          $scope.progress = 0
           #if ngProgress.status() == 100
           #  ngProgress.complete()
 
@@ -78,19 +79,22 @@ angular.module(name, []).controller(name, [
             percentage = $scope.progress/$scope.resolution*100
 
             if $scope.progress == 1
+              $scope.sampledRemainingTime = 0
+              _time_values = []
               $scope.startTime = Date.now()
               ngProgress.start()
 
             else
+
               timeTaken = (Date.now() - $scope.startTime)
-              $scope.remainingTime.push(Math.floor(((timeTaken/ $scope.progress)* ($scope.resolution - $scope.progress))/1000))
+              $scope.remainingTime.push(parseFloat(Math.floor(((timeTaken/ $scope.progress)* ($scope.resolution - $scope.progress))/1000)))
 
               if $scope.remainingTime.length > 20
                 _time_values = $scope.remainingTime.slice(Math.max($scope.remainingTime.length-8,1))
               else
                 _time_values = $scope.remainingTime
 
-              $scope.sampledRemainingTime = Math.floor(median(_time_values))
+              $scope.sampledRemainingTime = parseFloat(Math.floor(median(_time_values)))
 
               $log.info percentage.toFixed(2) + "% complete"
               ngProgress.set(percentage)

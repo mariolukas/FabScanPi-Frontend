@@ -61,25 +61,31 @@ angular.module(name, []).controller(name, [
        else
          return false
 
+    $scope.upgradeServer = () ->
+      FSScanService.upgradeServer()
 
     $scope.$on("CONNECTION_STATE_CHANGED", (event, connected) ->
         $log.info("Connected")
+        $scope.isConnected = connected
         if not connected
-          $scope.isConnected = false
           $scope.appIsInitialized = false
+
+        $scope.$apply()
     )
 
     $scope.$on(FSEnumService.events.ON_CLIENT_INIT, (event, data) ->
-
+      $log.info "Initing"
+      $scope.remainingTime = []
       $log.info "State: "+data['state']
       document.title = "FabScanPi " + data['server_version']
       $scope.server_version = data['server_version']
       $scope.firmware_version = data['firmware_version']
 
       if data['upgrade']['available']
-        toastr.info("<a href=\"http://mariolukas.github.io/FabScanPi-Server/software/#updating-the-software\">Click here for upgrade instructions.</a>", "Version "+data['upgrade']['version']+" now available")
 
-        #{onclick: function() {console.log('you clicked on the error toaster')}}
+        toastr.info 'Click here for upgrade! ', 'Version '+data['upgrade']['version']+' now available', timeOut:0, closeButton:true,  onclick: ->
+          $scope.upgradeServer()
+          return
 
       _settings = data['settings']
       _settings.resolution *=-1

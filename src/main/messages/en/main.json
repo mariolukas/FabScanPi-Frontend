@@ -1,7 +1,7 @@
 {
     "FABSCAN": "Fabscan",
-    "SCAN_CANCELED": "Scan stoped",
-    "SCAN_STOPED": "Scan stoped",
+    "SCAN_CANCELED": "Scan stopped",
+    "SCAN_STOPED": "Scan stopped",
     "SCANNING_OBJECT": "Scanning Object",
     "SCANNING_TEXTURE": "Scanning Texture",
     "NO_LASER_FOUND": "No laser detected. Try other settings",
@@ -10,7 +10,7 @@
     "NO_SERIAL_CONNECTION": "No connection to Arduino",
     "NO_CAMERA_CONNECTION":  "Camera is not connected",
     "CONNECTED_TO_SERVER": "Connected to FabScanPi-Server",
-    "SERIAL_CONNECTION_READY": "Arduino/ FabScanPI HAT connected",
+    "SERIAL_CONNECTION_READY": "Arduino/FabScanPI HAT ready",
     "CAMERA_READY": "Camera ready",
     "MESHING_STARTED": "Meshing started.",
     "MESHING_DONE": "Meshed file is available now"
