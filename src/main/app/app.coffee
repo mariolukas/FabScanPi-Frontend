@@ -36,7 +36,7 @@ mods = [
 
   'vr.directives.slider'
 	'slickCarousel'
-  'ng.jsoneditor'
+   #'ng.jsoneditor'
 ]
 
 ### ###########################################################################
