@@ -35,7 +35,7 @@
     "karma-chrome-launcher": "~0.1",
     "karma-phantomjs-launcher": "0.1.2",
     "karma-junit-reporter": "0.1.0",
-    "phantomjs": "1.9.7-8"
+    "phantomjs": "1.9.8"
   }
 }
 
