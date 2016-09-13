@@ -83,6 +83,16 @@ angular.module(name, []).factory(name, [
       FSMessageHandlerService.sendData(message)
       $rootScope.$broadcast(FSEnumService.commands.STOP)
 
+    service.startCalibration = () ->
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.CALIBRATE
+
+      FSMessageHandlerService.sendData(message)
+      $rootScope.$broadcast(FSEnumService.commands.CALIBRATE)
+
     service.runMeshing = (scan_id, filter, format) ->
 
       message = {}

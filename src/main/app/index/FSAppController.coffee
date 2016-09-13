@@ -111,6 +111,7 @@ angular.module(name, []).controller(name, [
 
     $scope.$on(FSEnumService.events.ON_INFO_MESSAGE, (event, data)->
 
+      $log.info(data['message'])
       message = FSi18nService.translateKey('main',data['message'])
 
       switch data['level']

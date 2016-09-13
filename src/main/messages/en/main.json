@@ -13,6 +13,7 @@
     "SERIAL_CONNECTION_READY": "Arduino/FabScanPI HAT ready",
     "CAMERA_READY": "Camera ready",
     "MESHING_STARTED": "Meshing started.",
-    "MESHING_DONE": "Meshed file is available now"
-
+    "MESHING_DONE": "Meshed file is available now",
+    "START_CALIBRATION": "Calibration started.",
+    "FINISHED_CALIBRATION": "Calibration finished."
 }

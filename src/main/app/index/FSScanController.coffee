@@ -42,6 +42,9 @@ angular.module(name, []).controller(name, [
     $scope.restartServer = () ->
       FSScanService.restartServer()
 
+    $scope.startCalibration = () ->
+      FSScanService.startCalibration()
+
     $scope.startScan = () ->
       $scope.stopStream()
       $scope.remainingTime = []
