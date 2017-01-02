@@ -1,5 +1,5 @@
 <!doctype html>
-<div lang="en" class="ng-cloak">
+<html lang="en" class="ng-cloak">
 	<head>
 		<title>FabScanPi</title>
         <link rel="icon"
@@ -21,7 +21,8 @@
         <script src="js/locales/en/i18n.js"></script>
 		<script src="js/app.js"></script>
 
-    </head>
+  </head>
+	<body>
     <div ng-controller="fabscan.controller.FSAppController">
         <div ng-if="!appIsInitialized" class="splash">
             <div>
@@ -385,6 +386,5 @@
         </div>
     </div>
     </div>
-    </body>
-</div>
+	</body>
 </html>
