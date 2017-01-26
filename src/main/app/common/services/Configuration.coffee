@@ -8,24 +8,23 @@ angular.module(name, []).factory(name, [
     localDebug  =  $location.host() is 'localhost'
     config = null
     devDebug = true
+    host = $location.host()
 
     if localDebug
-      #host = $location.host()
-      host = "fabscanpi.local"
       config = {
           installation:
             host: host
             websocketurl: 'ws://'+host+':8010/'
             httpurl: 'http://'+host+':8080/'
+          newsurl: 'http://'+host+':8000/news/'
       }
 
     else
-      host = $location.host()
       config = {
         installation:
           host: host
-          websocketurl: 'ws://'+$location.host()+':8010/'
-          httpurl: 'http://'+$location.host()+':8080/'
+          websocketurl: 'ws://'+host+':8010/'
+          httpurl: 'http://'+host+':8080/'
 
       }
 

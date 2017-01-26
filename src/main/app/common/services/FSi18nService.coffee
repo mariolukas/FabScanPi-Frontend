@@ -1,16 +1,18 @@
 name = 'fabscan.services.FSi18nService'
 
 angular.module(name, []).factory(name, [
-  '$log',
-  '$rootScope'
-  'fabscan.services.FSEnumService',
-  ($log,$rootScope, FSEnumService) ->
+	'$window',
+	($window) ->
 
-    service = {}
+		service = {}
 
-    service.translateKey = (key, value) ->
-        return window.i18n[key][value]()
-
-    service
-
+		service.formatText = (key, values = { }) ->
+			[catalogId, textId] = key.split(".")
+			if catalogId && textId
+				if catalogId of $window.i18n
+					catalog = $window.i18n[catalogId]
+					if textId of catalog
+						return catalog[textId](values)
+			return key
+		return service
 ])

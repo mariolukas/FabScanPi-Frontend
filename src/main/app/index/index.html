@@ -24,23 +24,37 @@
   </head>
 	<body>
     <div ng-controller="fabscan.controller.FSAppController">
-        <div ng-if="!appIsInitialized" class="splash">
-            <div>
-                <img class="logo" src="icons/logo.png">
-                <div ng-if="!initError">
-                    <div class="sk-three-bounce">
-                        <div class="sk-child sk-bounce1"></div>
-                        <div class="sk-child sk-bounce2"></div>
-                        <div class="sk-child sk-bounce3"></div>
-                    </div>
-                </div>
-                <div ng-if="initError">
-                    Can not initialize UI, try to refresh Window.
-                    <br>
-                    (Press 'F5')
-                </div>
-            </div>
-        </div>
+			<div ng-if="!appIsInitialized" class="splash">
+					<div>
+							<img class="logo" src="icons/logo.png">
+							<div ng-if="!initError">
+									<div class="sk-three-bounce">
+											<div class="sk-child sk-bounce1"></div>
+											<div class="sk-child sk-bounce2"></div>
+											<div class="sk-child sk-bounce3"></div>
+									</div>
+							</div>
+							<div ng-if="initError">
+									Can not initialize UI, try to refresh Window.
+									<br>
+									(Press 'F5')
+							</div>
+					</div>
+			</div>
+			<div ng-if="appIsUpgrading" class="splash">
+					<div>
+							<img class="logo" src="icons/logo.png">
+							<div>
+									<div class="sk-three-bounce">
+											<div class="sk-child sk-bounce1"></div>
+											<div class="sk-child sk-bounce2"></div>
+											<div class="sk-child sk-bounce3"></div>
+									</div>
+							</div>
+							<div text="main.UPGRADE_IN_PROGRESS">
+							</div>
+					</div>
+			</div>
     <div id="top-bar">
 
     </div>
@@ -54,7 +68,14 @@
                    <a class="hvr-grow" style="margin-right: 13%; margin-top:0.2em; text-decoration:none; float:right; color:white; font-size:1.5em;" ng-click="hideConfigDialog()" href="#">Cancel</a>
                </div>
            -->
-               <!-- Settings View -->
+					 <!-- News View -->
+							<div class="newsWindow" ng-if="showNews" ng-class="{'open': showNews}">
+									<div ng-controller="fabscan.controller.FSNewsController" >
+											<div ng-bind-html="news"></div>
+									</div>
+							</div>
+
+								<!-- Settings View -->
                 <div class="settingsWindow" ng-class="{'open':('SETTINGS' | currentState)}">
                     <div ng-if="('SETTINGS' | currentState)" ng-controller="fabscan.controller.FSSettingsController" >
 

@@ -7,7 +7,6 @@ modName = "#{providerName}Provider"
 class Environment
 
 	env: 'DEV'
-	apiUrl: 'http://planungstool-testing.ambihome.de/api'
 
 class EnvironmentProvider
 

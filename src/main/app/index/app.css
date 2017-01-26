@@ -207,6 +207,61 @@ a:active .icon {
     bottom: 60px;
 }
 
+.newsWindow {
+  position: fixed;
+  width: 76%;
+  margin: 8em 10%;
+  padding: 1em 2em;
+  background-color: rgba(200, 200, 200, 0.8);
+  border: 2px solid rgb(73, 73, 73);
+}
+
+.newsWindow h3 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.newsWindow p {
+  margin-top: 0.5em;
+  line-height: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.newsWindow ul {
+  list-style: disc;
+  margin: 0.5em 0;
+  max-height: 99999em;
+}
+
+.newsWindow li {
+  margin-left: 2em;
+}
+
+.newsWindow .wy-nav-side {
+  display: none;
+}
+
+.newsWindow .wy-nav-top {
+  display: none;
+}
+
+.newsWindow .wy-nav-content {
+  overflow-y: scroll;
+  max-height: 15em;
+}
+
+.newsWindow .wy-breadcrumbs {
+  display: none;
+}
+
+.newsWindow footer {
+  display: none;
+}
+
+.newsWindow .rst-versions {
+  display: none;
+}
+
 .settingsWindow {
     height: 0px;
     width: 100%;
@@ -919,11 +974,9 @@ and (min-width: 1824px) {
 }
 
 .sk-three-bounce {
-    margin: 40px auto;
+    margin: 5px auto;
     width: 80px;
     text-align: center;
-    margin-top: 5px;
-
 }
 
 .sk-three-bounce .sk-child {
