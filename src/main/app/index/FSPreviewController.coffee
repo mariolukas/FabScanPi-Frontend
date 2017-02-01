@@ -33,6 +33,7 @@ angular.module(name, []).controller(name, [
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
         if data['state'] == FSEnum.states.IDLE
           $scope.showTextureScan = false
+          $scope.showCalibrationStream = false
     )
 
     $rootScope.$on('clearView', ()->
@@ -45,9 +46,17 @@ angular.module(name, []).controller(name, [
           $scope.streamUrl = Configuration.installation.httpurl+'/stream/texture.mjpeg'
           $scope.showTextureScan = true
 
-        if data['message'] == 'SCANNING_OBJECT'
-          $scope.showTextureScan = false
+        if data['message'] == 'START_CALIBRATION'
+          $scope.streamUrl = Configuration.installation.httpurl+'/stream/calibration.mjpeg'
+          $scope.showCalibrationStream = true
+
+        if data['message'] == 'FINISHED_CALIBRATION'
+          $scope.showCalibrationStream = false
           $scope.streamUrl = ""
+
+        if data['message'] == 'SCANNING_OBJECT'
+            $scope.showTextureScan = false
+            $scope.streamUrl = ""
 
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])

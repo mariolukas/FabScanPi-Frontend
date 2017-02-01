@@ -22,7 +22,7 @@ angular.module(name, []).controller(name, [
     $scope.server_version = undefined
     $scope.firmware_version = undefined
     $scope.scanLoading = false
-    $scope.appIsInitialized=false
+    $scope.appIsInitialized=true
     $scope.isConnected = false
     $scope.initError = false
 
@@ -65,16 +65,15 @@ angular.module(name, []).controller(name, [
       FSScanService.upgradeServer()
 
     $scope.$on("CONNECTION_STATE_CHANGED", (event, connected) ->
-        $log.info("Connected")
+        $log.info("WebSocket Connected")
         $scope.isConnected = connected
         if not connected
           $scope.appIsInitialized = false
-
         $scope.$apply()
     )
 
     $scope.$on(FSEnumService.events.ON_CLIENT_INIT, (event, data) ->
-      $log.info "Initing"
+      $log.info "Client Initialize Sequence"
       $scope.remainingTime = []
       $log.info "State: "+data['state']
       document.title = "FabScanPi " + data['server_version']
