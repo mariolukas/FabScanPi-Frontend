@@ -445,9 +445,6 @@ angular.module(name,[]).directive("fsWebgl", [
           else
             currentPointcloudAngle = 90*(Math.PI/180)
 
-          geometry = new THREE.BufferGeometry()
-          geometry.dynamic = true
-
           new_positions = new Float32Array(points.length*3)
           new_colors = new Float32Array(points.length*3)
 
@@ -470,12 +467,17 @@ angular.module(name,[]).directive("fsWebgl", [
             positions = scope.Float32Concat(positions,new_positions)
             colors = scope.Float32Concat(colors,new_colors)
 
-
+          geometry = new THREE.BufferGeometry()
+          geometry.dynamic = true
           geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
           geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
 
-          material = new THREE.PointsMaterial({size: 0.2, vertexColors: THREE.VertexColors })
-          pointcloud = new THREE.Points(geometry, material)
+          if !pointcloud
+            material = new THREE.PointsMaterial({size: 0.1, vertexColors: THREE.VertexColors })
+            pointcloud = new THREE.Points(geometry, material)
+          else
+            pointcloud.geometry.dispose()
+            pointcloud.geometry = geometry
 
 
           degree =  360/resolution
@@ -490,13 +492,13 @@ angular.module(name,[]).directive("fsWebgl", [
           #  $log.info currentPointcloudAngle - scope.rad
 
 
-        while i < points.length
+        #while i < points.length
           #point = new THREE.Vector3(parseFloat(points[i].x), parseFloat(points[i].z)+450, parseFloat(points[i].y))
           #pointcloud.geometry.vertices.push(point)
           #pointcloud.geometry.dispose()
-          _points[current_point] = points
-          i++
-          current_point++
+          #_points[current_point] = points
+          #i++
+          #current_point++
 
         #if progress == resolution
           #scope.createScreenShot()
