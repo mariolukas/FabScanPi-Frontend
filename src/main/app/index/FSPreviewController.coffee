@@ -27,7 +27,7 @@ angular.module(name, []).controller(name, [
     $scope.showTextureScan = false
     $scope.startTime = null
     $scope.sampledRemainingTime = 0
-
+    $scope.remainingTimeString = "0 minutes 0 seconds"
     #$scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
 
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
@@ -75,14 +75,13 @@ angular.module(name, []).controller(name, [
             $scope.resolution = data['resolution']
             $scope.progress = data['progress']
 
-            $log.info $scope.progress
             percentage = $scope.progress/$scope.resolution*100
 
-            if $scope.progress == 1
+            if $scope.progress <= 1
               $scope.sampledRemainingTime = 0
               _time_values = []
               $scope.startTime = Date.now()
-              ngProgress.start()
+              #ngProgress.start()
 
             else
 
@@ -96,10 +95,15 @@ angular.module(name, []).controller(name, [
 
               $scope.sampledRemainingTime = parseFloat(Math.floor(median(_time_values)))
 
-              $log.info percentage.toFixed(2) + "% complete"
+              if $scope.sampledRemainingTime >= 60
+                  $scope.remainingTimeString =  parseInt($scope.sampledRemainingTime/60)+" minutes"
+              else
+                  $scope.remainingTimeString = ($scope.sampledRemainingTime)+"seconds"
+
+              $log.debug percentage.toFixed(2) + "% complete"
               ngProgress.set(percentage)
 
-            if percentage >= 100
+            if percentage >= 98
               $scope.sampledRemainingTime = 0
               _time_values = []
 
