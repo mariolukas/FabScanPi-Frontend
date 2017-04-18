@@ -387,10 +387,7 @@ angular.module(name,[]).directive("fsWebgl", [
               vertexColors : THREE.FaceColors
           )
           pointcloud = new (THREE.Points)(scope.objectGeometry, material)
-          pointcloud.position.set( 0, - 0.25, 0 );
           pointcloud.rotation.set( - Math.PI / 2, 0 , 0);
-          pointcloud.scale.set( 0.1, 0.1, 0.1 );
-          #pointcloud.sortParticles = true
           scene.add(pointcloud)
 
       scope.renderObjectAsType = (type) ->
@@ -454,7 +451,7 @@ angular.module(name,[]).directive("fsWebgl", [
           i = 0
           while i< points.length
               new_positions[3*i] = parseFloat(points[i]['x'])
-              new_positions[3*i+1] = parseFloat(points[i]['y']-0.5)
+              new_positions[3*i+1] = parseFloat(points[i]['y'])
               new_positions[3*i+2] = parseFloat(points[i]['z'])
 
               color = new THREE.Color("rgb("+points[i]['r']+","+points[i]['g']+","+points[i]['b']+")")
