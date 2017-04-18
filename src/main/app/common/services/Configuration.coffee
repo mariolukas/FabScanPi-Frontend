@@ -10,8 +10,8 @@ angular.module(name, []).factory(name, [
     devDebug = true
 
     if localDebug
+      #host = $location.host()
       host = "fabscanpi.local"
-      #host = "10.0.0.190"
       config = {
           installation:
             host: host

@@ -58,6 +58,8 @@ angular.module(name,[]).directive("fsWebgl", [
       windowHalfY = contH / 2
       materials = {}
 
+      turntable_radius = 70
+      turntable_thickness = 5
 
       $rootScope.$on('clearcanvas',() ->
           $log.info "view cleared"
@@ -102,24 +104,25 @@ angular.module(name,[]).directive("fsWebgl", [
         #camera.position.set(0,0,1500)
         current_point = 0
 
-        camera = new THREE.PerspectiveCamera(  38, window.innerWidth / window.innerHeight, 1, 800 );
-        camera.position.set( 27, 5, 0 );
-        cameraTarget = new THREE.Vector3( 10, 5, 0 )
+        camera = new THREE.PerspectiveCamera(48.8,window.innerWidth/window.innerHeight, 1,1000);
+        camera.position.z = 180;
+        camera.position.y = 40;
 
 
 
         #this.triDViewer.addToScene( turnTable, "helpers"  )
         # Scene
         scene = new THREE.Scene()
-        scene.fog = new THREE.Fog( 0x72645b, 20, 60 )
+        scene.fog = new THREE.Fog( 0x72645b, 200, 600 )
 
 
         plane = new THREE.Mesh(
-          new THREE.PlaneBufferGeometry( 140, 100 ),
+          new THREE.PlaneBufferGeometry( 2000, 2000 ),
           new THREE.MeshPhongMaterial( { ambient: 0x999999, color: 0x999999, specular: 0x101010 } )
         )
         plane.rotation.x = -Math.PI/2;
-        plane.position.y = -0.5;
+        #thickness of turntable
+        plane.position.y = -turntable_thickness;
         scene.add( plane )
 
         plane.receiveShadow = true
@@ -162,8 +165,8 @@ angular.module(name,[]).directive("fsWebgl", [
         #scene.add(plane);
 
 
-        geometry = new THREE.CylinderGeometry( 7, 7, 0.2, 32 );
-        material = new THREE.MeshBasicMaterial( {color: 0xDEDEDE} )
+        geometry = new THREE.CylinderGeometry( turntable_radius, turntable_radius, turntable_thickness, 32 );
+        material = new THREE.MeshPhongMaterial({color: 0xd3d2c9});
         turntable = new THREE.Mesh( geometry, material )
         turntable.name = "turntable"
         scene.add( turntable )
@@ -380,7 +383,7 @@ angular.module(name,[]).directive("fsWebgl", [
       scope.renderPLY = () ->
           pointcloud = new (THREE.Object3D)
           material = new (THREE.PointsMaterial)(
-              size: 0.15,
+              size: 0.5,
               vertexColors : THREE.FaceColors
           )
           pointcloud = new (THREE.Points)(scope.objectGeometry, material)
@@ -445,9 +448,6 @@ angular.module(name,[]).directive("fsWebgl", [
           else
             currentPointcloudAngle = 90*(Math.PI/180)
 
-          geometry = new THREE.BufferGeometry()
-          geometry.dynamic = true
-
           new_positions = new Float32Array(points.length*3)
           new_colors = new Float32Array(points.length*3)
 
@@ -470,12 +470,17 @@ angular.module(name,[]).directive("fsWebgl", [
             positions = scope.Float32Concat(positions,new_positions)
             colors = scope.Float32Concat(colors,new_colors)
 
-
+          geometry = new THREE.BufferGeometry()
+          geometry.dynamic = true
           geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
           geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
 
-          material = new THREE.PointsMaterial({size: 0.2, vertexColors: THREE.VertexColors })
-          pointcloud = new THREE.Points(geometry, material)
+          if !pointcloud
+            material = new THREE.PointsMaterial({size: 0.5 , vertexColors: THREE.VertexColors })
+            pointcloud = new THREE.Points(geometry, material)
+          else
+            pointcloud.geometry.dispose()
+            pointcloud.geometry = geometry
 
 
           degree =  360/resolution
@@ -490,13 +495,13 @@ angular.module(name,[]).directive("fsWebgl", [
           #  $log.info currentPointcloudAngle - scope.rad
 
 
-        while i < points.length
+        #while i < points.length
           #point = new THREE.Vector3(parseFloat(points[i].x), parseFloat(points[i].z)+450, parseFloat(points[i].y))
           #pointcloud.geometry.vertices.push(point)
           #pointcloud.geometry.dispose()
-          _points[current_point] = points
-          i++
-          current_point++
+          #_points[current_point] = points
+          #i++
+          #current_point++
 
         #if progress == resolution
           #scope.createScreenShot()
@@ -529,7 +534,7 @@ angular.module(name,[]).directive("fsWebgl", [
         #camera.position.set( 15, 0, 0 );
         #camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
         #pointcloud.rotation.y
-        camera.lookAt( cameraTarget )
+        #camera.lookAt( cameraTarget )
         renderer.render scene, camera
         #controls.update()
         return

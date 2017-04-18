@@ -24,44 +24,45 @@ angular.module(name, []).controller(name, [
     $scope.loadPLY = null
     $scope.loadSTL = null
     $scope.renderer = null
-    $scope.showTextureScan = false
+
+    $scope.showStream = false
     $scope.startTime = null
     $scope.sampledRemainingTime = 0
-
+    $scope.remainingTimeString = "0 minutes 0 seconds"
     #$scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
 
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
         if data['state'] == FSEnum.states.IDLE
-          $scope.showTextureScan = false
-          $scope.showCalibrationStream = false
+          $scope.showStream = false
+        if data['state'] == FSEnum.states.CALIBRATING
+          $scope.showStream = true
     )
 
     $rootScope.$on('clearView', ()->
         $scope.clearView()
     )
 
-
     $scope.$on(FSEnum.events.ON_INFO_MESSAGE, (event, data) ->
         if data['message'] == 'SCANNING_TEXTURE'
-          $scope.streamUrl = Configuration.installation.httpurl+'/stream/texture.mjpeg'
-          $scope.showTextureScan = true
+          $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
+          $scope.showStream = true
 
         if data['message'] == 'START_CALIBRATION'
-          $scope.streamUrl = Configuration.installation.httpurl+'/stream/calibration.mjpeg'
-          $scope.showCalibrationStream = true
+          $scope.streamUrl = Configuration.installation.httpurl+'stream/textrue.mjpeg'
+          $scope.showStream = true
 
         if data['message'] == 'FINISHED_CALIBRATION'
-          $scope.showCalibrationStream = false
+          $scope.showStream = false
           $scope.streamUrl = ""
 
         if data['message'] == 'SCANNING_OBJECT'
-            $scope.showTextureScan = false
-            $scope.streamUrl = ""
+          $scope.showStream = false
+          $scope.streamUrl = ""
 
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])
           $scope.setScanIsComplete(true)
-          $scope.showTextureScan = false
+          $scope.showStream = false
           $scope.remainingTime = []
           $scope.startTime = null
           $scope.sampledRemainingTime = 0
@@ -71,7 +72,7 @@ angular.module(name, []).controller(name, [
 
         if data['message'] == 'SCAN_CANCELED' || data['message'] == 'SCAN_STOPED'
           $scope.remainingTime = []
-          $scope.showTextureScan = false
+          $scope.showStream = false
           $scope.startTime = null
           $scope.progress = 0
           $scope.sampledRemainingTime = 0
@@ -84,14 +85,13 @@ angular.module(name, []).controller(name, [
             $scope.resolution = data['resolution']
             $scope.progress = data['progress']
 
-            $log.info $scope.progress
             percentage = $scope.progress/$scope.resolution*100
 
-            if $scope.progress == 1
+            if $scope.progress <= 1
               $scope.sampledRemainingTime = 0
               _time_values = []
               $scope.startTime = Date.now()
-              ngProgress.start()
+              #ngProgress.start()
 
             else
 
@@ -105,10 +105,15 @@ angular.module(name, []).controller(name, [
 
               $scope.sampledRemainingTime = parseFloat(Math.floor(median(_time_values)))
 
-              $log.info percentage.toFixed(2) + "% complete"
+              if $scope.sampledRemainingTime >= 60
+                  $scope.remainingTimeString =  parseInt($scope.sampledRemainingTime/60)+" minutes"
+              else
+                  $scope.remainingTimeString = ($scope.sampledRemainingTime)+"seconds"
+
+              $log.debug percentage.toFixed(2) + "% complete"
               ngProgress.set(percentage)
 
-            if percentage >= 100
+            if percentage >= 98
               $scope.sampledRemainingTime = 0
               _time_values = []
 
