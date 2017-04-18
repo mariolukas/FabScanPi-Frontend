@@ -74,9 +74,11 @@
                             <div ng-click="selectTab('light')" class="tab icon settings" ng-class="{'active':(selectedTab == 'light')}">
                                 <i class="fa fa-sun-o fa-2x"></i>
                             </div>
+                            <!--
                             <div ng-click="setCalibrationTab()" class="tab icon settings" ng-class="{'active':(selectedTab == 'calibration')}">
                                 <i class="fa fa-crosshairs fa-2x"></i>
                             </div>
+                            -->
                             <div class="tab" sytle="width:100%">
                             </div>
                         </div>
@@ -101,6 +103,7 @@
                             -->
                             <div>
                                 <div style="display:inline-block; width:5em; color:white; padding-left:1em;" >Color Scan</div><input  style="width:1em; height:1em; margin-left:1.5em; margin-top:0.5em;" type="checkbox"  ng-change="setColor()" ng-checked="colorIsSelected()" ng-model="settings.color">
+
                                 <a class="hvr-grow" style="margin-right: 13%; margin-top:0.2em; text-decoration:none; float:right; color:white; font-size:1.5em;" ng-click="startScan()" href="#">Start Scan</a>
                             </div>
                         </div>
@@ -139,6 +142,7 @@
                                <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.blue"></slider>
                             </div>
                         </div>
+                        <!--
                         <div class="tab-content" ng-if="(selectedTab == 'calibration')">
                             <div style="display:inline-block; width:100%; margin-top:1em; color:white; padding-left:1em;">
                                 Calibration<br>
@@ -146,7 +150,7 @@
                                 Before calibration remove objects!
                                 <a class="hvr-grow" style="margin-right: 13%; margin-top:0.2em; bottom: 0px; text-decoration:none; float:right; color:white; font-size:1.5em;" ng-click="startCalibration()" href="#">Start Calibration</a>
                             </div>
-                        </div>
+                        </div>-->
                         </div>
                     </div>
 
@@ -154,9 +158,11 @@
 
                <!-- Scan View -->
                  <div  ng-controller="fabscan.controller.FSPreviewController"  style="margin: 0 auto; z-index:-100;">
-                     <div ng-if="showTextureScan" class="texture-preview">
+
+                     <div ng-if="showStream" class="texture-preview">
                          <mjpeg mode="'texture'" url="streamUrl"></mjpeg>
                      </div>
+
                      <div ng-click="manviewhandler()">
                          <div
                          id="webgl"
@@ -371,6 +377,12 @@
                       <!-- <i class="fa fa-camera fa-3x"></i>-->
                     </span>
                 </a>
+
+                    <a class="icon" style="" ng-click="startCalibration()">
+                                     <span class="hvr-grow">
+                                        <i class="fa fa-crosshairs fa-2x"></i>
+                                     </span>
+                    </a>
             </div>
 
             <!-- Right Icon Group -->

@@ -24,7 +24,8 @@ angular.module(name, []).controller(name, [
     $scope.loadPLY = null
     $scope.loadSTL = null
     $scope.renderer = null
-    $scope.showTextureScan = false
+
+    $scope.showStream = false
     $scope.startTime = null
     $scope.sampledRemainingTime = 0
     $scope.remainingTimeString = "0 minutes 0 seconds"
@@ -32,27 +33,36 @@ angular.module(name, []).controller(name, [
 
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
         if data['state'] == FSEnum.states.IDLE
-          $scope.showTextureScan = false
+          $scope.showStream = false
+        if data['state'] == FSEnum.states.CALIBRATING
+          $scope.showStream = true
     )
 
     $rootScope.$on('clearView', ()->
         $scope.clearView()
     )
 
-
     $scope.$on(FSEnum.events.ON_INFO_MESSAGE, (event, data) ->
         if data['message'] == 'SCANNING_TEXTURE'
-          $scope.streamUrl = Configuration.installation.httpurl+'/stream/texture.mjpeg'
-          $scope.showTextureScan = true
+          $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
+          $scope.showStream = true
+
+        if data['message'] == 'START_CALIBRATION'
+          $scope.streamUrl = Configuration.installation.httpurl+'stream/textrue.mjpeg'
+          $scope.showStream = true
+
+        if data['message'] == 'FINISHED_CALIBRATION'
+          $scope.showStream = false
+          $scope.streamUrl = ""
 
         if data['message'] == 'SCANNING_OBJECT'
-          $scope.showTextureScan = false
+          $scope.showStream = false
           $scope.streamUrl = ""
 
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])
           $scope.setScanIsComplete(true)
-          $scope.showTextureScan = false
+          $scope.showStream = false
           $scope.remainingTime = []
           $scope.startTime = null
           $scope.sampledRemainingTime = 0
@@ -62,7 +72,7 @@ angular.module(name, []).controller(name, [
 
         if data['message'] == 'SCAN_CANCELED' || data['message'] == 'SCAN_STOPED'
           $scope.remainingTime = []
-          $scope.showTextureScan = false
+          $scope.showStream = false
           $scope.startTime = null
           $scope.progress = 0
           $scope.sampledRemainingTime = 0
