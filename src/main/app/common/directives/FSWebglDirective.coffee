@@ -109,7 +109,6 @@ angular.module(name,[]).directive("fsWebgl", [
         camera.position.y = 40;
 
 
-
         #this.triDViewer.addToScene( turnTable, "helpers"  )
         # Scene
         scene = new THREE.Scene()
@@ -440,10 +439,10 @@ angular.module(name,[]).directive("fsWebgl", [
         scope.scanComplete = false
         if (points.length > 0)
           if pointcloud
-            currentPointcloudAngle = pointcloud.rotation.y
+            currentPointcloudAngle = pointcloud.rotation.y+80
             scene.remove(pointcloud)
           else
-            currentPointcloudAngle = 90*(Math.PI/180)
+            currentPointcloudAngle = 90*(Math.PI/180)+80
 
           new_positions = new Float32Array(points.length*3)
           new_colors = new Float32Array(points.length*3)
@@ -487,8 +486,8 @@ angular.module(name,[]).directive("fsWebgl", [
 
           scene.add(pointcloud)
 
-          #if pointcloud
-          #  pointcloud.rotation.y = currentPointcloudAngle -  scope.rad
+          if pointcloud
+            pointcloud.rotation.y +=  scope.rad
           #  $log.info currentPointcloudAngle - scope.rad
 
 
