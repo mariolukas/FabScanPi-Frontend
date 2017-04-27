@@ -17,6 +17,7 @@ angular.module(name, []).factory(name, () ->
           SCANNING: 'SCANNING'
           SETTINGS: 'SETTINGS'
           CALIBRATING: 'CALIBRATING'
+          UPGRADING: 'UPGRADING'
 
     FSEnumService.commands =
           SCAN: 'SCAN'

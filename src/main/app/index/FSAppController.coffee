@@ -22,7 +22,8 @@ angular.module(name, []).controller(name, [
     $scope.server_version = undefined
     $scope.firmware_version = undefined
     $scope.scanLoading = false
-    $scope.appIsInitialized=false
+    $scope.appIsInitialized = false
+    $scope.appIsUpgrading = false
     $scope.isConnected = false
     $scope.initError = false
 
@@ -91,6 +92,9 @@ angular.module(name, []).controller(name, [
       _settings.resolution *=-1
       angular.copy(_settings, $scope.settings)
       FSScanService.setScannerState(data['state'])
+      $scope.appIsUpgrading = data['state'] == FSEnumService.states.UPGRADING
+      if data['state'] == FSEnumService.states.IDLE
+        $scope.showNews = true
       $log.debug("WebSocket connection ready...")
 
       #toastr.info(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
@@ -100,6 +104,7 @@ angular.module(name, []).controller(name, [
     )
 
     $scope.$on(FSEnumService.events.ON_STATE_CHANGED, (event, data)->
+      $scope.showNews = false
       $log.info "NEW STATE: "+data['state']
       FSScanService.setScannerState(data['state'])
       $log.info data
