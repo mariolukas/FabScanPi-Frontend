@@ -23,6 +23,11 @@
   </head>
 	<body>
     <div ng-controller="fabscan.controller.FSAppController">
+
+        <div class="calibration-dialog">
+
+        </div>
+
         <div ng-if="!appIsInitialized" class="splash">
             <div>
                 <img class="logo" src="icons/logo.png">
@@ -158,6 +163,7 @@
                <!-- Scan View -->
                  <div  ng-controller="fabscan.controller.FSPreviewController"  style="margin: 0 auto; z-index:-100;">
 
+
                      <div ng-if="showStream" class="texture-preview">
                          <mjpeg mode="'texture'" url="streamUrl"></mjpeg>
                      </div>
@@ -173,12 +179,17 @@
                          material-type="materialType"
                          new-points="newPoints"
                          >
+
                              <div style="position:absolute; right:10px; top:2px; color:white">
                                  <span>Server: {{server_version}} <br> Firmware: {{firmware_version}}</span>
                              </div>
-                           <!--  <div style="position:absolute; left:10px; top:2px; color:white">
-                                 <span class="hvr-grow"><i ng-click="showConfigDialog()" class="fa fa-gear fa-2x"></i></span>
-                             </div>-->
+                            <div style="position:absolute; left:10px; top:2px; color:white">
+                                <a class="icon" style="" ng-click="startCalibration()" ng-show="(!scanIsLoading() && ('IDLE' | currentState) && !('CALIBRATING' | currentState))">
+                                     <span class="hvr-grow">
+                                        <i tooltips title="Calibrate Scanner" tooltip-side="right" class="fa fa-crosshairs fa-2x"></i>
+                                     </span>
+                                </a>
+                             </div>
                          <!--<div style="position:absolute;">
                              <a href="#" ng-click="renderObjectAsType('MESH')">Show Mesh</a>
                              <a href="#" ng-click="renderObjectAsType('POINTCLOUD')">Show Pointcloud</a>
@@ -350,7 +361,7 @@
             <div ng-if="appIsInitialized">
             <!-- Left Icon Group -->
             <div class="icongroup left" >
-                <a class="icon" tooltips title="Load Scan" tooltip-side="top" ng-if="!('SETTINGS' | currentState) && !('SCANNING' | currentState)" ng-click="toggleLoadDialog()" href="#">
+                <a class="icon" tooltips title="Load Scan" tooltip-side="top" ng-if="!('SETTINGS' | currentState) && !('SCANNING' | currentState) && !('CALIBRATING' | currentState)" ng-click="toggleLoadDialog()" href="#">
                     <span class="hvr-grow">
                          <i class="fa fa-folder fa-3x"></i>
                     </span>
@@ -359,7 +370,7 @@
 
             <!-- Center Icon Group -->
             <div class="icongroup middle">
-                <a class="icon" tooltips title="Cancel Scan" ng-click="stopScan()" ng-if="('SCANNING' | currentState)"  href="#">
+                <a class="icon" tooltips title="Cancel Scan" ng-click="stopScan()" ng-if="(('SCANNING' | currentState) || ('CALIBRATING' | currentState))"  href="#">
                      <span  class="hvr-grow">
                          <i class="fa fa-close fa-3x"></i>
                      </span>
@@ -377,11 +388,6 @@
                     </span>
                 </a>
 
-                    <a class="icon" style="" ng-click="startCalibration()">
-                                     <span class="hvr-grow">
-                                        <i class="fa fa-crosshairs fa-2x"></i>
-                                     </span>
-                    </a>
             </div>
 
             <!-- Right Icon Group -->
