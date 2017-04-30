@@ -204,7 +204,7 @@
                              </div>-->
                              <div style="position:absolute; left:10px; top:2px; color:white">
                              <a tooltips title="Calibration" tooltip-side="right" class="icon" style="" ng-click="startCalibration()">
-                                     <span class="hvr-grow">
+                                     <span ng-if="!('CALIBRATING' | currentState)" class="hvr-grow">
                                         <i class="fa fa-crosshairs fa-2x"></i>
                                      </span>
                              </a>
