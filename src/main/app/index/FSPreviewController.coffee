@@ -49,7 +49,7 @@ angular.module(name, []).controller(name, [
 
         if data['message'] == 'START_CALIBRATION'
           $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
-          $scope.showStream = false
+          $scope.showStream = true
 
         if data['message'] == 'FINISHED_CALIBRATION'
           $scope.showStream = false
@@ -87,10 +87,10 @@ angular.module(name, []).controller(name, [
 
             percentage = $scope.progress/$scope.resolution*100
 
+            $scope.startTime = FSScanService.getStartTime()
             if $scope.progress <= 1
               $scope.sampledRemainingTime = 0
               _time_values = []
-              $scope.startTime = Date.now()
               #ngProgress.start()
 
             else
@@ -108,7 +108,7 @@ angular.module(name, []).controller(name, [
               if $scope.sampledRemainingTime >= 60
                   $scope.remainingTimeString =  parseInt($scope.sampledRemainingTime/60)+" minutes"
               else
-                  $scope.remainingTimeString = ($scope.sampledRemainingTime)+"seconds"
+                  $scope.remainingTimeString = ($scope.sampledRemainingTime)+" seconds"
 
               $log.debug percentage.toFixed(2) + "% complete"
               ngProgress.set(percentage)

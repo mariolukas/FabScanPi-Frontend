@@ -16,7 +16,6 @@
 			#wrap {display:table;height:100%}
 		</style>
 		<![endif]-->
-
 		<script src="js/lib.js"></script>
         <script src="js/locales/en/i18n.js"></script>
 		<script src="js/app.js"></script>
@@ -24,6 +23,7 @@
   </head>
 	<body>
     <div ng-controller="fabscan.controller.FSAppController">
+
 			<div ng-if="!appIsInitialized" class="splash">
 					<div>
 							<img class="logo" src="icons/logo.png">
@@ -55,12 +55,6 @@
 							</div>
 					</div>
 			</div>
-            <div ng-if="('CALIBRATING' | currentState)" class="splash calibtation">
-                <div>
-                    <img style="width:130px;" class="logo" src="icons/calibrating.gif">
-                   <div>Calibration is running, please be patient... </div>
-                </div>
-            </div>
     <div id="top-bar">
 
     </div>
@@ -201,20 +195,19 @@
                          material-type="materialType"
                          new-points="newPoints"
                          >
+
                              <div style="position:absolute; right:10px; top:2px; color:white">
                                  <span>Server: {{server_version}} <br> Firmware: {{firmware_version}}</span>
                              </div>
 
-                           <!--
-                                 <span class="hvr-grow"><i ng-click="showConfigDialog()" class="fa fa-gear fa-2x"></i></span>
-                             </div>-->
-                            <!-- <div style="position:absolute; left:10px; top:2px; color:white">
-                             <a tooltips title="Calibration" tooltip-side="right" class="icon" style="" ng-click="startCalibration()">
-                                     <span ng-if="!('CALIBRATION' | currentState)" class="hvr-grow">
-                                        <i class="fa fa-crosshairs fa-2x"></i>
+                            <div style="position:absolute; left:10px; top:2px; color:white">
+                                <a class="icon" style="" ng-click="startCalibration()" ng-show="(!scanIsLoading() && ('IDLE' | currentState) && !('CALIBRATING' | currentState))">
+                                     <span class="hvr-grow">
+                                        <i tooltips title="Calibrate Scanner" tooltip-side="right" class="fa fa-crosshairs fa-2x"></i>
                                      </span>
-                             </a>
-                                 </div>-->
+                                </a>
+                             </div>
+
                          <!--<div style="position:absolute;">
                              <a href="#" ng-click="renderObjectAsType('MESH')">Show Mesh</a>
                              <a href="#" ng-click="renderObjectAsType('POINTCLOUD')">Show Pointcloud</a>
@@ -395,7 +388,8 @@
 
             <!-- Center Icon Group -->
             <div class="icongroup middle">
-                <a class="icon" tooltips title="Cancel Scan" ng-click="stopScan()" ng-if="('SCANNING' | currentState) || ('CALIBRATING' | currentState)"  href="#">
+
+                <a class="icon" tooltips title="Cancel Scan" ng-click="stopScan()" ng-if="(('SCANNING' | currentState) || ('CALIBRATING' | currentState))"  href="#">
                      <span  class="hvr-grow">
                          <i class="fa fa-close fa-3x"></i>
                      </span>

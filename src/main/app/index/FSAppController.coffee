@@ -82,6 +82,7 @@ angular.module(name, []).controller(name, [
       $scope.server_version = data['server_version']
       $scope.firmware_version = data['firmware_version']
 
+
       if data['upgrade']['available']
 
         toastr.info 'Click here for upgrade! ', 'Version '+data['upgrade']['version']+' now available', timeOut:0, closeButton:true,  onclick: ->
@@ -89,6 +90,9 @@ angular.module(name, []).controller(name, [
           return
 
       _settings = data['settings']
+
+      FSScanService.setStartTime(_settings.startTime)
+      $log.debug(_settings.startTime)
       _settings.resolution *=-1
       angular.copy(_settings, $scope.settings)
       FSScanService.setScannerState(data['state'])

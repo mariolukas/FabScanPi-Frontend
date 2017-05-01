@@ -10,6 +10,16 @@ angular.module(name, []).factory(name, [
 
     service.state = FSEnumService.states.IDLE
     service.scanId = null
+    service.startTime = null
+
+    service.initStartTime = ->
+      service.startTime = Date.now()
+
+    service.setStartTime = (time) ->
+      service.startTime = time
+
+    service.getStartTime = ->
+      service.startTime
 
     service.getScanId = () ->
       service.scanId
@@ -21,12 +31,14 @@ angular.module(name, []).factory(name, [
 
       service.state = FSEnumService.states.SCANNING
       service.setScanId(null)
+      service.initStartTime()
 
       message = {}
       message =
         event: FSEnumService.events.COMMAND
         data:
           command: FSEnumService.commands.START
+          startTime: service.getStartTime()
 
 
       FSMessageHandlerService.sendData(message)

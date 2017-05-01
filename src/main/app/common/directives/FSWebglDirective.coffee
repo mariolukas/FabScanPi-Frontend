@@ -387,8 +387,8 @@ angular.module(name,[]).directive("fsWebgl", [
               vertexColors : THREE.FaceColors
           )
           pointcloud = new (THREE.Points)(scope.objectGeometry, material)
-          pointcloud.position.set( 0, - 0.25, 0 );
           pointcloud.rotation.set( - Math.PI / 2, 0 , 0);
+
           #pointcloud.sortParticles = true
           scene.add(pointcloud)
 
@@ -442,10 +442,11 @@ angular.module(name,[]).directive("fsWebgl", [
         scope.scanComplete = false
         if (points.length > 0)
           if pointcloud
-            currentPointcloudAngle = pointcloud.rotation.y
+            currentPointcloudAngle = pointcloud.rotation.y+80
             scene.remove(pointcloud)
           else
-            currentPointcloudAngle = 90*(Math.PI/180)
+
+            currentPointcloudAngle = 90*(Math.PI/180)+80
 
           new_positions = new Float32Array(points.length*3)
           new_colors = new Float32Array(points.length*3)
@@ -453,7 +454,7 @@ angular.module(name,[]).directive("fsWebgl", [
           i = 0
           while i< points.length
               new_positions[3*i] = parseFloat(points[i]['x'])
-              new_positions[3*i+1] = parseFloat(points[i]['y']-0.5)
+              new_positions[3*i+1] = parseFloat(points[i]['y'])
               new_positions[3*i+2] = parseFloat(points[i]['z'])
 
               color = new THREE.Color("rgb("+points[i]['r']+","+points[i]['g']+","+points[i]['b']+")")
@@ -489,8 +490,8 @@ angular.module(name,[]).directive("fsWebgl", [
 
           scene.add(pointcloud)
 
-          #if pointcloud
-          #  pointcloud.rotation.y = currentPointcloudAngle -  scope.rad
+          if pointcloud
+            pointcloud.rotation.y +=  scope.rad
           #  $log.info currentPointcloudAngle - scope.rad
 
 
