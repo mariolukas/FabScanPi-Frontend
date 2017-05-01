@@ -121,7 +121,7 @@ angular.module(name, []).controller(name, [
     $scope.$on(FSEnumService.events.ON_INFO_MESSAGE, (event, data)->
 
       $log.info(data['message'])
-      message = FSi18nService.translateKey('main',data['message'])
+      message = FSi18nService.formatText('main.'+data['message'])
 
       switch data['level']
         when "info" then toastr.info(message,  { timeOut: 5000 })

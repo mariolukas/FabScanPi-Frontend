@@ -43,6 +43,7 @@ angular.module(name, []).factory(name, [
 
         socket.onmessage = (event) ->
             message = jQuery.parseJSON( event.data )
+            $log.info(message['data'])
             $rootScope.$broadcast(message['type'], message['data'])
 
       FSMessageHandlerService.sendData = (message) ->
