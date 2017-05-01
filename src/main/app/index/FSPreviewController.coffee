@@ -48,8 +48,8 @@ angular.module(name, []).controller(name, [
           $scope.showStream = true
 
         if data['message'] == 'START_CALIBRATION'
-          $scope.streamUrl = Configuration.installation.httpurl+'stream/textrue.mjpeg'
-          $scope.showStream = true
+          $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
+          $scope.showStream = false
 
         if data['message'] == 'FINISHED_CALIBRATION'
           $scope.showStream = false

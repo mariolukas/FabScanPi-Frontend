@@ -389,7 +389,6 @@ angular.module(name,[]).directive("fsWebgl", [
           pointcloud = new (THREE.Points)(scope.objectGeometry, material)
           pointcloud.position.set( 0, - 0.25, 0 );
           pointcloud.rotation.set( - Math.PI / 2, 0 , 0);
-          pointcloud.scale.set( 0.1, 0.1, 0.1 );
           #pointcloud.sortParticles = true
           scene.add(pointcloud)
 
