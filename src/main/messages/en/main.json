@@ -16,5 +16,7 @@
     "MESHING_DONE": "Meshed file is available now",
     "START_CALIBRATION": "Calibration started.",
     "FINISHED_CALIBRATION": "Calibration finished.",
-    "UPGRADE_IN_PROGRESS": "Upgrading software, please wait..."
+    "UPGRADE_IN_PROGRESS": "Upgrading software, please wait...",
+    "SCANNER_IN_CALIBRATION_MODE" :"Calibrating, please stand by...",
+    "STOPPED_CALIBRATION" : "Calibration stopped"
 }

@@ -31,11 +31,14 @@ angular.module(name, []).controller(name, [
     $scope.remainingTimeString = "0 minutes 0 seconds"
     #$scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
 
+    if FSScanService.getScannerState() is FSEnum.states.CALIBRATING
+        $scope.showStream = true
+
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
         if data['state'] == FSEnum.states.IDLE
           $scope.showStream = false
-        if data['state'] == FSEnum.states.CALIBRATING
-          $scope.showStream = true
+        #if data['state'] == FSEnum.states.CALIBRATING
+        #  $scope.showStream = true
     )
 
     $rootScope.$on('clearView', ()->
@@ -51,7 +54,7 @@ angular.module(name, []).controller(name, [
           $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
           $scope.showStream = true
 
-        if data['message'] == 'FINISHED_CALIBRATION'
+        if data['message'] == 'STOP_CALIBRATION'
           $scope.showStream = false
           $scope.streamUrl = ""
 

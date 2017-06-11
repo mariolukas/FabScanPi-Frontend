@@ -23,6 +23,7 @@ angular.module(name, []).controller(name, [
     $scope.firmware_version = undefined
     $scope.scanLoading = false
     $scope.appIsInitialized = false
+    $scope.isCalibrating = false
     $scope.appIsUpgrading = false
     $scope.isConnected = false
     $scope.initError = false
@@ -98,7 +99,7 @@ angular.module(name, []).controller(name, [
       FSScanService.setScannerState(data['state'])
       $scope.appIsUpgrading = data['state'] == FSEnumService.states.UPGRADING
       if data['state'] == FSEnumService.states.IDLE
-        $scope.showNews = true
+          $scope.displayNews(true)
       $log.debug("WebSocket connection ready...")
 
       #toastr.info(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
@@ -107,6 +108,9 @@ angular.module(name, []).controller(name, [
       $scope.$apply()
     )
 
+    $scope.displayNews = (value) ->
+      $scope.showNews = value
+
     $scope.$on(FSEnumService.events.ON_STATE_CHANGED, (event, data)->
       $scope.showNews = false
       $log.info "NEW STATE: "+data['state']
@@ -114,6 +118,10 @@ angular.module(name, []).controller(name, [
       $log.info data
       if data['state'] == FSEnumService.states.IDLE
         ngProgress.complete()
+      if data['state'] == FSEnumService.states.CALIBRATING
+        $scope.isCalibrating = true
+      else
+        $scope.isCalibrating = false
       #$scope.$broadcast('refreshSlider');
       $scope.$apply()
     )

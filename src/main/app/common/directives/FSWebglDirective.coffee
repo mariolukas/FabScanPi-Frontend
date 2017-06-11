@@ -71,14 +71,14 @@ angular.module(name, []).directive("fsWebgl", [
       )
 
       scope.$on(FSEnumService.events.ON_INFO_MESSAGE, (event, data) ->
-        if data['message'] == 'SCANNING_TEXTURE'
+        if data['message'] == 'SCANNING_TEXTURE' || data['message'] == 'START_CALIBRATION'
           scene.remove(turntable)
 
         if data['message'] == 'SCANNING_OBJECT'
           if not scene.getObjectByName('turntable')
             scene.add(turntable)
 
-        if data['message'] == 'SCAN_CANCELED'
+        if data['message'] == 'SCAN_CANCELED' || data['message'] == 'FINISHED_CALIBRATION'
           scope.clearView()
           if not scene.getObjectByName('turntable')
             scene.add(turntable)
@@ -431,7 +431,7 @@ angular.module(name, []).directive("fsWebgl", [
 
       scope.addPoints = (points, progress, resolution) ->
         scope.scanComplete = false
-        if (points.length > 0)
+        if points and (points.length > 0)
           if pointcloud
             currentPointcloudAngle = pointcloud.rotation.y + 80
             scene.remove(pointcloud)
@@ -534,8 +534,9 @@ angular.module(name, []).directive("fsWebgl", [
       # -----------------------------------
 
       scope.$watch "newPoints", (newValue, oldValue) ->
-        if newValue != oldValue
-          scope.addPoints newValue
+        if newValue != []
+          if newValue != oldValue
+            scope.addPoints newValue
 
         return
 

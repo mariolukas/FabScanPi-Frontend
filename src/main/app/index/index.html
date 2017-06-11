@@ -55,13 +55,14 @@
 							</div>
 					</div>
 			</div>
+
     <div id="top-bar">
 
     </div>
     <div ng-controller="fabscan.controller.FSScanController">
           <div class="header row" id="header">
           </div>
-           <div id="mainview"  class="row scroll-y">
+           <div id="mainview"  class="row scroll-y" ng-click="displayNews(false)">
           <!--     <div class="configWindow" ng-class="{'open':(configDialog)}">
                    <div ng-jsoneditor ng-model="obj.data" options="obj.options" style="width: 100%; height: 80%;"></div>
                    <a class="hvr-grow" style="margin-right: 13%; margin-top:0.2em; text-decoration:none; float:right; color:white; font-size:1.5em;" ng-click="hideConfigDialog()" href="#">Save & Restart</a>
@@ -69,11 +70,16 @@
                </div>
            -->
 					 <!-- News View -->
-							<!--<div class="newsWindow" ng-if="showNews" ng-class="{'open': showNews}">
+							<div class="newsWindow" ng-if="showNews" ng-class="{'open': showNews}">
+                                <div style="float:right; margin-bottom:0.3em;">
+                                    <span class="hvr-grow">
+                                        <i class="fa fa-close" ng-click="displayNews(false)"></i>
+                                    </span>
+                                </div>
 									<div ng-controller="fabscan.controller.FSNewsController" >
 											<div ng-bind-html="news"></div>
 									</div>
-							</div>-->
+							</div>
 
 								<!-- Settings View -->
                 <div class="settingsWindow" ng-class="{'open':('SETTINGS' | currentState)}">
@@ -108,7 +114,7 @@
                             <div>
                                 <div ng-class="{'fadeOut':!showThresholdValue}" class="slider-value-label">{{settings.threshold}}</div>
                                 <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Threshold</div>
-                                <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.threshold"></slider>
+                                <slider style="width:70%; margin-left:1em;" floor="0" ceiling="60" step="1" precision="1" ng-model="settings.threshold"></slider>
                             </div>
                             <div>
                                 <div ng-class="{'longFadeOut':!showResolutionValue}" class="slider-value-label" >{{settings.resolution | toResolutionValue }}</div>
@@ -370,8 +376,9 @@
 
                          </div>
                      </div>
-                     <div style="font-size:1.2em; color:darkslategrey;" ng-if="sampledRemainingTime > 0 && ('SCANNING' | currentState)"  class="timeRemaining">About {{remainingTimeString}} remaining</div>
-           </div>
+                     <div style="font-size:1.2em; color:white;" ng-if="sampledRemainingTime > 0 && (('SCANNING' | currentState) || isCalibrating)"  class="timeRemaining"><span ng-if="isCalibrating" text="main.SCANNER_IN_CALIBRATION_MODE"><br></span><br> About {{remainingTimeString}} remaining</div>
+
+                 </div>
 
         <div id="controlpanel" class="footer row" style="background-color: grey">
 

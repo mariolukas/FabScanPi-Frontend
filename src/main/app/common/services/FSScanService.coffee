@@ -32,6 +32,10 @@ angular.module(name, []).factory(name, [
       service.state = FSEnumService.states.SCANNING
       service.setScanId(null)
       service.initStartTime()
+      # FIXME: ( or find better solution )
+      # needed to be done here, cause raspberry has not a real time clock,
+      # when no internet connection is availabale on the fabscan the time
+      # will be set (default) to 1970, this leads to a wrong calculation...
 
       message = {}
       message =
@@ -97,10 +101,13 @@ angular.module(name, []).factory(name, [
 
     service.startCalibration = () ->
       message = {}
+      service.initStartTime()
+
       message =
         event: FSEnumService.events.COMMAND
         data:
           command: FSEnumService.commands.CALIBRATE
+          startTime: service.getStartTime()
 
       FSMessageHandlerService.sendData(message)
       $rootScope.$broadcast(FSEnumService.commands.CALIBRATE)

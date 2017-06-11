@@ -17,7 +17,7 @@ angular.module(name, []).factory(name, [
             host: 'fabscanpi.local'
             websocketurl: 'ws://fabscanpi.local:8010/'
             httpurl: 'http://fabscanpi.local:8080/'
-            newsurl: 'http://fabscanpi.local:8000/news/'
+            newsurl: 'http://mariolukas.github.io/FabScanPi-Server/news/'
       }
 
     else

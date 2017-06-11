@@ -29,7 +29,7 @@ angular.module(name, []).controller(name, [
     $scope.getScans = () ->
       scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
       scan_promise.then (payload) ->
-        $log.info payload
+        $log.debug payload
         $scope.raw_scans = payload.data.raw_scans
         $scope.meshes = payload.data.meshes
         $scope.settings = payload.data.settings
@@ -122,7 +122,6 @@ angular.module(name, []).controller(name, [
         return filename.split('.').pop()
 
     $scope.loadMesh = (mesh) ->
-        #do somethein
         extension = getFileExtension(mesh)
         if extension == 'stl'
           $scope.loadSTLMesh(mesh)

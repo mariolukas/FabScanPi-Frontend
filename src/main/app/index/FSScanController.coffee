@@ -75,6 +75,7 @@ angular.module(name, []).controller(name, [
         $scope.shareDialog = true
 
     $scope.toggleLoadDialog =  () ->
+      $scope.displayNews(false)
       if !$scope.loadDialog
         promise = $http.get(Configuration.installation.httpurl+'api/v1/scans')
         promise.then (payload) ->

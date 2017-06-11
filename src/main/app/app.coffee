@@ -33,6 +33,7 @@ mods = [
 
 	'ngSanitize'
 	'ngTouch'
+  'ngCookies'
 
 	'720kb.tooltips'
 	'ngProgress'
