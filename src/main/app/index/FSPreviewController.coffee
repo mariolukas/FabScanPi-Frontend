@@ -49,6 +49,7 @@ angular.module(name, []).controller(name, [
         if data['message'] == 'SCANNING_TEXTURE'
           $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
           $scope.showStream = true
+          $scope.$apply()
 
         if data['message'] == 'START_CALIBRATION'
           $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
@@ -61,6 +62,7 @@ angular.module(name, []).controller(name, [
         if data['message'] == 'SCANNING_OBJECT'
           $scope.showStream = false
           $scope.streamUrl = ""
+          $scope.$apply()
 
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])
@@ -108,7 +110,7 @@ angular.module(name, []).controller(name, [
 
               $scope.sampledRemainingTime = parseFloat(Math.floor(median(_time_values)))
 
-              if $scope.sampledRemainingTime >= 60
+              if $scope.sampledRemainingTime > 60
                   $scope.remainingTimeString =  parseInt($scope.sampledRemainingTime/60)+" minutes"
               else
                   $scope.remainingTimeString = ($scope.sampledRemainingTime)+" seconds"
