@@ -29,25 +29,6 @@ angular.module(name, []).controller(name, [
     $scope.startTime = null
     $scope.sampledRemainingTime = 0
     $scope.remainingTimeString = "0 minutes 0 seconds"
-    #$scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
-
-    if FSScanService.getScannerState() is FSEnum.states.CALIBRATING
-        $scope.showStream = true
-
-    $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
-        if data['state'] == FSEnum.states.IDLE
-          $scope.showStream = false
-        #if data['state'] == FSEnum.states.CALIBRATING
-        #  $scope.showStream = true
-    )
-
-    $rootScope.$on('clearView', ()->
-        $scope.clearView()
-    )
-
-    $scope.start_stream_conditions = ['SCANNING_TEXTURE', 'START_CALIBRATION']
-    $scope.stop_stream_conditions = ['STOP_CALIBRATION', 'SCANNING_OBJECT']
-    $scope.reset_conditions = ['SCAN_CANCELED', 'SCAN_STOPED']
 
     stopStream = () ->
       $scope.showStream = false
@@ -65,6 +46,24 @@ angular.module(name, []).controller(name, [
       $scope.startTime = null
       $scope.progress = 0
       $scope.sampledRemainingTime = 0
+      $scope.$apply()
+
+    if FSScanService.getScannerState() is FSEnum.states.CALIBRATING
+        $scope.showStream = true
+
+    $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
+        if data['state'] == FSEnum.states.IDLE
+          stopStream()
+    )
+
+    $rootScope.$on('clearView', ()->
+        $scope.clearView()
+    )
+
+    $scope.start_stream_conditions = ['SCANNING_TEXTURE', 'START_CALIBRATION']
+    $scope.stop_stream_conditions = ['STOP_CALIBRATION', 'SCANNING_OBJECT']
+    $scope.reset_conditions = ['SCAN_CANCELED', 'SCAN_STOPED']
+
 
     $scope.$on(FSEnum.events.ON_INFO_MESSAGE, (event, data) ->
         if data['message'] in $scope.start_stream_conditions
@@ -73,12 +72,12 @@ angular.module(name, []).controller(name, [
         if data['message'] in $scope.stop_stream_conditions
           stopStream()
 
+        if data['message'] in $scope.reset_conditions
+          resetSate()
+
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])
           $scope.setScanIsComplete(true)
-          resetSate()
-
-        if data['message'] in $scope.reset_conditions
           resetSate()
     )
 
@@ -136,7 +135,6 @@ angular.module(name, []).controller(name, [
       percentage = item.loaded/item.total*100
       ngProgress.set(percentage)
 
-      #toastr.info("Loading Scan "+item.loaded)
       if (item.loaded == item.total)
 
         $scope.progress = 0

@@ -21,8 +21,6 @@ angular.module(name, []).controller(name, [
     $scope.scans = []
     $scope.m_filters = []
 
-
-
     $scope.loadFilters = () ->
 
       filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters')
