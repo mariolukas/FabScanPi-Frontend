@@ -364,7 +364,6 @@ angular.module(name, []).directive("fsWebgl", [
 
         mesh.position.set(0, -0.25, 0);
         mesh.rotation.set(-Math.PI / 2, 0, 0);
-        mesh.scale.set(0.1, 0.1, 0.1);
 
         if meshFormat == 'stl'
           mesh.castShadow = true;
@@ -400,7 +399,7 @@ angular.module(name, []).directive("fsWebgl", [
         loader = new THREE.STLLoader();
 
         loader.load file, (objectGeometry) ->
-#scene.add( new THREE.Mesh( geometry ) )
+          #scene.add( new THREE.Mesh( geometry ) )
           scope.objectGeometry = objectGeometry
           if file.indexOf("mesh") > -1
             scope.renderMesh('stl')
@@ -433,17 +432,17 @@ angular.module(name, []).directive("fsWebgl", [
         scope.scanComplete = false
         if points and (points.length > 0)
           if pointcloud
-            currentPointcloudAngle = pointcloud.rotation.y + 80
+            currentPointcloudAngle = pointcloud.rotation.y
             scene.remove(pointcloud)
           else
-            currentPointcloudAngle = 90 * (Math.PI / 180) + 80
+            currentPointcloudAngle = 90 * (Math.PI / 180)
 
           new_positions = new Float32Array(points.length * 3)
           new_colors = new Float32Array(points.length * 3)
 
           i = 0
           while i < points.length
-            new_positions[3 * i] = parseFloat(points[i]['x'])
+            new_positions[3 * i] = parseFloat(points[i]['x']*-1)
             new_positions[3 * i + 1] = parseFloat(points[i]['y'])
             new_positions[3 * i + 2] = parseFloat(points[i]['z'])
 
@@ -468,12 +467,13 @@ angular.module(name, []).directive("fsWebgl", [
           if !pointcloud
             material = new THREE.PointsMaterial({size: 0.5, vertexColors: THREE.VertexColors})
             pointcloud = new THREE.Points(geometry, material)
+
           else
             pointcloud.geometry.dispose()
             pointcloud.geometry = geometry
 
 
-          degree = 360 / resolution
+          degree = (360 / resolution)
           $log.info degree
           scope.rad = degree * (Math.PI / 180)
 
@@ -481,7 +481,7 @@ angular.module(name, []).directive("fsWebgl", [
           scene.add(pointcloud)
 
           if pointcloud
-            pointcloud.rotation.y += scope.rad
+            pointcloud.rotation.y = scope.rad
       #  $log.info currentPointcloudAngle - scope.rad
 
 

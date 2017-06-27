@@ -45,42 +45,41 @@ angular.module(name, []).controller(name, [
         $scope.clearView()
     )
 
+    $scope.start_stream_conditions = ['SCANNING_TEXTURE', 'START_CALIBRATION']
+    $scope.stop_stream_conditions = ['STOP_CALIBRATION', 'SCANNING_OBJECT']
+    $scope.reset_conditions = ['SCAN_CANCELED', 'SCAN_STOPED']
+
+    stopStream = () ->
+      $scope.showStream = false
+      $scope.streamUrl = ""
+      $scope.$apply()
+
+    startStream = () ->
+      $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
+      $scope.showStream = true
+      $scope.$apply()
+
+    resetSate = () ->
+      $scope.remainingTime = []
+      $scope.showStream = false
+      $scope.startTime = null
+      $scope.progress = 0
+      $scope.sampledRemainingTime = 0
+
     $scope.$on(FSEnum.events.ON_INFO_MESSAGE, (event, data) ->
-        if data['message'] == 'SCANNING_TEXTURE'
-          $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
-          $scope.showStream = true
-          $scope.$apply()
+        if data['message'] in $scope.start_stream_conditions
+          startStream()
 
-        if data['message'] == 'START_CALIBRATION'
-          $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
-          $scope.showStream = true
-
-        if data['message'] == 'STOP_CALIBRATION'
-          $scope.showStream = false
-          $scope.streamUrl = ""
-
-        if data['message'] == 'SCANNING_OBJECT'
-          $scope.showStream = false
-          $scope.streamUrl = ""
-          $scope.$apply()
+        if data['message'] in $scope.stop_stream_conditions
+          stopStream()
 
         if data['message'] == 'SCAN_COMPLETE'
           FSScanService.setScanId(data['scan_id'])
           $scope.setScanIsComplete(true)
-          $scope.showStream = false
-          $scope.remainingTime = []
-          $scope.startTime = null
-          $scope.sampledRemainingTime = 0
-          $scope.progress = 0
-          #if ngProgress.status() == 100
-          #  ngProgress.complete()
+          resetSate()
 
-        if data['message'] == 'SCAN_CANCELED' || data['message'] == 'SCAN_STOPED'
-          $scope.remainingTime = []
-          $scope.showStream = false
-          $scope.startTime = null
-          $scope.progress = 0
-          $scope.sampledRemainingTime = 0
+        if data['message'] in $scope.reset_conditions
+          resetSate()
     )
 
 
@@ -110,7 +109,7 @@ angular.module(name, []).controller(name, [
 
               $scope.sampledRemainingTime = parseFloat(Math.floor(median(_time_values)))
 
-              if $scope.sampledRemainingTime > 60
+              if $scope.sampledRemainingTime >= 60
                   $scope.remainingTimeString =  parseInt($scope.sampledRemainingTime/60)+" minutes"
               else
                   $scope.remainingTimeString = ($scope.sampledRemainingTime)+" seconds"
