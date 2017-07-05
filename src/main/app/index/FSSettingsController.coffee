@@ -49,12 +49,14 @@ angular.module(name, []).controller(name, [
           $scope.showLaserPreview()
 
       $scope.showCalibrationPreview = () ->
-         $scope.streamUrl = Configuration.installation.httpurl+'stream/calibration.mjpeg'
+         $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
          $scope.previewMode = "calibration"
+         $scope.$apply()
 
       $scope.showLaserPreview = () ->
          $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
          $scope.previewMode = "laser"
+         $scope.$apply()
 
       $scope.setColor = () ->
           updateSettings()
