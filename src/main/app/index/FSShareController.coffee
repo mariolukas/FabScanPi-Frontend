@@ -23,7 +23,7 @@ angular.module(name, []).controller(name, [
     #$scope.m_filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
 
 
-    $scope.file_formats = ['stl','ply','obj']
+    $scope.file_formats = ['ply','stl','obj','off','xyz','x3d','3ds']
     $scope.selectedFormat = $scope.file_formats[0]
 
     $scope.getScans = () ->
