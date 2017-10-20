@@ -54,6 +54,7 @@ angular.module(name, []).controller(name, [
     $scope.scanIsLoaded = () ->
       return $scope.scanLoaded
 
+
     $scope.scanDataIsAvailable = ()->
        if $scope.scanLoaded
           $log.info "scan loaded"
@@ -65,6 +66,7 @@ angular.module(name, []).controller(name, [
 
     $scope.upgradeServer = () ->
       FSScanService.upgradeServer()
+
 
     $scope.$on("CONNECTION_STATE_CHANGED", (event, connected) ->
         $log.info("Connected")

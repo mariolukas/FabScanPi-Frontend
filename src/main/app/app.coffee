@@ -30,6 +30,7 @@ mods = [
   'fabscan.controller.FSScanController'
 	'fabscan.controller.FSLoadingController'
 	'fabscan.controller.FSShareController'
+  'fabscan.controller.FSConfigController'
 
 	'ngSanitize'
 	'ngTouch'

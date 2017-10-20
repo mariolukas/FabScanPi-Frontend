@@ -59,7 +59,7 @@ angular.module(name, []).controller(name, [
       FSScanService.stopScan()
 
     $scope.showConfigDialog = () ->
-      $log.debug("Open Config Dialog")
+      $log.info("Open Config Dialog")
       $scope.configDialog = true
 
     $scope.hideConfigDialog = () ->
@@ -72,7 +72,7 @@ angular.module(name, []).controller(name, [
         $scope.loadDialog = false
         $scope.shareDialog = true
 
-    $scope.toggleLoadDialog =  () ->
+    $scope.toggleLoadDialog = () ->
       $scope.displayNews(false)
       if !$scope.loadDialog
         promise = $http.get(Configuration.installation.httpurl+'api/v1/scans')
@@ -91,6 +91,7 @@ angular.module(name, []).controller(name, [
     $scope.exitScanSettings = () ->
       $scope.stopStream()
       $scope.showSettings = false
+      $scope.configDialog = false
       #window.stop()
       FSScanService.exitScan()
 
