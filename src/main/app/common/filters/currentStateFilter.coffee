@@ -10,9 +10,11 @@ angular.module(name, []).filter('currentState', [
   '$log'
   'fabscan.services.FSScanService'
   ($log, FSScanService) ->
-    (state) ->
-      if state == FSScanService.getScannerState()
-        return true
-      else
-        return false
+
+    customFilter = (input) ->
+
+      return ( input is FSScanService.getScannerState() )
+
+    customFilter.$stateful = true
+    customFilter
 ])

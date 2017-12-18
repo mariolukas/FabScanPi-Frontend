@@ -142,6 +142,7 @@ angular.module(name, []).factory(name, [
 
     service.setScannerState = (state) ->
       service.state = state
+      $rootScope.$broadcast('stateChanged', service.state)
 
     service.getSettings = () ->
        message = {}

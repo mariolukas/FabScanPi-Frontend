@@ -142,11 +142,13 @@ module.exports = (grunt)->
 				src: [
             "#{STAGE_DIR}/lib/jquery/jquery-1.11.1.js",
             "#{STAGE_DIR}/lib/angular/angular.js",
+						"#{STAGE_DIR}/lib/threejs/angular-material.js",
 						"#{STAGE_DIR}/lib/slick/slick.js",
 						"#{STAGE_DIR}/lib/angular-slick/slick.js",
             "#{STAGE_DIR}/lib/threejs/three.js",
             "#{STAGE_DIR}/lib/threejs/TrackballControls.js",
             "#{STAGE_DIR}/lib/**/*.js"
+
         ]
 				dest: "#{BUILD_MAIN_DIR}/js/lib.js"
 			lib_test_js:

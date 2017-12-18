@@ -105,17 +105,35 @@ angular.module(name, []).directive("fsWebgl", [
         camera.position.z = 180;
         camera.position.y = 40;
 
+        #circumference = 2360.0;
+        #radius = circumference / 3.14 / 2;
+        #height = 100;
+        #geometry = new THREE.CylinderGeometry( radius, radius, height, 60, 1, true );
+        #geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+
+        #material = new (THREE.MeshBasicMaterial)(
+        #  transparent: true
+        #  side: THREE.DoubleSide
+        #  map: THREE.ImageUtils.loadTexture('icons/skyline.png'))
+
+        #mesh = new THREE.Mesh( geometry, material );
+
 
         #this.triDViewer.addToScene( turnTable, "helpers"  )
         # Scene
         scene = new THREE.Scene()
         scene.fog = new THREE.Fog(0x72645b, 200, 600)
+        groundGeometry = new (THREE.PlaneGeometry)(1200, 1200, 1, 1)
+        plane = new (THREE.Mesh)(groundGeometry, new (THREE.MeshLambertMaterial)(color: 0x9669FE))
+        #scene.add( mesh );
+
+        gridHelper = new (THREE.GridHelper)(500, 30)
+      # 500 is grid size, 20 is grid step
+        gridHelper.position = new (THREE.Vector3)(0, 0, 0)
+        gridHelper.rotation = new (THREE.Euler)(0, 0, 0)
+        scene.add gridHelper
 
 
-        plane = new THREE.Mesh(
-          new THREE.PlaneBufferGeometry(2000, 2000),
-          new THREE.MeshPhongMaterial({ambient: 0x999999, color: 0x999999, specular: 0x101010})
-        )
         plane.rotation.x = -Math.PI / 2;
         #thickness of turntable
         plane.position.y = -turntable_thickness;
@@ -162,7 +180,9 @@ angular.module(name, []).directive("fsWebgl", [
 
 
         geometry = new THREE.CylinderGeometry(turntable_radius, turntable_radius, turntable_thickness, 32);
-        material = new THREE.MeshPhongMaterial({color: 0xd3d2c9});
+        material = new THREE.MeshPhongMaterial({color: 0x777777});
+
+
         turntable = new THREE.Mesh(geometry, material)
         turntable.name = "turntable"
         scene.add(turntable)

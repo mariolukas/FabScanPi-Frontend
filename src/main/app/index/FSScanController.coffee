@@ -21,6 +21,13 @@ angular.module(name, []).controller(name, [
     $scope.scans = []
     $scope.m_filters = []
 
+    $scope.currentState = undefined
+
+    $scope.$on('stateChanged', (event) ->
+
+        $log.debug("Event:"+event)
+    )
+
     $scope.loadFilters = () ->
 
       filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters')
@@ -96,12 +103,14 @@ angular.module(name, []).controller(name, [
       FSScanService.exitScan()
 
     $scope.newScan = () ->
+
       if $scope.loadDialog
         $scope.toggleLoadDialog()
       if $scope.shareDialog
         $scope.toggleShareDialog()
       $scope.showSettings = true
       FSScanService.startSettings()
+
 
     $scope.stopStream = () ->
       $scope.streamUrl = " "
