@@ -3,31 +3,32 @@ name = 'fabscan.controller.FSAppController'
 angular.module(name, []).controller(name, [
 	'$log',
 	'$scope',
+  '$rootScope',
   '$timeout',
   '$http',
-  '$rootScope',
-  'ngProgress'
-  'common.services.toastrWrapperSvc'
-  'fabscan.services.FSMessageHandlerService'
-  'fabscan.services.FSEnumService'
-  'fabscan.services.FSScanService'
-  'fabscan.services.FSi18nService'
-	($log, $scope, $timeout, $http, $rootScope,ngProgress, toastr , FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
+  '$mdToast',
+  'common.services.FSToasterService',
+  'fabscan.services.FSMessageHandlerService',
+  'fabscan.services.FSEnumService',
+  'fabscan.services.FSScanService',
+  'fabscan.services.FSi18nService',
+	($log, $scope, $rootScope, $timeout, $http, $mdToast, toastr , FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
 
     $scope.streamUrl = " "
-    $scope.settings = {}
-    $scope.scanComplete = false
-    $scope.scanLoaded = false
+    $rootScope.settings = {}
+
     $scope.remainingTime = []
     $scope.server_version = undefined
     $scope.firmware_version = undefined
-    $scope.scanLoading = false
+
     $scope.appIsInitialized = false
     $scope.isCalibrating = false
     $scope.appIsUpgrading = false
     $scope.isConnected = false
     $scope.initError = false
-    $scope.closeSheet = true
+
+    $scope.showProgressBar= false
+
 
     $timeout (->
       $scope.appInitError()
@@ -36,24 +37,6 @@ angular.module(name, []).controller(name, [
 
     $scope.appInitError = () ->
       $scope.initError = true
-
-    $scope.scanIsComplete = () ->
-      return $scope.scanComplete
-
-    $scope.setScanIsComplete = (value) ->
-      $scope.scanComplete = value
-
-    $scope.setScanIsLoading = (value) ->
-      $scope.scanLoading = value
-
-    $scope.scanIsLoading = () ->
-      return $scope.scanLoading
-
-    $scope.setScanLoaded = (value) ->
-      $scope.scanLoaded = value
-
-    $scope.scanIsLoaded = () ->
-      return $scope.scanLoaded
 
 
     $scope.scanDataIsAvailable = ()->
@@ -94,11 +77,11 @@ angular.module(name, []).controller(name, [
           return
 
       _settings = data['settings']
-
+      $log.info("Settings :"+_settings)
       FSScanService.setStartTime(_settings.startTime)
-      $log.debug(_settings.startTime)
+      $log.info(_settings.startTime)
       _settings.resolution *=-1
-      angular.copy(_settings, $scope.settings)
+      angular.copy(_settings, $rootScope.settings)
       FSScanService.setScannerState(data['state'])
       $scope.appIsUpgrading = data['state'] == FSEnumService.states.UPGRADING
       if data['state'] == FSEnumService.states.IDLE
@@ -111,6 +94,7 @@ angular.module(name, []).controller(name, [
     )
 
     $scope.displayNews = (value) ->
+      #TODO: Trigger news Dialog here !
       $scope.showNews = value
 
     $scope.$on(FSEnumService.events.ON_STATE_CHANGED, (event, data)->
@@ -119,7 +103,7 @@ angular.module(name, []).controller(name, [
       FSScanService.setScannerState(data['state'])
 
       if data['state'] == FSEnumService.states.IDLE
-        ngProgress.complete()
+          $scope.showProgressBar= false
       if data['state'] == FSEnumService.states.CALIBRATING
         $scope.isCalibrating = true
       else
@@ -132,17 +116,9 @@ angular.module(name, []).controller(name, [
 
       $log.info(data['message'])
       message = FSi18nService.formatText('main.'+data['message'])
-
-      switch data['level']
-        when "info" then toastr.info(message,  { timeOut: 5000 })
-        when "warn" then toastr.warning(message)
-        when "error" then toastr.error(message, { timeOut: 0 })
-        when "success" then toastr.success(message)
-        else toastr.info(message)
-
+      toastr.show(message, data['level'])
       $scope.$apply()
     )
-
 
 
     FSMessageHandlerService.connectToScanner($scope)

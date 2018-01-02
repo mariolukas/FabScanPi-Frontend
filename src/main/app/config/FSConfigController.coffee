@@ -5,10 +5,13 @@ angular.module(name, []).controller(name, [
   '$scope',
   '$interval',
   '$http',
+  '$mdDialog',
   'common.services.Configuration'
   'fabscan.services.FSEnumService',
+  'fabscan.services.FSScanService',
+  'fabscan.services.FSWebGlService',
   'fabscan.services.FSMessageHandlerService',
-  ($log, $scope, $interval, $http, Configuration ,FSEnumService, FSMessageHandlerService) ->
+  ($log, $scope, $interval, $http, $mdDialog, Configuration ,FSEnumService, FSScanService, FSWebGlService, FSMessageHandlerService) ->
 
     #$scope.devices = {}
     $scope.wifi_list=[]
@@ -119,8 +122,19 @@ angular.module(name, []).controller(name, [
 
           FSMessageHandlerService.sendData(message)
 
+    $scope.startCalibration = () ->
+      FSWebGlService.clearView()
+      FSWebGlService.scansLoaded = false
+      FSScanService.startCalibration()
+      $scope.closeDialog()
+      $scope.$applyAsync()
+
     $scope.$on '$destroy', ->
       $interval.cancel  $scope.wifi_lookup_interval
       return
+
+    $scope.closeDialog = ->
+      $log.debug("Canel pressed")
+      $mdDialog.cancel()
 
 ])

@@ -1,0 +1,47 @@
+<md-dialog aria-label="Scan Gallery" style="min-width:500px;" ng-controller="fabscan.controller.FSScanGalleryController">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Scan Gallery</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="closeDialog()">
+                    <md-icon md-font-icon="fa fa-close fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="min-width:500px; max-width:800px; max-height:810px;" layout="row" layout-sm="column">
+            <div ng-show="galleryIsLoading" layout="row" layout-sm="column" layout-align="space-around">
+                <!--<md-progress-circular  md-mode="indeterminate" layout-align="center center"></md-progress-circular>-->
+
+                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                <p style="text-align:center;">Loading Scan Gallery... </p>
+            </div>
+            <div class='md-padding' layout="row" layout-wrap>
+                <md-card style="width: 300px;" ng-repeat="scan in scans">
+                    <img src="{{scan.thumbnail}}" class="md-card-image" alt="scan {{scan.id}}">
+                    <md-card-content>
+                        <h2>{{scan.id | toLabel}}</h2>
+                    </md-card-content>
+                    <div class="md-actions" layout="row" layout-align="end center">
+                        <md-button ng-click="loadPointCloud(scan.pointcloud, scan.id)">Load</md-button>
+                    </div>
+                </md-card>
+            </div>
+
+        </md-dialog-content>
+     <!--
+        <md-dialog-actions layout="row">
+            <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
+                More on Wikipedia
+            </md-button>
+            <span flex></span>
+            <md-button ng-click="answer('not useful')" >
+                Not Useful
+            </md-button>
+            <md-button ng-click="answer('useful')" style="margin-right:20px;" >
+                Useful
+            </md-button>
+        </md-dialog-actions>
+        -->
+    </form>
+</md-dialog>

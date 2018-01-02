@@ -22,7 +22,7 @@ module.exports = (grunt)->
 	BUILD_TEST_DIR =             "#{BUILD_DIR}/test"
 
 	# index.html is special, since it should be moved out of the index view and into the root
-	SRC_INDEX_HTML =             "#{STAGE_APP_DIR}/index/index.html"
+	SRC_INDEX_HTML =             "#{STAGE_APP_DIR}/index/view/index.html"
 	DEST_INDEX_HTML =            "#{BUILD_MAIN_DIR}/index.html"
 
 

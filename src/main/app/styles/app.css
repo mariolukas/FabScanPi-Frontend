@@ -1,0 +1,265 @@
+* {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    outline:none;
+}
+
+.footer {
+     position: fixed;
+     bottom: 0px;
+     width:100%;
+}
+
+.top-toolbar{
+    position:fixed;
+    top:0px;
+    z-index: 70;
+}
+
+div > canvas{
+    position: fixed;
+    top: 0px;
+}
+
+.md-50 {
+    font-size: 1.5em;
+}
+
+
+
+md-button[disabled] ng-md-icon svg > g {
+    fill: rgba(0, 0, 0, 0.26);
+}
+
+md-button[disabled] ng-md-icon svg  {
+    fill: rgba(0, 0, 0, 0.26);
+}
+
+.texture-preview {
+    z-index: 70;
+    height: 35em;
+}
+
+.texture-preview img {
+
+
+    opacity: 0.6;
+    border-radius: 70px;
+    /* -webkit-mask-box-image: -webkit-linear-gradient(left,transparent, transparent 15%, white 50%, white 50%, transparent 85%);*/
+    -webkit-mask-box-image: -webkit-radial-gradient(white, transparent 69%);
+    display: block;
+    margin: 0 auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin-top: 12%;
+}
+
+ng-md-icon[disabled] svg {
+    fill: rgba(0, 0, 0, 0.26);
+}
+
+ng-md-icon[disabled] svg > g {
+    fill: rgba(0, 0, 0, 0.26);
+}
+
+*[disabled] svg > g {
+    fill: rgba(0, 0, 0, 0.26);
+}
+
+.fabscan-icon > svg{
+    fill: white;
+}
+
+
+.fabscan-icon > svg > g{
+    fill: white;
+}
+
+.fabscan-icon:disabled > svg{
+    fill: #3b3b3b;
+}
+
+
+.fabscan-icon:disabled > svg > g{
+    fill: #3b3b3b;
+}
+
+
+
+.progressbox {
+    display: block;
+    position: relative;
+    width: 80%;
+    border: 2px solid #aad1f9;
+    transition: opacity  0.1s linear;
+    border-top: 0px;
+
+}
+
+.progressbox .bottom-block {
+    display: block;
+    position: relative;
+    background-color: rgba(255, 235, 169, 0.25);
+    height: 85px;
+    width: 100%; }
+
+.fa-md {
+    height: auto;
+}
+
+.toast {
+    opacity: 1 !important;
+}
+
+.toast-top-right{
+    margin-top: 50px;
+}
+
+md-toast {
+    z-index:100;
+
+}
+
+md-toast.error .md-toast-content {
+    background-color: green;
+    color: white;
+    width: 300px;
+    right: 0.5em;
+    top: 4.8em;
+}
+
+md-toast.success .md-toast-content {
+    background-color: green;
+    color: white;
+    width: 25em;
+    right: 0.5em;
+    top: 4.2em;
+    position: fixed;
+}
+
+md-toast.info .md-toast-content {
+    background-color: green;
+    color: white;
+    width: 25em;
+    right: 0.5em;
+    top: 4.2em;
+    position: fixed;
+}
+
+md-toast.warn .md-toast-content {
+    background-color: maroon;
+    color: white;
+    width: 25em;
+    right: 0.5em;
+    top: 4.2em;
+    position: fixed;
+}
+
+/*
+
+@media (max-width:959px) {
+    md-toast {
+        bottom: unset !important;
+    }
+}
+*/
+
+
+.wifi-quality-1{
+    overflow:hidden; width:0.4em;
+}
+
+.wifi-quality-2{
+    overflow:hidden; width:0.6em;
+}
+
+.wifi-quality-3{
+    overflow:hidden; width:0.8em;
+}
+
+.wifi-quality-4{
+    overflow:hidden; width:0.10em;
+}
+
+/* BEGIN left toolbar */
+
+@keyframes show-left-toolbar {
+    from {
+        width: 50px;
+    } to {
+          width: 0;
+      }
+}
+@keyframes hide-left-toolbar {
+    from {
+        width: 0px;
+    } to {
+          width: 50px;
+      }
+}
+
+.animate-show-hide.ng-hide {
+    animation: 0.5s show-left-toolbar;
+}
+.animate-show-hide.ng-hide-remove {
+    animation: 0.5s hide-left-toolbar;
+}
+/* END left TOolbar */
+
+/*
+md-sidenav,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 90% !important;
+    width: 100vw !important;
+    max-width: 600px !important;
+}
+*/
+
+
+.context-icons{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 4em 1.3em 1em 0em;
+    display: inline-flex;
+        vertical-align: middle;
+}
+
+.fs-sheet{
+    padding: 8px 0px 88px;
+}
+
+.listOfScans {
+    height: 0px;
+    width: 100%;
+    bottom: 60px;
+    position: fixed;
+    left: 0px;
+    background-color: rgba(53, 53, 53, 0.5);
+    transition: height 0.3s;
+}
+
+#vericalToolBar {
+    width: 50px;
+}
+
+
+
+#vericalToolBar md-icon {
+    color: rgba(255,255,255,0.87);
+}
+
+#toolBarTitle {
+    writing-mode: tb-rl;
+    color: rgba(255,255,255,0.87);
+}
+
+.wifi-circular{
+    position: absolute;
+    display: block;
+    top: 2em;
+    right: 0.5em;
+}

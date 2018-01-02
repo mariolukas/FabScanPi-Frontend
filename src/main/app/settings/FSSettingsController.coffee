@@ -3,13 +3,14 @@ name = "fabscan.controller.FSSettingsController"
 angular.module(name, []).controller(name, [
   '$log',
   '$scope',
+  '$rootScope',
   '$timeout',
-  '$mdBottomSheet',
+  '$mdDialog',
   'common.services.Configuration'
   'fabscan.services.FSEnumService',
   'fabscan.services.FSMessageHandlerService',
   'fabscan.services.FSScanService'
-  ($log, $scope, $timeout, $mdBottomSheet, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
+  ($log, $scope, $rootScope, $timeout, $mdDialog, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
 
       #if FSScanService.getScannerState() == FSEnumService.states.UPDATING_SETTINGS
       $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
@@ -17,6 +18,17 @@ angular.module(name, []).controller(name, [
       $scope.previewMode = "laser"
       $scope.selectedTab = 'general'
 
+      $log.info($rootScope.settings)
+      $scope.settings = $rootScope.settings
+
+      FSScanService.startSettings()
+
+      $scope.startScan = () ->
+
+        FSScanService.setScanIsComplete(false)
+        $scope.showProgressBar = true
+        $mdDialog.cancel()
+        FSScanService.startScan()
 
       $scope.openBottomSheet = ->
         $mdBottomSheet.show(
@@ -29,11 +41,14 @@ angular.module(name, []).controller(name, [
           return
         return
 
+      #FSScanService.updateSettings(_settings)
       $scope.timeout = null
 
       updateSettings = ->
+
+        $log.info("Changed Settinsg")
         _settings = {}
-        angular.copy($scope.settings,_settings)
+        angular.copy($rootScope.settings, _settings)
         _settings.resolution *=-1
         FSScanService.updateSettings(_settings)
 
@@ -72,7 +87,7 @@ angular.module(name, []).controller(name, [
           updateSettings()
 
       $scope.colorIsSelected = () ->
-          if $scope.settings.color == "True"
+          if $rootScope.settings.color == "True"
             return true
           else
             return false
@@ -195,5 +210,10 @@ angular.module(name, []).controller(name, [
           ),  200)
 
       , true)
+
+      $scope.closeDialog = ->
+        FSScanService.stopScan()
+        $log.debug("Canel pressed")
+        $mdDialog.cancel()
 
 ])

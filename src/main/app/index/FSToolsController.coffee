@@ -1,4 +1,4 @@
-name = "fabscan.controller.FSShareController"
+name = "fabscan.controller.FSToolsController"
 
 angular.module(name, []).controller(name, [
   '$log',
@@ -6,10 +6,10 @@ angular.module(name, []).controller(name, [
   '$rootScope',
   '$http',
   'common.services.toastrWrapperSvc',
-  'common.services.Configuration'
-  'fabscan.services.FSScanService'
-  ($log, $scope, $rootScope, $http, toaster, Configuration, FSScanService) ->
-
+  'common.services.Configuration',
+  'fabscan.services.FSScanService',
+  'fabscan.services.FSWebGlService',
+  ($log, $scope, $rootScope, $http, toaster, Configuration, FSScanService, FSWebGlService) ->
 
     $scope.settings = null
     $scope.id = FSScanService.getScanId()
@@ -22,7 +22,7 @@ angular.module(name, []).controller(name, [
     #$scope.meshes = [{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'}]
     #$scope.m_filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
 
-
+    $log.info(FSWebGlService.loadedFile)
     $scope.file_formats = ['ply','stl','obj','off','xyz','x3d','3ds']
     $scope.selectedFormat = $scope.file_formats[0]
 
@@ -106,13 +106,15 @@ angular.module(name, []).controller(name, [
         FSScanService.setScanId(null)
         $rootScope.$broadcast('clearView')
 
-    $scope.loadPointCloud = (pointcloud) ->
+    $scope.loadPointCloud = (filename) ->
+        $scope.loadedFile = filename
         $scope.toggleShareDialog()
         $scope.scanComplete = false
         toastr.info("Loading file...")
-        $scope.loadPLY(pointcloud)
+        $scope.loadPLY(filename)
 
     $scope.loadSTLMesh = (filename) ->
+        $scope.loadedFile = filename
         $scope.toggleShareDialog()
         $scope.scanComplete = false
         toastr.info("Loading file...")

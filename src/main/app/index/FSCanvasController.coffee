@@ -1,15 +1,15 @@
-name = "fabscan.controller.FSPreviewController"
+name = "fabscan.controller.FSCanvasController"
 
 angular.module(name, []).controller(name, [
   '$log',
   '$scope',
   '$rootScope',
   '$http',
-  'ngProgress',
-  'common.services.Configuration'
-  'fabscan.services.FSEnumService'
-  'fabscan.services.FSScanService'
-  ($log, $scope,$rootScope,$http, ngProgress, Configuration, FSEnum, FSScanService ) ->
+  'common.services.Configuration',
+  'fabscan.services.FSEnumService',
+  'fabscan.services.FSScanService',
+  'fabscan.services.FSWebGlService',
+  ($log, $scope,$rootScope,$http, Configuration, FSEnum, FSScanService, FSWebGlService ) ->
 
     $scope.canvasWidth = 400
     $scope.canvasHeight = 500
@@ -20,6 +20,8 @@ angular.module(name, []).controller(name, [
     $scope.resolution = null
     $scope.progress = null
     $scope.newPoints = null
+    $scope.progressValue = 0
+    previous_percentage = 0
 
     $scope.loadPLY = null
     $scope.loadSTL = null
@@ -29,6 +31,9 @@ angular.module(name, []).controller(name, [
     $scope.startTime = null
     $scope.sampledRemainingTime = 0
     $scope.remainingTimeString = "0 minutes 0 seconds"
+
+    $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
+
 
     stopStream = () ->
       $scope.showStream = false
@@ -114,7 +119,9 @@ angular.module(name, []).controller(name, [
                   $scope.remainingTimeString = ($scope.sampledRemainingTime)+" seconds"
 
               $log.debug percentage.toFixed(2) + "% complete"
-              ngProgress.set(percentage)
+
+              $scope.progressValue = percentage
+              $scope.$applyAsync()
 
             if percentage >= 98
               $scope.sampledRemainingTime = 0
@@ -128,22 +135,33 @@ angular.module(name, []).controller(name, [
 
     $scope.progressHandler = (item) ->
 
+
       if $scope.progress == 0
-        ngProgress.start()
+        #ngProgress.start()
+        $scope.showProgressBar = true
         $scope.progress = item.total
+        previous_percentage = 0
 
       percentage = item.loaded/item.total*100
-      ngProgress.set(percentage)
+
+      $scope.progressValue = percentage
+
 
       if (item.loaded == item.total)
 
         $scope.progress = 0
-        ngProgress.complete()
+        $scope.showProgressBar = false
+        $scope.progressValue = 0
         percentage = 0
-        $scope.setScanIsLoading(false)
-        $scope.setScanLoaded(true)
+        previous_percentage = 0
 
-        $scope.$apply()
+        FSWebGlService.setScanIsLoading(false)
+        FSWebGlService.setScanLoaded(true)
+
+      $scope.$applyAsync()
+
+      previous_percentage = parseInt(percentage)
+
 
     median = (values) ->
       values.sort (a, b) ->
@@ -156,21 +174,21 @@ angular.module(name, []).controller(name, [
 
 
     $scope.setRenderTypeCallback = (callback) ->
-      $scope.renderObjectAsType = callback
+      FSWebGlService.setRenderObjectAsCallback(callback)
 
     $scope.loadPLYHandlerCallback = (callback) ->
-      $scope.loadPLY = callback
+      FSWebGlService.setPLYLoaderCallback(callback)
 
     $scope.loadSTLHandlerCallback = (callback) ->
-      $scope.loadSTL = callback
+      FSWebGlService.setSTLLoaderCallback(callback)
 
     $scope.setPointHandlerCallback = (callback) ->
-      $scope.addPoints = callback
+      FSWebGlService.setAddPointsCallback(callback)
 
     $scope.setClearViewHandlerCallback = (callback) ->
-      $scope.clearView = callback
+      FSWebGlService.setClearViewCallback(callback)
 
     $scope.getRendererCallback = (renderer) ->
-      $scope.renderer = renderer
+      FSWebGlService.setRendererCallback(renderer)
 
 ])

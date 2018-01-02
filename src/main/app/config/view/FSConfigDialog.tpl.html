@@ -1,0 +1,102 @@
+<md-dialog aria-label="Scanner Configuration" ng-controller="fabscan.controller.FSConfigController">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Scanner Configuration</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="closeDialog()">
+                    <md-icon md-font-icon="fa fa-close fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content layout-xs="column" layout-gt-xs="row">
+
+            <md-tabs layout-margin flex md-border-bottom style="min-width:500px; min-height: 350px;">
+                <md-tab id="general" style="padding:10px; min-height: 400px;" ng-click="selectTab('general')">
+                    <md-tab-label>
+                        <md-icon md-font-icon="fa fa-wrench fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                    </md-tab-label>
+                    <md-tab-body flex>
+                        <div layout="row" layout-xs="column">
+                            <div flex="50" style="margin-top:0.8em; ">
+                                <img src="icons/scan_dummy_1.png" />
+                            </div>
+                            <div flex="50" style="margin:0.8em;">
+                                <div ng-repeat="(key,values) in devices">
+                                    {{devices[key]['LABEL']}}
+                                    <div>
+                                        <md-button ng-repeat="function in devices[key]['FUNCTIONS']" ng-click="sendDeviceCommand(key, function)">{{function}}</md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab label="Calibration" ng-click="selectTab('calibration')">
+                    <md-tab-label >
+                        <md-icon md-font-icon="fa fa-crosshairs fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                    </md-tab-label>
+                    <md-tab-body flex>
+                        <h3>Calibration</h3>
+                        <div layout="row">
+                            <span flex></span>
+                            <md-button ng-click="startCalibration()" style="margin-right:20px;" >
+                                Start Calibration
+                            </md-button>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab label="Wi-Fi" ng-click="selectTab('wifi')">
+                    <md-tab-label>
+                        <md-icon md-font-icon="fa fa-wifi fa-2x" class="md-50" aria-hidden="true"></md-icon>
+                    </md-tab-label>
+                    <md-tab-body style="height:100%">
+                        <h3 style="width:3em;" flex>Wi-Fi</h3>
+                        <md-progress-circular ng-show="showSearchNotification" class="md-hue-2 wifi-circular" md-diameter="20px"></md-progress-circular>
+                        <md-content>
+                            <md-list>
+                                <md-divider ></md-divider>
+                                <md-list-item ng-click="selectWifi(network.ssid)" ng-repeat="network in wifi_list">
+
+                                    <md-icon flex md-font-icon="fa fa-signal fa-1x"  class="md-50 {{wifi.quality  | wifiIconClass }}" aria-hidden="true"></md-icon>
+                                    <!--<i class="fa fa-signal fa-2x  {{wifi.quality  | wifiIconClass }}"></i>-->
+                                    <p flex md-truncate>{{network.ssid}}</p>
+                                    <span flex></span>
+                                    <md-icon ng-show="network.encrypted == true" flex md-font-icon="fa fa-lock fa-1x"  aria-hidden="true"></md-icon>
+                                    <md-divider ></md-divider>
+                                </md-list-item>
+                            </md-list>
+                        </md-content>
+                        <div ng-show="showPasswordInputField">
+                            <md-input-container>
+                                <label>Wi-Fi Password</label>
+                                <input ng-model="user.title">
+                            </md-input-container>
+                            <md-button>
+                                Connect
+                            </md-button>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab label="System" ng-click="selectTab('system')">
+                    <md-tab-label>
+                        <md-icon md-svg-src="icons/raspberry.svg" aria-label="android "></md-icon>
+                    </md-tab-label>
+                    <md-tab-body flex>
+                        <h3>System</h3>
+                    </md-tab-body>
+                </md-tab>
+
+            </md-tabs>
+        </md-dialog-content>
+     <!--   <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="answer('not useful')" >
+                Cancel
+            </md-button>
+            <md-button ng-click="answer('useful')" style="margin-right:20px;" >
+                Start Scan
+            </md-button>
+        </md-dialog-actions>-->
+    </form>
+</md-dialog>

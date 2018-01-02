@@ -9,6 +9,7 @@ mods = [
 	'common.filters.toResolutionValue'
   'common.filters.wifiIconClassFilter'
   'common.filters.networkModeLabelFilter'
+  'common.filters.itemToolBarStateFilter'
 
 
   'fabscan.directives.FSWebglDirective'
@@ -21,32 +22,28 @@ mods = [
   'fabscan.services.FSWebsocketConnectionFactory'
   'fabscan.services.FSScanService'
   'fabscan.services.FSi18nService'
+  'fabscan.services.FSWebGlService'
 	'common.filters.scanDataAvailableFilter'
 
   'common.services.Configuration'
-  'common.services.toastrWrapperSvc'
+  'common.services.FSToasterService'
 
-  'fabscan.controller.FSPreviewController'
+  'fabscan.controller.FSCanvasController'
   'fabscan.controller.FSAppController'
   'fabscan.controller.FSNewsController'
   'fabscan.controller.FSSettingsController'
-  'fabscan.controller.FSScanController'
-	'fabscan.controller.FSLoadingController'
-	'fabscan.controller.FSShareController'
+
+	'fabscan.controller.FSScanGalleryController'
+	'fabscan.controller.FSToolsController'
   'fabscan.controller.FSConfigController'
   'fabscan.controller.FSToolbarController'
+  'fabscan.controller.FSSplashController'
 
 	'ngSanitize'
   'ngCookies'
 
-	'720kb.tooltips'
-	'ngProgress'
-
 #  'vr.directives.slider'
-	'slickCarousel'
   'ngMaterial'
-#  'ngTouch'
-   #'ng.jsoneditor'
 ]
 
 ### ###########################################################################
@@ -67,10 +64,11 @@ m = angular.module('fabscan', mods)
 #m.config ['$routeProvider', routesConfigFn]
 
 
-m.config (['common.services.envProvider', (envProvider)->
+m.config (['common.services.envProvider', ( envProvider )->
 	# Allows the environment provider to run whatever config block it wants.
 	if envProvider.appConfig?
 		envProvider.appConfig()
+
 ])
 
 
@@ -81,8 +79,11 @@ m.run (['common.services.env', (env)->
 ])
 
 
-m.config(['$httpProvider', ($httpProvider) ->
+m.config(['$httpProvider','$mdThemingProvider', ($httpProvider, $mdThemingProvider) ->
   $httpProvider.defaults.useXDomain = true;
+  $mdThemingProvider.theme('default')
+    .primaryPalette('blue-grey')
+    .accentPalette('red');
  # delete $httpProvider.defaults.headers.common['X-Requested-With'];
 ])
 

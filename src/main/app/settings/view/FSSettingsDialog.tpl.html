@@ -1,0 +1,100 @@
+<md-dialog aria-label="Scan Settings" ng-controller="fabscan.controller.FSSettingsController">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>New Scan</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="closeDialog()">
+                    <md-icon md-font-icon="fa fa-close fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content layout-xs="column" layout-gt-xs="row">
+            <div style="z-index:70; margin-top:0.8em; margin-left:0.8em; width:200px;">
+                <mjpeg  mode="'preview'" url="streamUrl"></mjpeg>
+            </div>
+                <!-- <img  src="icons/scan_dummy_1.png" />-->
+
+            <md-tabs layout-margin flex md-border-bottom style="min-width:400px;">
+                <md-tab id="general" style="padding:10px;">
+
+                        <md-tab-label>
+                            <md-icon md-font-icon="fa fa-cogs fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                        </md-tab-label>
+                        <md-tab-body flex>
+                            <h3>General</h3>
+                            <md-slider-container style="margin-top:0.2em;">
+                                <span flex="20">Threshold</span>
+                                <md-slider  flex="80" style="margin-left: 1em; margin-right: 2em;"  md-discrete  step="1" min="0" max="100" ng-model="settings.threshold" aria-label="red" id="red-slider">
+                                </md-slider>
+                            </md-slider-container>
+                            <md-slider-container style="margin-top:0.2em;">
+                                <span flex="20">Quality</span>
+                                <md-slider flex="80" style="margin-left: 1em; margin-right: 2em;"  md-invert step="4" min="1" max="16" ng-model="settings.resolution" aria-label="red" id="red-slider">
+                                </md-slider>
+                            </md-slider-container>
+                            <span flex="40">Color</span>
+                            <md-checkbox style="margin-left: 2em;"
+                                    aria-label="Color Scan"
+                                    class=" md-align-top-left" flex>
+                        </md-tab-body>
+
+                </md-tab>
+                <md-tab label="two">
+                    <md-tab-label>
+                        <md-icon md-font-icon="fa fa-camera fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+
+                    </md-tab-label>
+                    <md-tab-body flex>
+                        <h3>Camera</h3>
+                        <md-slider-container style="margin-top:0.2em;">
+                            <span flex="25">Contrast</span>
+                            <md-slider  flex="75" style="margin-left: 1em; margin-right: 2em;"  md-discrete  min="-100" max="100" ng-model="settings.camera.contrast" aria-label="red" id="red-slider">
+                            </md-slider>
+                        </md-slider-container>
+                        <md-slider-container style="margin-top:0.2em;">
+                            <span flex="25">Brightness</span>
+                            <md-slider flex="75" style="margin-left: 1em; margin-right: 2em;"  md-discrete  min="0" max="100" ng-model="settings.camera.brightness" aria-label="red" id="red-slider">
+                            </md-slider>
+                        </md-slider-container>
+                        <md-slider-container style="margin-top:0.2em;">
+                            <span flex="25">Satturation</span>
+                            <md-slider flex="75" style="margin-left: 1em; margin-right: 2em;"  md-discrete  min="-100" max="100" ng-model="settings.camera.saturation" aria-label="red" id="red-slider">
+                            </md-slider>
+                        </md-slider-container>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab label="three">
+                    <md-tab-label>
+                        <md-icon md-font-icon="fa fa-sun-o fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+
+                    </md-tab-label>
+                    <md-tab-body flex>
+                        <h3>Light</h3>
+                        <md-slider-container style="margin-top:0.2em;">
+                            <span flex="20">Red</span>
+                            <md-slider  flex="80" style="margin-left: 1em; margin-right: 2em;"  md-discrete  min="0" max="255" ng-model="settings.led.red" aria-label="red" id="red-slider">
+                            </md-slider>
+                        </md-slider-container>
+                        <md-slider-container style="margin-top:0.2em;">
+                            <span flex="20">Green</span>
+                            <md-slider flex="80" style="margin-left: 1em; margin-right: 2em;"  md-discrete  min="0" max="255" ng-model="settings.led.green" aria-label="green" id="red-slider">
+                            </md-slider>
+                        </md-slider-container>
+                        <md-slider-container style="margin-top:0.2em;">
+                            <span flex="20">Blue</span>
+                            <md-slider flex="80" style="margin-left: 1em; margin-right: 2em;"  md-discrete  min="0" max="255" ng-model="color.led.blue" aria-label="blue" id="red-slider">
+                            </md-slider>
+                        </md-slider-container>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="startScan()" style="margin-right:20px;" >
+                Start Scan
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

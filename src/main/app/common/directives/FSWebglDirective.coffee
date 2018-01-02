@@ -42,13 +42,6 @@ angular.module(name, []).directive("fsWebgl", [
       scope.materialType = 'lambert'
       scope.objectGeometry = null
 
-      scope.setPointHandlerCallback(scope.addPoints)
-      scope.setClearViewHandlerCallback(scope.clearView)
-      scope.loadPLYHandlerCallback(scope.loadPLY)
-      scope.loadSTLHandlerCallback(scope.loadSTL)
-      scope.getRendererCallback(renderer)
-      scope.setRenderTypeCallback(scope.renderObjectAsType)
-
       mouseX = 0
       mouseY = 0
       contW = (if (scope.fillcontainer) then element[0].clientWidth else scope.width)
@@ -71,17 +64,17 @@ angular.module(name, []).directive("fsWebgl", [
       )
 
       scope.$on(FSEnumService.events.ON_INFO_MESSAGE, (event, data) ->
-        if data['message'] == 'SCANNING_TEXTURE' || data['message'] == 'START_CALIBRATION'
-          scene.remove(turntable)
+        #if data['message'] == 'SCANNING_TEXTURE' || data['message'] == 'START_CALIBRATION'
+        #  scene.remove(turntable)
 
-        if data['message'] == 'SCANNING_OBJECT'
-          if not scene.getObjectByName('turntable')
-            scene.add(turntable)
+        #if data['message'] == 'SCANNING_OBJECT'
+        #  if not scene.getObjectByName('turntable')
+        #    scene.add(turntable)
 
         if data['message'] == 'SCAN_CANCELED' || data['message'] == 'FINISHED_CALIBRATION'
           scope.clearView()
-          if not scene.getObjectByName('turntable')
-            scene.add(turntable)
+          #if not scene.getObjectByName('turntable')
+          # scene.add(turntable)
 
         if data['message'] == 'SCAN_COMPLETE'
           scope.createPreviewImage(data['scan_id'])
@@ -124,8 +117,10 @@ angular.module(name, []).directive("fsWebgl", [
         scene = new THREE.Scene()
         scene.fog = new THREE.Fog(0x72645b, 200, 600)
         groundGeometry = new (THREE.PlaneGeometry)(1200, 1200, 1, 1)
-        plane = new (THREE.Mesh)(groundGeometry, new (THREE.MeshLambertMaterial)(color: 0x9669FE))
-        #scene.add( mesh );
+        plane = new THREE.Mesh(
+          new THREE.PlaneBufferGeometry(2000, 2000),
+          new THREE.MeshPhongMaterial({ambient: 0xFFFFFF, color: 0xFFFFFF, specular: 0xFFFFFF})
+        )
 
         gridHelper = new (THREE.GridHelper)(500, 30)
       # 500 is grid size, 20 is grid step
@@ -136,7 +131,7 @@ angular.module(name, []).directive("fsWebgl", [
 
         plane.rotation.x = -Math.PI / 2;
         #thickness of turntable
-        plane.position.y = -turntable_thickness;
+        plane.position.y = -turntable_thickness*2;
         scene.add(plane)
 
         plane.receiveShadow = true
@@ -191,6 +186,9 @@ angular.module(name, []).directive("fsWebgl", [
         renderer = new THREE.WebGLRenderer(
           preserveDrawingBuffer: true
         )
+
+        scope.getRendererCallback(renderer)
+
         #renderer.setColor(0x000000, 0)
         #renderer.setSize( window.innerWidth, window.innerHeight )
         #renderer.setSize(contW,contH-4)
@@ -259,12 +257,12 @@ angular.module(name, []).directive("fsWebgl", [
       scope.onMouseMove = (evt) ->
         if mousedown
           d = ((if (evt.movementX > 0) then 0.1 else -0.1))
-          if pointcloud and scope.scanLoaded
+          if pointcloud
             pointcloud.rotation.z += d
-          if pointcloud and scope.scanComplete
-            pointcloud.rotation.y += d
-          if mesh and scope.scanLoaded
-            mesh.rotation.z += d
+          #if pointcloud and scope.scanComplete
+          #  pointcloud.rotation.y += d
+          #if mesh and scope.scanLoaded
+          #  mesh.rotation.z += d
 
 
       #scope.onMouseWheel = (evt) ->
@@ -413,6 +411,8 @@ angular.module(name, []).directive("fsWebgl", [
           scope.clearView()
           scope.renderPLY()
 
+      scope.setRenderTypeCallback(scope.renderObjectAsType)
+
       scope.loadSTL = (file) ->
         scope.clearView()
         scope.scanComplete = false
@@ -429,6 +429,8 @@ angular.module(name, []).directive("fsWebgl", [
           scope.progressHandler(item)
 
           $log.info("Not implemented yet")
+
+      scope.loadSTLHandlerCallback(scope.loadSTL)
 
       scope.loadPLY = (file) ->
         scope.clearView()
@@ -447,6 +449,8 @@ angular.module(name, []).directive("fsWebgl", [
             scope.renderPLY()
 
           return
+
+      scope.loadPLYHandlerCallback(scope.loadPLY)
 
       scope.addPoints = (points, progress, resolution) ->
         scope.scanComplete = false
@@ -504,6 +508,7 @@ angular.module(name, []).directive("fsWebgl", [
             pointcloud.rotation.y = scope.rad
       #  $log.info currentPointcloudAngle - scope.rad
 
+      scope.setPointHandlerCallback(scope.addPoints)
 
       #while i < points.length
       #point = new THREE.Vector3(parseFloat(points[i].x), parseFloat(points[i].z)+450, parseFloat(points[i].y))
@@ -523,6 +528,8 @@ angular.module(name, []).directive("fsWebgl", [
           colors = undefined
           scene.remove(pointcloud)
           scene.remove(mesh)
+
+      scope.setClearViewHandlerCallback(scope.clearView)
 
       # -----------------------------------
       # Draw and Animate

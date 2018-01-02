@@ -12,6 +12,16 @@ angular.module(name, []).factory(name, [
     service.scanId = null
     service.startTime = null
 
+    service.scanComplete = false
+
+
+    service.setScanIsComplete = (value) ->
+        service.scanComplete = value
+
+    service.scanIsComplete = ->
+        return service.scanComplete
+
+
     service.initStartTime = ->
       service.startTime = Date.now()
 
@@ -56,7 +66,6 @@ angular.module(name, []).factory(name, [
       data:
         command: FSEnumService.commands.UPDATE_SETTINGS
         settings: settings
-
       FSMessageHandlerService.sendData(message)
 
     service.startSettings = (settings) ->
