@@ -34,7 +34,9 @@
                                 </md-slider>
                             </md-slider-container>
                             <span flex="40">Color</span>
-                            <md-checkbox style="margin-left: 2em;"
+                            <md-checkbox ng-model="settings.color" style="margin-left: 2em;"
+                                    ng-true-value="'True'"
+                                    ng-false-value="'False'"
                                     aria-label="Color Scan"
                                     class=" md-align-top-left" flex>
                         </md-tab-body>

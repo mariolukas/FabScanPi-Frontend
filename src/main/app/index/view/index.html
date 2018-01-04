@@ -22,7 +22,7 @@
     <body ng-controller="fabscan.controller.FSAppController" id="app" >
 
             <div ng-controller="fabscan.controller.FSToolbarController" layout="row" class="flexbox-parent" layout-align="center start">
-                <md-button ng-show="(!scanIsLoading() && !('SETTINGS' | currentState) && ('IDLE' | currentState) && !('CALIBRATING' | currentState) )" ng-click="showScanSettingsSheet($event)" class="md-fab" aria-label="New Scan" style="z-index:71; top:1em;">
+                <md-button ng-show="(!scanIsLoading() && !('CALIBRATING' | currentState) )" ng-click="showScanSettingsSheet($event)" class="md-fab" aria-label="New Scan" style="z-index:71; top:1em;">
                     <md-icon md-svg-src="icons/icon_scan.svg" aria-label="android "></md-icon>
                 </md-button>
                 <!-- BEGIN Cancel Buttons -->
@@ -38,7 +38,7 @@
                    <md-button ng-disabled="!(barsicon | toolbarVisible)" ng-click="showItemTools()"  ng-show="itemLoadedOnSmallScreen" class="md-icon-button" aria-label="More">
                        <md-icon md-font-icon="fa fa-bars fa-2x"  class="md-50" aria-hidden="true"></md-icon>
                    </md-button>
-                    <!-- END TODO: -->
+                    <!-- END TODO -->
                     <md-button ng-click="showGalleryDialog($event)" hide-gt-xs class="md-icon-button" aria-label="More">
                         <md-icon md-font-icon="fa fa-folder fa-2x"  class="md-50" aria-hidden="true"></md-icon>
                     </md-button>
