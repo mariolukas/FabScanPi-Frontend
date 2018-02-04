@@ -5,11 +5,12 @@ angular.module(name, []).controller(name, [
   '$scope',
   '$rootScope',
   '$http',
+  '$document',
   'common.services.Configuration',
   'fabscan.services.FSEnumService',
   'fabscan.services.FSScanService',
   'fabscan.services.FSWebGlService',
-  ($log, $scope,$rootScope,$http, Configuration, FSEnum, FSScanService, FSWebGlService ) ->
+  ($log, $scope,$rootScope,$http, $document, Configuration, FSEnum, FSScanService, FSWebGlService ) ->
 
     $scope.canvasWidth = 400
     $scope.canvasHeight = 500
@@ -20,7 +21,6 @@ angular.module(name, []).controller(name, [
     $scope.resolution = null
     $scope.progress = null
     $scope.newPoints = null
-    $scope.progressValue = 0
     previous_percentage = 0
 
     $scope.loadPLY = null
@@ -50,6 +50,7 @@ angular.module(name, []).controller(name, [
       $scope.showStream = false
       $scope.startTime = null
       $scope.progress = 0
+      FSScanService.setScanProgress(0)
       $scope.sampledRemainingTime = 0
       $scope.$apply()
 
@@ -59,6 +60,8 @@ angular.module(name, []).controller(name, [
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
         if data['state'] == FSEnum.states.IDLE
           stopStream()
+          resetSate()
+
     )
 
     $rootScope.$on('clearView', ()->
@@ -89,21 +92,26 @@ angular.module(name, []).controller(name, [
 
     $scope.$on(FSEnum.events.ON_NEW_PROGRESS,  (event, data) ->
 
+      if (data['state'] == 'texture_scan') || (data['state'] == 'calibration')
+            $scope.showStream = true
+      else
+            $scope.showStream = false
+
       if  FSScanService.state != FSEnum.states.IDLE
             $scope.resolution = data['resolution']
             $scope.progress = data['progress']
+            $scope.timestamp = data['timestamp']
 
             percentage = $scope.progress/$scope.resolution*100
 
-            $scope.startTime = FSScanService.getStartTime()
+            $scope.startTime = data['starttime']
             if $scope.progress <= 1
               $scope.sampledRemainingTime = 0
               _time_values = []
-              #ngProgress.start()
 
             else
 
-              timeTaken = (Date.now() - $scope.startTime)
+              timeTaken = ($scope.timestamp  - $scope.startTime)
               $scope.remainingTime.push(parseFloat(Math.floor(((timeTaken/ $scope.progress)* ($scope.resolution - $scope.progress))/1000)))
 
               if $scope.remainingTime.length > 20
@@ -120,10 +128,11 @@ angular.module(name, []).controller(name, [
 
               $log.debug percentage.toFixed(2) + "% complete"
 
-              $scope.progressValue = percentage
+              FSScanService.setScanProgress(percentage)
               $scope.$applyAsync()
 
             if percentage >= 98
+              FSScanService.setScanProgress(0)
               $scope.sampledRemainingTime = 0
               _time_values = []
 
@@ -138,25 +147,31 @@ angular.module(name, []).controller(name, [
 
       if $scope.progress == 0
         #ngProgress.start()
-        $scope.showProgressBar = true
+
         $scope.progress = item.total
         previous_percentage = 0
+        FSScanService.setScanProgress(0)
+
+      if $scope.progress >= 98
+        $scope.progress = 0
+        FSScanService.setScanProgress(0)
 
       percentage = item.loaded/item.total*100
 
-      $scope.progressValue = percentage
+      FSScanService.setScanProgress(percentage)
 
 
       if (item.loaded == item.total)
 
         $scope.progress = 0
         $scope.showProgressBar = false
-        $scope.progressValue = 0
+        FSScanService.setScanProgress(0)
         percentage = 0
         previous_percentage = 0
 
         FSWebGlService.setScanIsLoading(false)
         FSWebGlService.setScanLoaded(true)
+
 
       $scope.$applyAsync()
 

@@ -20,53 +20,60 @@
         <script src="js/app.js"></script>
     </head>
     <body ng-controller="fabscan.controller.FSAppController" id="app" >
-
-            <div ng-controller="fabscan.controller.FSToolbarController" layout="row" class="flexbox-parent" layout-align="center start">
-                <md-button ng-show="(!scanIsLoading() && !('CALIBRATING' | currentState) )" ng-click="showScanSettingsSheet($event)" class="md-fab" aria-label="New Scan" style="z-index:71; top:1em;">
-                    <md-icon md-svg-src="icons/icon_scan.svg" aria-label="android "></md-icon>
-                </md-button>
-                <!-- BEGIN Cancel Buttons -->
-                <md-button ng-if="(('SCANNING' | currentState) || ('CALIBRATING' | currentState))" ng-click="stopScan()" class="md-fab" aria-label="New Scan" style="z-index:71; top:1em;">
-                    <md-icon md-font-icon="fa fa-times fa-2x"  class="md-50" aria-hidden="true"></md-icon>
-                </md-button>
+           <div ng-controller="fabscan.controller.FSToolbarController" layout="row" class="flexbox-parent" layout-align="center start">
+               <div ng-if="!('SCANNING' | currentState) && (!scanIsLoading() && !('CALIBRATING' | currentState) )" style="z-index:71;">
+                  <md-progress-circular ng-if="(progress | scanProgress) != 0" class="md-accent md-hue-1" style="position:absolute; margin-left:2px;" md-mode="{{circularLoadingMode}}" value="{{progress | scanProgress}}" md-diameter="68"></md-progress-circular>
+                   <!-- BEGIN Cancel Buttons -->
+                   <md-button style="z-index:71;" ng-click="showScanSettingsSheet($event)" class="md-fab" aria-label="New Scan" >
+                        <md-icon md-svg-src="icons/icon_scan.svg" aria-label="android "></md-icon>
+                    </md-button>
+               </div>
+               <div ng-if="(('SCANNING' | currentState) || ('CALIBRATING' | currentState))" style="z-index:71;">
+                   <md-progress-circular class="md-accent md-hue-1" style="position:absolute; margin-left:2px;" md-mode="determinate" value="{{progress | scanProgress}}" md-diameter="68"></md-progress-circular>
+                   <!-- BEGIN Cancel Buttons -->
+                    <md-button  ng-click="stopScan()" class="md-fab" aria-label="Stop Scan" >
+                        <md-icon md-font-icon="fa fa-times fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                    </md-button>
+               </div>
                <!-- <md-button ng-click="cancel()" class="md-fab" aria-label="New Scan" style="z-index:71; top:1em;">
                     <md-icon md-font-icon="fa fa-times fa-2x"  class="md-50" aria-hidden="true"></md-icon>
                 </md-button>-->
                 <!-- END Cancel Buttons -->
                 <md-toolbar md-whiteframe="3"  class="top-toolbar" layout="row" layout-align="center center" id="top-toolbar">
                     <!-- TODO: show if scan is loaded and on small screen -->
-                   <md-button ng-disabled="!(barsicon | toolbarVisible)" ng-click="showItemTools()"  ng-show="itemLoadedOnSmallScreen" class="md-icon-button" aria-label="More">
-                       <md-icon md-font-icon="fa fa-bars fa-2x"  class="md-50" aria-hidden="true"></md-icon>
-                   </md-button>
-                    <!-- END TODO -->
-                    <md-button ng-click="showGalleryDialog($event)" hide-gt-xs class="md-icon-button" aria-label="More">
-                        <md-icon md-font-icon="fa fa-folder fa-2x"  class="md-50" aria-hidden="true"></md-icon>
-                    </md-button>
-                   <span flex></span>
-                   <md-button ng-click="showGalleryDialog($event)" hide-xs class="md-icon-button" aria-label="More">
-                       <md-icon md-font-icon="fa fa-folder fa-2x"  class="md-50" aria-hidden="true"></md-icon>
-                   </md-button>
-                    <md-button ng-click="showConfigDialog($event)" class="md-icon-button" aria-label="More">
-                       <md-icon md-font-icon="fa fa-cog fa-2x"  class="md-50" aria-hidden="true"></md-icon>
-                   </md-button>
+                        <md-button ng-disabled="!('IDLE' | currentState) && !(barsicon | toolbarVisible)" ng-click="showItemTools()"  ng-show="itemLoadedOnSmallScreen" class="md-icon-button" aria-label="More">
+                           <md-icon md-font-icon="fa fa-bars fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                       </md-button>
+                        <!-- END TODO -->
+                        <md-button ng-show="('IDLE' | currentState)" ng-click="showGalleryDialog($event)" hide-gt-xs class="md-icon-button" aria-label="More">
+                            <md-icon md-font-icon="fa fa-folder fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                        </md-button>
+                       <span flex></span>
+                       <md-button ng-show="('IDLE' | currentState)" ng-click="showGalleryDialog($event)" hide-xs class="md-icon-button" aria-label="More">
+                           <md-icon md-font-icon="fa fa-folder fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                       </md-button>
+                        <md-button ng-show="('IDLE' | currentState)" ng-click="showConfigDialog($event)" class="md-icon-button" aria-label="More">
+                           <md-icon md-font-icon="fa fa-cog fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                       </md-button>
+
                     <md-menu>
                         <md-button aria-label="System Shutdown" class="md-icon-button" ng-click="$mdMenu.open($event)">
                             <md-icon md-font-icon="fa fa-power-off fa-2x"  class="md-50" aria-hidden="true"></md-icon>
                         </md-button>
                         <md-menu-content width="4">
                             <md-menu-item>
-                                <md-button ng-click="ctrl.redial($event)">
+                                <md-button ng-click="restart()">
                                     Restart FabScanPi
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
-                                <md-button ng-click="ctrl.checkVoicemail()">
+                                <md-button ng-click="reboot()">
                                     Reboot Raspberry Pi
                                 </md-button>
                             </md-menu-item>
                             <md-menu-divider></md-menu-divider>
                             <md-menu-item>
-                                <md-button ng-click="ctrl.toggleNotifications()">
+                                <md-button ng-click="shutdown()">
                                     Shutdown Raspberry Pi
                                 </md-button>
                             </md-menu-item>
@@ -74,16 +81,16 @@
                     </md-menu>
                 </md-toolbar>
 
-                <div layout="column" ng-if="(toolbar | toolbarVisible) && scanItemToolsVisible" ng-controller="fabscan.controller.FSScanToolsController">
+                <div layout="column" ng-if="((toolbar | toolbarVisible))" ng-controller="fabscan.controller.FSToolsController">
                     <md-whiteframe md-colors="{background: 'primary-400'}" class="animate-show-hide" style="z-index:60; width:50px; height:100%; position:absolute; left:0px;" id="vericalToolBar" class="md-whiteframe-8dp" layout="column" layout-align="start center" flex>
                         <span flex="10"></span>
 
                         <!-- BEGIN Load Mesh Button -->
                         <md-menu ng-if="meshes.length > 1">
-                        <md-button ng-disabled="meshes.length == 0" class="md-icon-button" aria-label="More" ng-click="$mdMenu.open()">
-                            <md-icon md-menu-origin  md-svg-src="icons/icon_mesh.svg" aria-label="Mesh"></md-icon>
-                            <md-tooltip md-z-index="100" md-direction="right" md-autohide="true">Load Mesh</md-tooltip>
-                        </md-button>
+                            <md-button ng-disabled="meshes.length == 0" class="md-icon-button" aria-label="More" ng-click="$mdMenu.open()">
+                                <md-icon md-menu-origin  md-svg-src="icons/icon_mesh.svg" aria-label="Mesh"></md-icon>
+                                <md-tooltip md-z-index="100" md-direction="right" md-autohide="true">Load Mesh</md-tooltip>
+                            </md-button>
                             <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
                                 <md-menu-item ng-repeat="mesh in meshes">
                                     <md-button >
@@ -118,13 +125,14 @@
                         </md-button>
                         <!-- END Load Mesh Button -->
                         <span flex="10"></span>
-                        <a href="{{loadedFile}}">
-                            <md-button type="submit" class="md-icon-button" aria-label="More">
-                                    <md-tooltip md-z-index="100">Download Scan</md-tooltip>
-                                    <md-icon md-font-icon="fa fa-download fa-1x"  class="md-50" aria-hidden="true"></md-icon>
+
+                            <a id="downloadFile" href="{{loadedFile}}">
+                            <md-button class="md-icon-button" aria-label="More">
+                                <md-tooltip md-z-index="100">Download Scan</md-tooltip>
+                                <md-icon md-font-icon="fa fa-download fa-1x"  class="md-50" aria-hidden="true"></md-icon>
                             </md-button>
-                        </a>
-                        <md-button class="md-icon-button" aria-label="More">
+                            </a>
+                        <md-button ng-click="showMeshingDialog()" class="md-icon-button" aria-label="More">
                             <md-tooltip md-z-index="100">Mesh Pointcloud</md-tooltip>
                             <md-icon md-font-icon="fa fa-magic fa-1x"  class="md-50" aria-hidden="true"></md-icon>
                         </md-button>
@@ -138,19 +146,16 @@
             </div>
 
             <div ng-controller="fabscan.controller.FSCanvasController" layout="column" style="margin: 0 auto; z-index:-100;" id="center">
+                <div style="font-size:1.2em; z-index: 80; right: 0.5em; position: absolute; top: 3em; color:white;" ng-if="sampledRemainingTime > 0 && (('SCANNING' | currentState) || isCalibrating)"  class="timeRemaining"><span ng-if="isCalibrating" text="main.SCANNER_IN_CALIBRATION_MODE"><br></span><br> About {{remainingTimeString}} remaining</div>
                 <!-- ng-if="showStream" -->
                 <!-- <md-whiteframe class="md-whiteframe-4dp texture-preview" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout layout-align="center center">-->
-              <!--  <div class="texture-preview">
+                <div ng-if="showStream" class="texture-preview">
                     <mjpeg style="z-index:70;" mode="'texture'" url="streamUrl"></mjpeg>
-                </div>-->
-                    <!-- </md-whiteframe> -->
-                <div style="position:absolute; width:100%; z-index:69; bottom:0">
-                    <md-progress-linear ng-disabled="progressValue == 0" class="md-accent" md-mode="buffer" value="{{progressValue}}"></md-progress-linear>
                 </div>
 
-                <div style="position:absolute; z-index:70; right:10px; top:4em; color:white">
-                    <span>Server: {{server_version}} <br> Firmware: {{firmware_version}}</span>
-                </div>
+                    <!-- </md-whiteframe> -->
+
+
                 <div ng-click="manviewhandler()">
                         <div
                                 id="webgl"

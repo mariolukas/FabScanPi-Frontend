@@ -13,10 +13,15 @@ angular.module(name, []).controller(name, [
   ($log, $scope, $rootScope, $timeout, $mdDialog, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
 
       $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
+      $scope.showStream = true
 
-      # TODO: it should be possible to get settings from backend here a function ind FSScanService would be fine...
-      $scope.settings = $rootScope.settings
       FSScanService.startSettings()
+
+      $scope.$on(FSEnumService.events.ON_GET_SETTINGS, (event, data) ->
+        $scope.settings = data['settings']
+        $log.info( data['settings'] )
+        $scope.$apply()
+      )
 
       $scope.startScan = () ->
         FSScanService.setScanIsComplete(false)
@@ -27,7 +32,7 @@ angular.module(name, []).controller(name, [
       updateSettings = ->
         _settings = {}
         angular.copy($scope.settings, _settings)
-        _settings.resolution *=-1
+        #_settings.resolution *=-1
         FSScanService.updateSettings(_settings)
 
 
@@ -37,6 +42,8 @@ angular.module(name, []).controller(name, [
       , true)
 
       $scope.closeDialog = ->
+        $scope.streamUrl = ""
+        $scope.showStream = false
         FSScanService.stopScan()
         $log.debug("Canel pressed")
         $mdDialog.cancel()

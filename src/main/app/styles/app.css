@@ -24,6 +24,59 @@ div > canvas{
     font-size: 1.5em;
 }
 
+.newsContent title{
+    display: none;
+}
+
+.newsContent h3 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.newsContent p {
+    margin-top: 0.5em;
+    line-height: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.newsContent ul {
+    list-style: disc;
+    margin: 0.5em 0;
+    max-height: 99999em;
+}
+
+.newsContent li {
+    margin-left: 2em;
+}
+
+.newsContent .wy-nav-side {
+    display: none;
+}
+
+.newsContent .wy-nav-top {
+    display: none;
+}
+
+.newsContent .wy-nav-content {
+    overflow-y: scroll;
+    max-height: 15em;
+}
+
+.newsContent .wy-breadcrumbs {
+    display: none;
+}
+
+.newsContent header{
+    display: none;
+}
+
+.newsContent footer {
+    display: none;
+}
+
+.newsContent .rst-versions {
+    display: none;
+}
 
 
 md-button[disabled] ng-md-icon svg > g {
@@ -37,6 +90,9 @@ md-button[disabled] ng-md-icon svg  {
 .texture-preview {
     z-index: 70;
     height: 35em;
+    margin-top:-5em;
+    z-index:69;
+    opacity: 0.6;
 }
 
 .texture-preview img {
@@ -44,16 +100,16 @@ md-button[disabled] ng-md-icon svg  {
 
     opacity: 0.6;
     border-radius: 70px;
-    /* -webkit-mask-box-image: -webkit-linear-gradient(left,transparent, transparent 15%, white 50%, white 50%, transparent 85%);*/
+     -webkit-mask-box-image: -webkit-linear-gradient(left,transparent, transparent 15%, white 50%, white 50%, transparent 85%);
     -webkit-mask-box-image: -webkit-radial-gradient(white, transparent 69%);
     display: block;
     margin: 0 auto;
     top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+
     position: absolute;
-    margin-top: 12%;
+    /*margin-top: 12%;
+
+     */
 }
 
 ng-md-icon[disabled] svg {

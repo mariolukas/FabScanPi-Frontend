@@ -4,14 +4,14 @@
             <div class="md-toolbar-tools">
                 <h2>New Scan</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-button aria-label="Close Button" class="md-icon-button" ng-click="closeDialog()">
                     <md-icon md-font-icon="fa fa-close fa-2x"  class="md-50" aria-hidden="true"></md-icon>
                 </md-button>
             </div>
         </md-toolbar>
         <md-dialog-content layout-xs="column" layout-gt-xs="row">
             <div style="z-index:70; margin-top:0.8em; margin-left:0.8em; width:200px;">
-                <mjpeg  mode="'preview'" url="streamUrl"></mjpeg>
+                <mjpeg ng-if="showStream" mode="'preview'" url="streamUrl"></mjpeg>
             </div>
                 <!-- <img  src="icons/scan_dummy_1.png" />-->
 
@@ -94,7 +94,7 @@
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button ng-click="startScan()" style="margin-right:20px;" >
+            <md-button ng-click="startScan()" style="margin-right:20px;" class="md-whiteframe-1dp">
                 Start Scan
             </md-button>
         </md-dialog-actions>

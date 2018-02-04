@@ -10,12 +10,13 @@ mods = [
   'common.filters.wifiIconClassFilter'
   'common.filters.networkModeLabelFilter'
   'common.filters.itemToolBarStateFilter'
-
+  'common.filters.scanProgressFilter'
 
   'fabscan.directives.FSWebglDirective'
   'fabscan.directives.FSMJPEGStream'
   'fabscan.directives.FSModalDialog'
   'fabscan.directives.text'
+
 
   'fabscan.services.FSMessageHandlerService'
   'fabscan.services.FSEnumService'
@@ -32,7 +33,7 @@ mods = [
   'fabscan.controller.FSAppController'
   'fabscan.controller.FSNewsController'
   'fabscan.controller.FSSettingsController'
-
+  'fabscan.controller.FSMeshingController'
 	'fabscan.controller.FSScanGalleryController'
 	'fabscan.controller.FSToolsController'
   'fabscan.controller.FSConfigController'

@@ -4,7 +4,7 @@
             <div class="md-toolbar-tools">
                 <h2>Scan Gallery</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-button aria-label="Close Button" class="md-icon-button" ng-click="closeDialog()">
                     <md-icon md-font-icon="fa fa-close fa-2x"  class="md-50" aria-hidden="true"></md-icon>
                 </md-button>
             </div>
@@ -23,7 +23,8 @@
                         <h2>{{scan.id | toLabel}}</h2>
                     </md-card-content>
                     <div class="md-actions" layout="row" layout-align="end center">
-                        <md-button ng-click="loadPointCloud(scan.pointcloud, scan.id)">Load</md-button>
+                        <md-button class="md-whiteframe-1dp" ng-click="deleteScan(scan.id)">Delete</md-button>
+                        <md-button class="md-whiteframe-1dp" ng-click="loadPointCloud(scan.pointcloud, scan.id)">Load</md-button>
                     </div>
                 </md-card>
             </div>

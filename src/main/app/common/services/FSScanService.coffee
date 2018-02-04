@@ -11,16 +11,22 @@ angular.module(name, []).factory(name, [
     service.state = FSEnumService.states.IDLE
     service.scanId = null
     service.startTime = null
+    service.loadedFile = undefined
 
     service.scanComplete = false
+    service.scanProgress = 0
 
+    service.setScanProgress = (value) ->
+        service.scanProgress = value
+
+    service.getScanProgress = ->
+        return service.scanProgress
 
     service.setScanIsComplete = (value) ->
         service.scanComplete = value
 
     service.scanIsComplete = ->
         return service.scanComplete
-
 
     service.initStartTime = ->
       service.startTime = Date.now()
@@ -69,6 +75,8 @@ angular.module(name, []).factory(name, [
       FSMessageHandlerService.sendData(message)
 
     service.startSettings = (settings) ->
+      service.getSettings()
+
       message = {}
       message =
         event: FSEnumService.events.COMMAND
@@ -77,6 +85,27 @@ angular.module(name, []).factory(name, [
           #settings: settings
 
       FSMessageHandlerService.sendData(message)
+
+    service.getSettings = () ->
+
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.GET_SETTINGS
+
+      FSMessageHandlerService.sendData(message)
+
+    service.getConfig = () ->
+
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.GET_CONFIG
+
+      FSMessageHandlerService.sendData(message)
+
 
     service.upgradeServer = () ->
       $log.debug("Upgrade Server called.")
@@ -94,6 +123,24 @@ angular.module(name, []).factory(name, [
         event: FSEnumService.events.COMMAND
         data:
           command: FSEnumService.commands.RESTART_SERVER
+
+      FSMessageHandlerService.sendData(message)
+
+    service.rebootSystem = () ->
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.REBOOT_SYSTEM
+
+      FSMessageHandlerService.sendData(message)
+
+    service.shutdownSystem = () ->
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.SHUTDOWN_SYSTEM
 
       FSMessageHandlerService.sendData(message)
 
@@ -134,7 +181,6 @@ angular.module(name, []).factory(name, [
 
       FSMessageHandlerService.sendData(message)
 
-
     service.exitScan = () ->
 
       message = {}
@@ -153,13 +199,11 @@ angular.module(name, []).factory(name, [
       service.state = state
       $rootScope.$broadcast('stateChanged', service.state)
 
-    service.getSettings = () ->
-       message = {}
-       message =
-        event: FSEnumService.events.COMMAND
-        #data:
-          #command: FSEnumService.commands.GET_SETTINGS
+    service.setLoadedFile = (filename) ->
+      service.loadedFile = filename
 
+    service.getLoadedFile = ()->
+      return service.loadedFile
 
     service
 

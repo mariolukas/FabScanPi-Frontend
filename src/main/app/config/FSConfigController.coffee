@@ -13,16 +13,23 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSMessageHandlerService',
   ($log, $scope, $interval, $http, $mdDialog, Configuration ,FSEnumService, FSScanService, FSWebGlService, FSMessageHandlerService) ->
 
-    #$scope.devices = {}
     $scope.wifi_list=[]
     $scope.status = undefined
+    $scope.config = {}
 
-    #$scope.searchWifiNetworks()
+    $scope.streamUrl = Configuration.installation.httpurl+'stream/adjustment.mjpeg'
+    $scope.showStream = true
+
+    FSScanService.getConfig()
+
+    $scope.$on(FSEnumService.events.ON_GET_CONFIG, (event, data) ->
+      $scope.config = data['config']
+      $log.info( data['config'] )
+      $scope.$apply()
+    )
 
     $scope.showSearchNotification = false
     $scope.showPasswordInputField = false
-
-
 
     $scope.getWifiStatus = () ->
       message = {}
@@ -109,8 +116,6 @@ angular.module(name, []).controller(name, [
 
     $scope.sendDeviceCommand= (device, f_name) ->
 
-          $log.info(device+" "+f_name)
-
           message = {}
           message =
              event: FSEnumService.events.COMMAND
@@ -134,7 +139,8 @@ angular.module(name, []).controller(name, [
       return
 
     $scope.closeDialog = ->
-      $log.debug("Canel pressed")
+      $scope.showStream = false
+      $scope.streamUrl = ""
       $mdDialog.cancel()
 
 ])

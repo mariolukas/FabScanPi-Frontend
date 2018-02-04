@@ -6,9 +6,10 @@ angular.module(name, []).controller(name, [
   '$http',
   '$timeout',
   '$cookies',
+  '$mdDialog'
   '$q',
   'common.services.Configuration',
-  ($log, $scope, $http, $timeout, $cookies, $q, configuration) ->
+  ($log, $scope, $http, $timeout, $cookies, $mdDialog, $q, configuration) ->
 
 
     hashCode = (str) ->
@@ -28,10 +29,9 @@ angular.module(name, []).controller(name, [
       #aborts the request when timed out
       deferred.resolve()
       console.log 'News request timeout...'
-      $scope.displayNews(false)
+      $scope.closeDialog()
       return
     ), 250)
-
 
     deferred = $q.defer();
 
@@ -48,12 +48,15 @@ angular.module(name, []).controller(name, [
         else
           $log.debug("Some news are available")
 
-        #$log.info("News Hash "+hashCode(data))
         $scope.news = response.data
         $timeout.cancel(timeoutPromise);
         return
     ), (response) ->
         $scope.news = "Error retrieving news."
         return
+
+    $scope.closeDialog = ->
+      $log.debug("Canel pressed")
+      $mdDialog.cancel()
 
 ])

@@ -5,26 +5,37 @@ angular.module(name, []).controller(name, [
   '$scope',
   '$rootScope',
   '$http',
-  'common.services.toastrWrapperSvc',
+  '$mdDialog'
+  '$mdMedia'
+  'common.services.FSToasterService',
   'common.services.Configuration',
   'fabscan.services.FSScanService',
   'fabscan.services.FSWebGlService',
-  ($log, $scope, $rootScope, $http, toaster, Configuration, FSScanService, FSWebGlService) ->
+  'fabscan.services.FSEnumService',
+  ($log, $scope, $rootScope, $http, $mdDialog, $mdMedia, toaster, Configuration, FSScanService, FSWebGlService, FSEnumService) ->
 
     $scope.settings = null
     $scope.id = FSScanService.getScanId()
-    $scope.selectedTab = 'download'
+
     $scope.raw_scans = []
     $scope.meshes = []
+    $scope.loadedFile = FSScanService.getLoadedFile()
+
+
+    $scope.showMeshingDialog = (ev) ->
+      $mdDialog.show(
+        #controller: DialogController
+        templateUrl: 'tools/views/FSMeshingDialog.tpl.html'
+        parent: angular.element(document.body)
+        targetEvent: ev
+        fullscreen: $mdMedia('xs')
+        clickOutsideToClose: true
+      )
 
     # used for debugging...
     #$scope.raw_scans = [{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',file_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0.ply',url:'http://irgendwas'}]
     #$scope.meshes = [{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'},{type:'ply',name:'raw_scan_0.ply',filter_name:'raw_scan_0',url:'http://irgendwas'}]
     #$scope.m_filters = [{file_name:'filter_1.mlx',name:'filter_1'},{file_name:'filter_2.mlx',name:'filter_2'},{file_name:'filter_3.mlx',name:'filter_3'}]
-
-    $log.info(FSWebGlService.loadedFile)
-    $scope.file_formats = ['ply','stl','obj','off','xyz','x3d','3ds']
-    $scope.selectedFormat = $scope.file_formats[0]
 
     $scope.getScans = () ->
       scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
@@ -36,50 +47,8 @@ angular.module(name, []).controller(name, [
 
     $scope.getScans()
 
-
-    $scope.slickFormatConfig =
-      enabled: true
-      autoplay: false
-      draggable: false
-      autoplaySpeed: 3000
-      slidesToShow:1
-      method: {}
-      event:
-        afterChange: (event, slick, currentSlide, nextSlide) ->
-          $scope.selectedFormat = $(slick.$slides.get(currentSlide)).data('value')
-
-    $scope.slickFilterConfig =
-      enabled: true
-      autoplay: false
-      draggable: false
-      autoplaySpeed: 3000
-      slidesToShow:1
-      method: {}
-      event:
-        afterChange: (event, slick, currentSlide, nextSlide) ->
-          $scope.selectedFilter = $(slick.$slides.get(currentSlide)).data('value')
-
-    $scope.appendFormatListener = ->
-      $('.f_format').on 'afterChange', (event, slick, currentSlide, nextSlide) ->
-        $scope.selectedFormat = $(slick.$slides.get(currentSlide)).data('value')
-      return
-
-    $scope.appendFilterListener = ->
-      $('.m_filter').on 'afterChange', (event, slick, currentSlide, nextSlide) ->
-        $scope.selectedFilter = $(slick.$slides.get(currentSlide)).data('value')
-      return
-
-    $scope.selectTab  = (tab)->
-      $scope.selectedTab = tab
-
-    $scope.nextSubSelection= () ->
-      $('.filter-container').slick('slickNext')
-      return false
-
-    $scope.previewsSubSelection= () ->
-      $('.filter-container').slick('slickPrev')
-      return false
-
+    $scope.downloadFile = (filename) ->
+        window.open(filename)
 
     $scope.deleteFile = (filename) ->
       $scope.toggleShareDialog()
@@ -108,6 +77,7 @@ angular.module(name, []).controller(name, [
 
     $scope.loadPointCloud = (filename) ->
         $scope.loadedFile = filename
+        $log.inof($scope.loadedFile)
         $scope.toggleShareDialog()
         $scope.scanComplete = false
         toastr.info("Loading file...")
@@ -120,8 +90,6 @@ angular.module(name, []).controller(name, [
         toastr.info("Loading file...")
         $scope.loadSTL(filename)
 
-    getFileExtension = (filename) ->
-        return filename.split('.').pop()
 
     $scope.loadMesh = (mesh) ->
         extension = getFileExtension(mesh)
@@ -129,13 +97,6 @@ angular.module(name, []).controller(name, [
           $scope.loadSTLMesh(mesh)
         if extension == 'ply'
           $scope.loadPLY(mesh)
-
-    $scope.runMeshing = () ->
-        $scope.toggleShareDialog()
-        $log.info $scope.selectedFilter
-        $log.info $scope.selectedFormat
-        FSScanService.runMeshing(FSScanService.getScanId(), $scope.selectedFilter, $scope.selectedFormat)
-
 
 
 ])

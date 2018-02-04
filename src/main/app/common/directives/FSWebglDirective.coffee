@@ -94,9 +94,9 @@ angular.module(name, []).directive("fsWebgl", [
 #camera.position.set(0,0,1500)
         current_point = 0
 
-        camera = new THREE.PerspectiveCamera(48.8, window.innerWidth / window.innerHeight, 1, 1000);
+        camera = new THREE.PerspectiveCamera(58.8, window.innerWidth / window.innerHeight, 50, 1000);
         camera.position.z = 180;
-        camera.position.y = 40;
+        camera.position.y = 60;
 
         #circumference = 2360.0;
         #radius = circumference / 3.14 / 2;

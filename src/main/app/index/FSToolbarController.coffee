@@ -6,7 +6,26 @@ angular.module(name, []).controller(name, [
   '$http',
   '$mdDialog',
   '$mdMedia',
-  ($log, $scope, $http, $mdDialog, $mdMedia ) ->
+  'fabscan.services.FSScanService',
+  'fabscan.services.FSEnumService',
+
+  ($log, $scope, $http, $mdDialog, $mdMedia, FSScanService,FSEnumService ) ->
+
+
+    $scope.circularLoadingMode = 'determinate'
+
+    $scope.$watch (->
+      FSScanService.scanProgress
+    ), (progress) ->
+      # Only in case of loading a scan, because the threejs loader progress is not very acurate.
+      if FSScanService.getScannerState() != FSEnumService.states.SCANNING
+        if progress >= 80
+          $scope.circularLoadingMode = 'intermediate'
+        else
+          $scope.circularLoadingMode = 'determinate'
+        return
+
+
 
     # if small screen and scan is loaded
     $scope.itemLoadedOnSmallScreen = $mdMedia('xs');
@@ -14,8 +33,22 @@ angular.module(name, []).controller(name, [
     # when button is pressed -> true or screen is big
     $scope.scanItemToolsVisible = $mdMedia('gt-xs');
 
+    $scope.shutdown = ->
+      $log.info("Shutdown System")
+      FSScanService.shutdownSystem()
+
+    $scope.reboot = ->
+      $log.info("Reboot System")
+      FSScanService.rebootSystem()
+
+    $scope.restart = ->
+      FSScanService.restartServer()
+
     $scope.showItemTools = ->
       $scope.scanItemToolsVisible = ! $scope.scanItemToolsVisible
+
+    $scope.stopScan = ->
+      FSScanService.stopScan()
 
     $scope.showScanSettingsSheet = (ev) ->
       $mdDialog.show(
@@ -34,9 +67,8 @@ angular.module(name, []).controller(name, [
         parent: angular.element(document.body)
         targetEvent: ev
         fullscreen: $mdMedia('xs')
-        clickOutsideToClose: true).then ((answer) ->
-            $scope.status = 'You said the information was "' + answer + '".'
-        )
+        clickOutsideToClose: true
+      )
 
     $scope.showConfigDialog = (ev) ->
       $mdDialog.show(
@@ -45,8 +77,7 @@ angular.module(name, []).controller(name, [
         parent: angular.element(document.body)
         targetEvent: ev
         fullscreen: $mdMedia('xs')
-        clickOutsideToClose: true).then ((answer) ->
-          $scope.status = 'You said the information was "' + answer + '".'
-        )
+        clickOutsideToClose: true
+      )
 
 ])

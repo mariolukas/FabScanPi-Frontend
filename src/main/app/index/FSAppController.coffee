@@ -6,16 +6,17 @@ angular.module(name, []).controller(name, [
   '$rootScope',
   '$timeout',
   '$http',
-  '$mdToast',
+  '$mdDialog',
+  '$mdMedia',
   'common.services.FSToasterService',
   'fabscan.services.FSMessageHandlerService',
   'fabscan.services.FSEnumService',
   'fabscan.services.FSScanService',
   'fabscan.services.FSi18nService',
-	($log, $scope, $rootScope, $timeout, $http, $mdToast, toastr , FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
+	($log, $scope, $rootScope, $timeout, $http, $mdDialog, $mdMedia, toastr,  FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
 
     $scope.streamUrl = " "
-    $rootScope.settings = {}
+    #$rootScope.settings = {}
 
     $scope.remainingTime = []
     $scope.server_version = undefined
@@ -66,6 +67,7 @@ angular.module(name, []).controller(name, [
       $scope.remainingTime = []
       $log.info "State: "+data['state']
       document.title = "FabScanPi " + data['server_version']
+
       $scope.server_version = data['server_version']
       $scope.firmware_version = data['firmware_version']
 
@@ -76,22 +78,34 @@ angular.module(name, []).controller(name, [
           $scope.upgradeServer()
           return
 
-      _settings = data['settings']
-      $log.info("Settings :"+_settings)
-      FSScanService.setStartTime(_settings.startTime)
-      $log.info(_settings.startTime)
-      _settings.resolution *=-1
-      angular.copy(_settings, $rootScope.settings)
+      #_settings = data['settings']
+      #$log.info("Settings :"+_settings)
+      #FSScanService.setStartTime(_settings.startTime)
+      #$log.info(_settings.startTime)
+      #_settings.resolution *=-1
+      #angular.copy(_settings, $rootScope.settings)
       FSScanService.setScannerState(data['state'])
       $scope.appIsUpgrading = data['state'] == FSEnumService.states.UPGRADING
       if data['state'] == FSEnumService.states.IDLE
-          $scope.displayNews(true)
+          $scope.showNewsDialog()
       $log.debug("WebSocket connection ready...")
 
       #toastr.info(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
       $scope.appIsInitialized = true
 
     )
+
+    # show dialog if news are available...
+    $scope.showNewsDialog = (ev) ->
+      $mdDialog.show(
+        locals:{dataToPass: $scope.loadedNews}
+        templateUrl: 'news/view/FSNewsDialog.tpl.html'
+        parent: angular.element(document.body)
+        targetEvent: ev
+        fullscreen: $mdMedia('xs')
+        clickOutsideToClose: true
+      )
+
 
     $scope.displayNews = (value) ->
       #TODO: Trigger news Dialog here !

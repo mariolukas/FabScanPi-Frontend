@@ -1,0 +1,61 @@
+<div layout="column" ng-if="(toolbar | toolbarVisible)" ng-controller="fabscan.controller.FSToolsController">
+    <md-whiteframe md-colors="{background: 'primary-400'}" class="animate-show-hide" style="z-index:60; width:50px; height:100%; position:absolute; left:0px;" id="vericalToolBar" class="md-whiteframe-8dp" layout="column" layout-align="start center" flex>
+        <span flex="10"></span>
+
+        <!-- BEGIN Load Mesh Button -->
+        <md-menu ng-if="meshes.length > 1">
+            <md-button ng-disabled="meshes.length == 0" class="md-icon-button" aria-label="More" ng-click="$mdMenu.open()">
+                <md-icon md-menu-origin  md-svg-src="icons/icon_mesh.svg" aria-label="Mesh"></md-icon>
+                <md-tooltip md-z-index="100" md-direction="right" md-autohide="true">Load Mesh</md-tooltip>
+            </md-button>
+            <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+                <md-menu-item ng-repeat="mesh in meshes">
+                    <md-button >
+                        {{mesh.name}}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-button ng-if="meshes.length <= 1" ng-disabled="meshes.length == 0" class="md-icon-button" aria-label="More" ng-click="$mdMenu.open()">
+            <md-icon md-menu-origin  md-svg-src="icons/icon_mesh.svg" aria-label="Mesh"></md-icon>
+            <md-tooltip md-z-index="100" md-direction="right" md-autohide="true">Load Mesh</md-tooltip>
+        </md-button>
+        <!-- END Load Mesh Button -->
+
+        <!-- BEGIN Load Mesh Button -->
+        <md-menu ng-if="raw_scans.length > 1">
+            <md-button ng-disabled="raw_scans.length == 0" class="md-icon-button" aria-label="More">
+                <md-tooltip md-z-index="100">Load Pointcloud</md-tooltip>
+                <md-icon md-svg-src="icons/icon_pointcloud.svg" class="fabscan-icon" aria-label="Pointcloud"></md-icon>
+            </md-button>
+            <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+                <md-menu-item ng-repeat="raw_scan in raw_scans">
+                    <md-button >
+                        {{raw_scan.name}}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-button ng-if="raw_scans.length <= 1" ng-disabled="raw_scans.length == 0" class="md-icon-button" aria-label="More">
+            <md-tooltip md-z-index="100">Load Pointcloud</md-tooltip>
+            <md-icon md-svg-src="icons/icon_pointcloud.svg" class="fabscan-icon" aria-label="Pointcloud"></md-icon>
+        </md-button>
+        <!-- END Load Mesh Button -->
+        <span flex="10"></span>
+        <a href="{{loadedFile}}">
+            <md-button type="submit" class="md-icon-button" aria-label="More">
+                <md-tooltip md-z-index="100">Download Scan</md-tooltip>
+                <md-icon md-font-icon="fa fa-download fa-1x"  class="md-50" aria-hidden="true"></md-icon>
+            </md-button>
+        </a>
+        <md-button ng-click="showMeshingDialog()" class="md-icon-button" aria-label="More">
+            <md-tooltip md-z-index="100">Mesh Pointcloud</md-tooltip>
+            <md-icon md-font-icon="fa fa-magic fa-1x"  class="md-50" aria-hidden="true"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More" >
+            <md-tooltip md-z-index="100">Delete</md-tooltip>
+            <md-icon md-font-icon="fa fa-trash-o fa-1x"  class="md-50" aria-hidden="true"></md-icon>
+        </md-button>
+        <span flex></span>
+    </md-whiteframe>
+</div>

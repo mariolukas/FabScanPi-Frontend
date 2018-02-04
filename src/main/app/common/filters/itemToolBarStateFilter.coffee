@@ -10,8 +10,8 @@ angular.module(name, []).filter('toolbarVisible', [
   ($log, FSWebGlService, FSScanService, FSEnumService) ->
 
     customFilter = (input) ->
-      return ( FSWebGlService.scanLoaded or FSScanService.scanComplete ) and (FSScanService.getScannerState != FSEnumService.states.CALIBRATING)
-      #(FSScanService.getScannerState is not FSEnumService.states.SETTTINGS) and
+      return ( FSWebGlService.scanLoaded or FSScanService.scanComplete ) and (FSScanService.getScannerState != FSEnumService.states.CALIBRATING) and (FSScanService.getScannerState != FSEnumService.states.SETTTINGS) and (FSScanService.getScannerState != FSEnumService.states.SCANNING)
+      # and
 
     customFilter.$stateful = true
     customFilter

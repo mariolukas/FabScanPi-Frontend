@@ -1,0 +1,21 @@
+<md-dialog aria-label="Scan Settings" ng-controller="fabscan.controller.FSNewsController">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>News</h2>
+                <span flex></span>
+                <md-button aria-label="Close Button" class="md-icon-button" ng-click="closeDialog()">
+                    <md-icon md-font-icon="fa fa-close fa-2x"  class="md-50" aria-hidden="true"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <div ng-bind-html="news" class="newsContent">
+        </div>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button aria-label="Close Button" ng-click="startScan()" style="margin-right:20px;" class="md-whiteframe-1dp">
+                Start Meshing
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
