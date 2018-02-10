@@ -21,7 +21,7 @@
     </head>
     <body ng-controller="fabscan.controller.FSAppController" id="app" >
            <div ng-controller="fabscan.controller.FSToolbarController" layout="row" class="flexbox-parent" layout-align="center start">
-               <div ng-if="!('SCANNING' | currentState) && (!scanIsLoading() && !('CALIBRATING' | currentState) )" style="z-index:71;">
+               <div ng-if="!('SCANNING' | currentState) && !scanIsLoading() && !('CALIBRATING' | currentState)" style="z-index:71;">
                   <md-progress-circular ng-if="(progress | scanProgress) != 0" class="md-accent md-hue-1" style="position:absolute; margin-left:2px;" md-mode="{{circularLoadingMode}}" value="{{progress | scanProgress}}" md-diameter="68"></md-progress-circular>
                    <!-- BEGIN Cancel Buttons -->
                    <md-button style="z-index:71;" ng-click="showScanSettingsSheet($event)" class="md-fab" aria-label="New Scan" >
