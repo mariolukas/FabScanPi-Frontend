@@ -8,7 +8,7 @@ angular.module(name, []).factory(name, () ->
 
   service.toastr = window.toastr
   service.toastr.newestOnTop = true
-  service.toastr.options.positionClass = "toast-top-right"
+  service.toastr.options.positionClass = "toast-bottom-right"
 
   service.show = (message, level) ->
 

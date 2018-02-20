@@ -173,6 +173,11 @@ ng-md-icon[disabled] svg > g {
     margin-top: 50px;
 }
 
+md-toolbar{
+    min-height:50px;
+    max-height:50px
+}
+
 md-toast {
     z-index:100;
 

@@ -75,8 +75,8 @@ angular.module(name, []).controller(name, [
       if data['upgrade']['available']
 
         toastr.info 'Click here for upgrade! ', 'Version '+data['upgrade']['version']+' now available', timeOut:0, closeButton:true,  onclick: ->
-          $scope.upgradeServer()
-          return
+            $scope.upgradeServer()
+            return
 
       #_settings = data['settings']
       #$log.info("Settings :"+_settings)
