@@ -76,6 +76,7 @@ angular.module(name, []).controller(name, [
           resetSate()
 
         if data['message'] == 'SCAN_COMPLETE'
+          stopStream()
           FSScanService.setScanId(data['scan_id'])
           $scope.setScanIsComplete(true)
           resetSate()
