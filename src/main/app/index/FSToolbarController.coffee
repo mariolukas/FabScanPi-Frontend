@@ -9,7 +9,7 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSScanService',
   'fabscan.services.FSEnumService',
 
-  ($log, $scope, $http, $mdDialog, $mdMedia, FSScanService,FSEnumService ) ->
+  ($log, $scope, $http, $mdDialog, $mdMedia, FSScanService, FSEnumService ) ->
 
 
     $scope.circularLoadingMode = 'determinate'

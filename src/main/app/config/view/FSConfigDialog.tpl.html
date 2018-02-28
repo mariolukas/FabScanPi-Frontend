@@ -79,7 +79,7 @@
                             <md-list >
                                 <md-divider ></md-divider>
                                 <md-list-item class="noright" ng-click="selectWifi(network.ssid)" ng-repeat="network in wifi_list">
-                                    <md-icon flex md-font-icon="fa fa-signal fa-1x"  class="md-50 {{wifi.quality  | wifiIconClass }}" aria-hidden="true"></md-icon>
+                                    <div><md-icon flex md-font-icon="fa fa-signal fa-1x"  class="md-50 {{ network.signal  | wifiIconClass }}" aria-hidden="true"></md-icon></div>
                                     <p style="text-align:left;" md-truncate>{{network.ssid}}</p>
                                     <md-icon style="text-align:right;" ng-show="network.encrypted == true" flex md-font-icon="fa fa-lock fa-1x"  aria-hidden="true"></md-icon>
                                     <md-divider ></md-divider>
@@ -106,7 +106,7 @@
                     <md-tab-body flex>
                         <h3>System</h3>
 
-                        <span>Server: {{server_version}} <br> Firmware: {{firmware_version}}</span>
+                        <span>Server: {{softwareVersion}} <br> Firmware: {{firmwareVersion}}</span>
                     </md-tab-body>
                 </md-tab>
 

@@ -54,7 +54,7 @@
                        </md-button>
                         <md-button ng-show="('IDLE' | currentState)" ng-click="showConfigDialog($event)" class="md-icon-button" aria-label="More">
                            <md-icon md-font-icon="fa fa-cog fa-2x"  class="md-50" aria-hidden="true"></md-icon>
-                       </md-button>
+                        </md-button>
 
                     <md-menu>
                         <md-button aria-label="System Shutdown" class="md-icon-button" ng-click="$mdMenu.open($event)">
@@ -146,7 +146,7 @@
             </div>
 
             <div ng-controller="fabscan.controller.FSCanvasController" layout="column" style="margin: 0 auto; z-index:-100;" id="center">
-                <div style="font-size:1.2em; z-index: 80; right: 0.5em; position: absolute; top: 3em; color:white;" ng-if="sampledRemainingTime > 0 && (('SCANNING' | currentState) || isCalibrating)"  class="timeRemaining"><span ng-if="isCalibrating" text="main.SCANNER_IN_CALIBRATION_MODE"><br></span><br> About {{remainingTimeString}} remaining</div>
+                <div style="font-size:1.2em; z-index: 80; right: 0.5em; position: absolute; top: 3em; color:white;" ng-if="sampledRemainingTime > 0 && (('SCANNING' | currentState) || ('CALIBRATING' | currentState)  )"  class="timeRemaining"><span ng-if="isCalibrating" text="main.SCANNER_IN_CALIBRATION_MODE"><br></span><br> About {{remainingTimeString}} remaining</div>
                 <!-- ng-if="showStream" -->
                 <!-- <md-whiteframe class="md-whiteframe-4dp texture-preview" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout layout-align="center center">-->
                 <div ng-if="showStream" class="texture-preview">

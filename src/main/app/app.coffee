@@ -17,15 +17,15 @@ mods = [
   'fabscan.directives.FSModalDialog'
   'fabscan.directives.text'
 
-
   'fabscan.services.FSMessageHandlerService'
   'fabscan.services.FSEnumService'
   'fabscan.services.FSWebsocketConnectionFactory'
   'fabscan.services.FSScanService'
   'fabscan.services.FSi18nService'
   'fabscan.services.FSWebGlService'
-	'common.filters.scanDataAvailableFilter'
+  'fabscan.services.FSDeviceService'
 
+	'common.filters.scanDataAvailableFilter'
   'common.services.Configuration'
   'common.services.FSToasterService'
 

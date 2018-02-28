@@ -10,7 +10,7 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSEnumService',
   'fabscan.services.FSScanService',
   'fabscan.services.FSWebGlService',
-  ($log, $scope,$rootScope,$http, $document, Configuration, FSEnum, FSScanService, FSWebGlService ) ->
+  ($log, $scope, $rootScope, $http, $document, Configuration, FSEnum, FSScanService, FSWebGlService ) ->
 
     $scope.canvasWidth = 400
     $scope.canvasHeight = 500
@@ -34,10 +34,10 @@ angular.module(name, []).controller(name, [
 
     $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
 
-
     stopStream = () ->
-      $scope.showStream = false
+      $log.info("Called stop stream")
       $scope.streamUrl = ""
+      $scope.showStream = false
       $scope.$apply()
 
     startStream = () ->
@@ -61,7 +61,6 @@ angular.module(name, []).controller(name, [
         if data['state'] == FSEnum.states.IDLE
           stopStream()
           resetSate()
-
     )
 
     $rootScope.$on('clearView', ()->
@@ -69,7 +68,7 @@ angular.module(name, []).controller(name, [
     )
 
     $scope.start_stream_conditions = ['SCANNING_TEXTURE', 'START_CALIBRATION']
-    $scope.stop_stream_conditions = ['STOP_CALIBRATION', 'SCANNING_OBJECT']
+    $scope.stop_stream_conditions = ['STOPPED_CALIBRATION', 'SCANNING_OBJECT']
     $scope.reset_conditions = ['SCAN_CANCELED', 'SCAN_STOPED']
 
 
@@ -79,6 +78,7 @@ angular.module(name, []).controller(name, [
 
         if data['message'] in $scope.stop_stream_conditions
           stopStream()
+          resetSate()
 
         if data['message'] in $scope.reset_conditions
           resetSate()
@@ -137,8 +137,6 @@ angular.module(name, []).controller(name, [
               _time_values = []
 
             $scope.addPoints(data['points'],data['progress'],data['resolution'])
-
-
     )
 
 

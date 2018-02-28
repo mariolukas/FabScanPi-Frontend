@@ -10,7 +10,7 @@ angular.module(name, []).controller(name, [
   'common.services.FSToasterService',
   'fabscan.services.FSScanService',
   'fabscan.services.FSWebGlService',
-  ($log, $scope, $rootScope, $http, $mdDialog, Configuration, toastr, FSScanService, FSWebGlService) ->
+  ($log, $scope, $rootScope, $http, $mdDialog, Configuration, FSToasterService, FSScanService, FSWebGlService) ->
 
     $scope.scans = []
     $scope.galleryIsLoading = true
@@ -42,7 +42,7 @@ angular.module(name, []).controller(name, [
       FSWebGlService.loadPLYFile(pointcloud)
       #$scope.loadPLY(pointcloud)
       $scope.closeDialog()
-      toastr.info("Loading scanned Pointcloud "+id)
+      FSToasterService.show("Loading scanned Pointcloud "+id, "info")
 
 
     $scope.deleteScan = (scanID)->

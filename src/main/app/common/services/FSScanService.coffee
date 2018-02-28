@@ -106,6 +106,13 @@ angular.module(name, []).factory(name, [
 
       FSMessageHandlerService.sendData(message)
 
+    service.configModeOn = () ->
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.CONFIG_MODE_ON,
+      FSMessageHandlerService.sendData(message)
 
     service.upgradeServer = () ->
       $log.debug("Upgrade Server called.")

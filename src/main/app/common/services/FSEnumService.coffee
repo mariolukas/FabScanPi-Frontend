@@ -37,6 +37,8 @@ angular.module(name, []).factory(name, () ->
           HARDWARE_TEST_FUNCTION: 'HARDWARE_TEST_FUNCTION'
           GET_SETTINGS: 'GET_SETTINGS'
           GET_CONFIG: 'GET_CONFIG'
+          CONFIG_MODE_ON: 'CONFIG_MODE_ON'
+
 
     return FSEnumService
 

@@ -10,7 +10,7 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSEnumService',
   'fabscan.services.FSMessageHandlerService',
   'fabscan.services.FSScanService'
-  ($log, $scope, $rootScope, $timeout, $mdDialog, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
+  ($log, $scope, $rootScope, $timeout, $mdDialog, Configuration ,FSEnumService, FSMessageHandlerService, FSScanService) ->
 
       $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
       $scope.showStream = true
@@ -19,7 +19,6 @@ angular.module(name, []).controller(name, [
 
       $scope.$on(FSEnumService.events.ON_GET_SETTINGS, (event, data) ->
         $scope.settings = data['settings']
-        $log.info( data['settings'] )
         $scope.$apply()
       )
 

@@ -13,7 +13,8 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSEnumService',
   'fabscan.services.FSScanService',
   'fabscan.services.FSi18nService',
-	($log, $scope, $rootScope, $timeout, $http, $mdDialog, $mdMedia, toastr,  FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
+	'fabscan.services.FSDeviceService'
+	($log, $scope, $rootScope, $timeout, $http, $mdDialog, $mdMedia, toastr, FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService, FSDeviceService) ->
 
     $scope.streamUrl = " "
     #$rootScope.settings = {}
@@ -68,12 +69,10 @@ angular.module(name, []).controller(name, [
       $log.info "State: "+data['state']
       document.title = "FabScanPi " + data['server_version']
 
-      $scope.server_version = data['server_version']
-      $scope.firmware_version = data['firmware_version']
-
+      FSDeviceService.setFirmwareVersion(data['firmware_version'])
+      FSDeviceService.setSoftwareVersion( data['server_version'])
 
       if data['upgrade']['available']
-
         toastr.info 'Click here for upgrade! ', 'Version '+data['upgrade']['version']+' now available', timeOut:0, closeButton:true,  onclick: ->
             $scope.upgradeServer()
             return

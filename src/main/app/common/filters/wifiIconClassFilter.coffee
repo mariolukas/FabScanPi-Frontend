@@ -10,13 +10,14 @@ angular.module(name, []).filter('wifiIconClass', [
   '$log'
   ($log) ->
     (value) ->
-        if value >= -78
+        if value <= -55
           return "wifi-qiality-4"
-        if value < -78 and value > -88
+        if value >= -54 and value <= -45
           return "wifi-quality-3"
-        if value < -89 and value > -95
+        if value >= -46 and value <= -35
           return "wifi-quality-2"
+        if value >=-36
+          return "wifi-quality-1"
 
-        return "wifi-quality-1"
 
 ])

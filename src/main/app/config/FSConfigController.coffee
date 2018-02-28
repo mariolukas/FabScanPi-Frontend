@@ -11,16 +11,21 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSScanService',
   'fabscan.services.FSWebGlService',
   'fabscan.services.FSMessageHandlerService',
-  ($log, $scope, $interval, $http, $mdDialog, Configuration ,FSEnumService, FSScanService, FSWebGlService, FSMessageHandlerService) ->
+  'fabscan.services.FSDeviceService',
+  ($log, $scope, $interval, $http, $mdDialog, Configuration ,FSEnumService, FSScanService, FSWebGlService, FSMessageHandlerService, FSDeviceService) ->
 
-    $scope.wifi_list=[]
+    $scope.wifi_list = []
     $scope.status = undefined
     $scope.config = {}
+
+    $scope.softwareVersion = FSDeviceService.getSoftwareVersion()
+    $scope.firmwareVersion = FSDeviceService.getFirmwareVersion()
 
     $scope.streamUrl = Configuration.installation.httpurl+'stream/adjustment.mjpeg'
     $scope.showStream = true
 
     FSScanService.getConfig()
+    FSScanService.configModeOn()
 
     $scope.$on(FSEnumService.events.ON_GET_CONFIG, (event, data) ->
       $scope.config = data['config']
@@ -71,7 +76,6 @@ angular.module(name, []).controller(name, [
       $log.info payload
       $scope.devices = payload.data
 
-
     $scope.streamUrl = Configuration.installation.httpurl+'stream/adjustment.mjpeg'
     $scope.selectedTab = 'general'
 
@@ -98,16 +102,13 @@ angular.module(name, []).controller(name, [
       $scope.showSearchNotification = true
       $scope.wifi_lookup_interval = $interval($scope.searchWifiNetworks, 5000);
 
-
     $scope.confirmPassword = () ->
       $log.debug("Send Credentials")
-
 
     $scope.stopStream = () ->
       $scope.showStream = false
       $scope.streamUrl = ""
       $scope.$apply()
-
 
     $scope.startStream = () ->
       $scope.streamUrl = Configuration.installation.httpurl+'stream/adjustment.mjpeg'
@@ -141,6 +142,7 @@ angular.module(name, []).controller(name, [
     $scope.closeDialog = ->
       $scope.showStream = false
       $scope.streamUrl = ""
+      #FSScanService.stopScan()
       $mdDialog.cancel()
 
 ])
