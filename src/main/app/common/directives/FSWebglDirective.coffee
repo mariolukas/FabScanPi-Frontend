@@ -209,7 +209,7 @@ angular.module(name, []).directive("fsWebgl", [
         window.addEventListener "resize", scope.onWindowResize, false
         window.addEventListener "DOMMouseScroll", scope.onMouseWheel, false
         window.addEventListener "mousewheel", scope.onMouseWheel, false
-        document.addEventListener "keydown", scope.onKeyDown, false
+        #document.addEventListener "keydown", scope.onKeyDown, false
 
         element[0].addEventListener "mousemove", scope.onMouseMove, false
         element[0].addEventListener "mousedown", scope.onMouseDown, false

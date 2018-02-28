@@ -4,6 +4,7 @@
             <div class="md-toolbar-tools">
                 <h2>Scanner Configuration</h2>
                 <span flex></span>
+
                 <md-button aria-label="Close Button" class="md-icon-button" ng-click="closeDialog()">
                     <md-icon md-font-icon="fa fa-close fa-2x"  class="md-50" aria-hidden="true"></md-icon>
                 </md-button>
@@ -41,34 +42,43 @@
                     <md-tab-body flex>
                         <h3>Calibration</h3>
                         <div layout="row">
-                                <div layout-gt-xs="row">
-                                        <form name="calibrationForm">
+                            <div layout-gt-sm="row">
+
                                         <md-input-container>
                                             <label>Rows</label>
-                                            <input ng-model="config.calibration.pattern.rows">
+                                            <input ng-change="configUpdateNeeded()" type="number" ng-model="config.calibration.pattern.rows">
                                         </md-input-container>
                                         <md-input-container>
                                             <label>Columns</label>
-                                            <input ng-model="config.calibration.pattern.columns">
+                                            <input ng-change="configUpdateNeeded()" type="number" ng-model="config.calibration.pattern.columns">
+                                        </md-input-container>
+                            </div>
+                            <div layout-gt-sm="row">
+                                        <md-input-container>
+                                            <label>Square Size (mm)</label>
+                                            <input ng-change="configUpdateNeeded()" type="number" ng-model="config.calibration.pattern.square_size">
                                         </md-input-container>
                                         <md-input-container>
                                             <label>Origin Distance (mm)</label>
-                                            <input ng-model="config.calibration.pattern.origin_distance">
+                                            <input  ng-change="configUpdateNeeded()" type="number" ng-model="config.calibration.pattern.origin_distance">
                                         </md-input-container>
-                                    </form>
-                                </div>
+                            </div>
 
                         </div>
                         <div layout="row">
                             <span flex></span>
+
                                 <md-button ng-click="startCalibration()" style="margin-right:20px;" class="md-whiteframe-1dp">
                                     Start Calibration
                                 </md-button>
+                            <md-button ng-disabled="!configChanged" aria-label="Close Button" class="md-whiteframe-1dp" ng-click="updateConfig(config)">
+                                Save
+                            </md-button>
                         </div>
 
                     </md-tab-body>
                 </md-tab>
-                <md-tab label="Wi-Fi" ng-click="selectTab('wifi')">
+              <!--  <md-tab label="Wi-Fi" ng-click="selectTab('wifi')">
                     <md-tab-label>
                         <md-icon md-font-icon="fa fa-wifi fa-2x" class="md-50" aria-hidden="true"></md-icon>
                     </md-tab-label>
@@ -98,10 +108,12 @@
                             </md-button>
                         </div>
                     </md-tab-body>
-                </md-tab>
+                </md-tab>-->
                 <md-tab label="System" ng-click="selectTab('system')">
                     <md-tab-label>
-                        <md-icon md-svg-src="icons/raspberry.svg" aria-label="android "></md-icon>
+                       <!-- <md-icon md-svg-src="icons/raspberry.svg" aria-label="android "></md-icon>-->
+                        <md-icon md-font-icon="fa fa-info fa-2x" class="md-50" aria-hidden="true"></md-icon>
+
                     </md-tab-label>
                     <md-tab-body flex>
                         <h3>System</h3>

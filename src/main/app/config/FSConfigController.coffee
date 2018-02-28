@@ -17,6 +17,7 @@ angular.module(name, []).controller(name, [
     $scope.wifi_list = []
     $scope.status = undefined
     $scope.config = {}
+    $scope.configChanged = false
 
     $scope.softwareVersion = FSDeviceService.getSoftwareVersion()
     $scope.firmwareVersion = FSDeviceService.getFirmwareVersion()
@@ -35,6 +36,15 @@ angular.module(name, []).controller(name, [
 
     $scope.showSearchNotification = false
     $scope.showPasswordInputField = false
+
+    $scope.configUpdateNeeded = () ->
+      $scope.configChanged = true
+
+    $scope.updateConfig = (config) ->
+
+      FSScanService.updateConfig(config)
+      $scope.configChanged = false
+      $log.info("Config updated")
 
     $scope.getWifiStatus = () ->
       message = {}

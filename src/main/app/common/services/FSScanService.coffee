@@ -103,7 +103,16 @@ angular.module(name, []).factory(name, [
         event: FSEnumService.events.COMMAND
         data:
           command: FSEnumService.commands.GET_CONFIG
+      FSMessageHandlerService.sendData(message)
 
+    service.updateConfig = (config) ->
+      message = {}
+      message =
+        event: FSEnumService.events.COMMAND
+        data:
+          command: FSEnumService.commands.UPDATE_CONFIG
+          config: config
+      $log.info(message)
       FSMessageHandlerService.sendData(message)
 
     service.configModeOn = () ->
