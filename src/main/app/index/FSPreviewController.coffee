@@ -91,7 +91,7 @@ angular.module(name, []).controller(name, [
 
             percentage = $scope.progress/$scope.resolution*100
 
-            $scope.startTime = FSScanService.getStartTime()
+            $scope.startTime = data['starttime']
             if $scope.progress <= 1
               $scope.sampledRemainingTime = 0
               _time_values = []
@@ -99,7 +99,7 @@ angular.module(name, []).controller(name, [
 
             else
 
-              timeTaken = (Date.now() - $scope.startTime)
+              timeTaken = (data['timestamp'] - $scope.startTime)
               $scope.remainingTime.push(parseFloat(Math.floor(((timeTaken/ $scope.progress)* ($scope.resolution - $scope.progress))/1000)))
 
               if $scope.remainingTime.length > 20

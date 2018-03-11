@@ -92,7 +92,7 @@ angular.module(name, []).controller(name, [
 
       _settings = data['settings']
 
-      FSScanService.setStartTime(_settings.startTime)
+      #FSScanService.setStartTime(_settings.startTime)
       $log.debug(_settings.startTime)
       _settings.resolution *=-1
       angular.copy(_settings, $scope.settings)
