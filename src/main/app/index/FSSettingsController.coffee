@@ -4,12 +4,12 @@ angular.module(name, []).controller(name, [
   '$log',
   '$scope',
   '$timeout',
-  '$mdBottomSheet',
+  '$swipe',
   'common.services.Configuration'
   'fabscan.services.FSEnumService',
   'fabscan.services.FSMessageHandlerService',
   'fabscan.services.FSScanService'
-  ($log, $scope, $timeout, $mdBottomSheet, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
+  ($log, $scope, $timeout, $swipe, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
 
       #if FSScanService.getScannerState() == FSEnumService.states.UPDATING_SETTINGS
       $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
@@ -17,17 +17,6 @@ angular.module(name, []).controller(name, [
       $scope.previewMode = "laser"
       $scope.selectedTab = 'general'
 
-
-      $scope.openBottomSheet = ->
-        $mdBottomSheet.show(
-          templateUrl: 'templates/fsSettingsMenuTemplate.html',
-        ).then(->
-          console.log 'You clicked the button to close the bottom sheet!'
-          return
-        ).catch ->
-          console.log 'You hit escape or clicked the backdrop to close.'
-          return
-        return
 
       $scope.timeout = null
 
@@ -62,11 +51,12 @@ angular.module(name, []).controller(name, [
       $scope.showCalibrationPreview = () ->
          $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
          $scope.previewMode = "calibration"
+         $scope.$apply()
 
       $scope.showLaserPreview = () ->
          $scope.streamUrl = Configuration.installation.httpurl+'stream/laser.mjpeg'
          $scope.previewMode = "laser"
-
+         $scope.$apply()
 
       $scope.setColor = () ->
           updateSettings()

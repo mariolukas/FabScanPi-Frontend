@@ -7,9 +7,6 @@ mods = [
   'common.filters.currentStateFilter'
 	'common.filters.toLabelFilter'
 	'common.filters.toResolutionValue'
-  'common.filters.wifiIconClassFilter'
-  'common.filters.networkModeLabelFilter'
-
 
   'fabscan.directives.FSWebglDirective'
   'fabscan.directives.FSMJPEGStream'
@@ -33,19 +30,16 @@ mods = [
   'fabscan.controller.FSScanController'
 	'fabscan.controller.FSLoadingController'
 	'fabscan.controller.FSShareController'
-  'fabscan.controller.FSConfigController'
-  'fabscan.controller.FSToolbarController'
 
 	'ngSanitize'
+	'ngTouch'
   'ngCookies'
 
 	'720kb.tooltips'
 	'ngProgress'
 
-#  'vr.directives.slider'
+  'vr.directives.slider'
 	'slickCarousel'
-  'ngMaterial'
-#  'ngTouch'
    #'ng.jsoneditor'
 ]
 

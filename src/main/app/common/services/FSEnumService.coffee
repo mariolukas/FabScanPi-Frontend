@@ -11,7 +11,6 @@ angular.module(name, []).factory(name, () ->
           ON_CLIENT_INIT: 'ON_CLIENT_INIT'
           ON_INFO_MESSAGE: 'ON_INFO_MESSAGE'
           SCAN_LOADED: "SCAN_LOADED"
-          ON_NET_CONNECT: "ON_NET_CONNECT"
 
     FSEnumService.states =
           IDLE: 'IDLE'
@@ -27,10 +26,8 @@ angular.module(name, []).factory(name, () ->
           CALIBRATE: 'CALIBRATE'
           UPDATE_SETTINGS: 'UPDATE_SETTINGS'
           MESHING: 'MESHING'
-          NETCONNECT: "NETCONNECT"
           UPGRADE_SERVER: 'UPGRADE_SERVER'
           RESTART_SERVER: 'RESTART_SERVER'
-          HARDWARE_TEST_FUNCTION: 'HARDWARE_TEST_FUNCTION'
 
     return FSEnumService
 

@@ -21,13 +21,6 @@ angular.module(name, []).controller(name, [
     $scope.scans = []
     $scope.m_filters = []
 
-    $scope.currentState = undefined
-
-    $scope.$on('stateChanged', (event) ->
-
-        $log.debug("Event:"+event)
-    )
-
     $scope.loadFilters = () ->
 
       filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters')
@@ -66,7 +59,7 @@ angular.module(name, []).controller(name, [
       FSScanService.stopScan()
 
     $scope.showConfigDialog = () ->
-      $log.info("Open Config Dialog")
+      $log.debug("Open Config Dialog")
       $scope.configDialog = true
 
     $scope.hideConfigDialog = () ->
@@ -79,7 +72,7 @@ angular.module(name, []).controller(name, [
         $scope.loadDialog = false
         $scope.shareDialog = true
 
-    $scope.toggleLoadDialog = () ->
+    $scope.toggleLoadDialog =  () ->
       $scope.displayNews(false)
       if !$scope.loadDialog
         promise = $http.get(Configuration.installation.httpurl+'api/v1/scans')
@@ -98,19 +91,16 @@ angular.module(name, []).controller(name, [
     $scope.exitScanSettings = () ->
       $scope.stopStream()
       $scope.showSettings = false
-      $scope.configDialog = false
       #window.stop()
       FSScanService.exitScan()
 
     $scope.newScan = () ->
-
       if $scope.loadDialog
         $scope.toggleLoadDialog()
       if $scope.shareDialog
         $scope.toggleShareDialog()
       $scope.showSettings = true
       FSScanService.startSettings()
-
 
     $scope.stopStream = () ->
       $scope.streamUrl = " "

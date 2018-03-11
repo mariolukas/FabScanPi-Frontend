@@ -27,7 +27,6 @@ angular.module(name, []).controller(name, [
     $scope.appIsUpgrading = false
     $scope.isConnected = false
     $scope.initError = false
-    $scope.closeSheet = true
 
     $timeout (->
       $scope.appInitError()
@@ -55,7 +54,6 @@ angular.module(name, []).controller(name, [
     $scope.scanIsLoaded = () ->
       return $scope.scanLoaded
 
-
     $scope.scanDataIsAvailable = ()->
        if $scope.scanLoaded
           $log.info "scan loaded"
@@ -67,7 +65,6 @@ angular.module(name, []).controller(name, [
 
     $scope.upgradeServer = () ->
       FSScanService.upgradeServer()
-
 
     $scope.$on("CONNECTION_STATE_CHANGED", (event, connected) ->
         $log.info("Connected")
@@ -108,6 +105,7 @@ angular.module(name, []).controller(name, [
       #toastr.info(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
       $scope.appIsInitialized = true
 
+      $scope.$apply()
     )
 
     $scope.displayNews = (value) ->
@@ -117,14 +115,14 @@ angular.module(name, []).controller(name, [
       $scope.showNews = false
       $log.info "NEW STATE: "+data['state']
       FSScanService.setScannerState(data['state'])
-
+      $log.info data
       if data['state'] == FSEnumService.states.IDLE
         ngProgress.complete()
       if data['state'] == FSEnumService.states.CALIBRATING
         $scope.isCalibrating = true
       else
         $scope.isCalibrating = false
-
+      #$scope.$broadcast('refreshSlider');
       $scope.$apply()
     )
 
