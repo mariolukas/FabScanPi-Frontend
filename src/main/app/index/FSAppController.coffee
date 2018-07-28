@@ -91,10 +91,8 @@ angular.module(name, []).controller(name, [
           return
 
       _settings = data['settings']
+      #_settings.resolution *=-1
 
-      #FSScanService.setStartTime(_settings.startTime)
-      $log.debug(_settings.startTime)
-      _settings.resolution *=-1
       angular.copy(_settings, $scope.settings)
       FSScanService.setScannerState(data['state'])
       $scope.appIsUpgrading = data['state'] == FSEnumService.states.UPGRADING

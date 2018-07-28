@@ -19,6 +19,6 @@
     "UPGRADE_IN_PROGRESS": "Software wird aktualisiert...",
     "SCANNER_IN_CALIBRATION_MODE" :"Scanner wird kalibriert. Bitte warten...",
     "STOPPED_CALIBRATION" : "Kalibrierung abgebrochen",
-    "SCANNER_NOT_CALIBRATED": "Scanner ist nicht kalibiriert. Anleitung unter: <a href='http://mariolukas.github.io/FabScanPi-Server/software/'>fabscan.org</a>"
-
+    "SCANNER_NOT_CALIBRATED": "Scanner ist nicht kalibiriert. Anleitung unter: <a href='http://mariolukas.github.io/FabScanPi-Server/software/'>fabscan.org</a>",
+    "SCANNER_CALIBRATION_FAILED": "Scanner calibration failed. Please try again."
 }
