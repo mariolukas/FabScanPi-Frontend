@@ -10,15 +10,16 @@ angular.module(name, []).factory(name, [
     config = null
     host = $location.host()
     $log.info(host)
-    #localDebug = true
+    localDebug = true
+
 
     if localDebug
       config = {
           installation:
             #host: "192.168.178.31"
             host: "fabscanpi.local"
-            websocketurl: 'ws://fabscanpi.local:8010/'
-            httpurl: 'http://fabscanpi.local:8080/'
+            websocketurl: 'ws://192.168.178.44:8010/'
+            httpurl: 'http://192.168.178.44:8080/'
             newsurl: 'http://mariolukas.github.io/FabScanPi-Server/news/'
       }
     else

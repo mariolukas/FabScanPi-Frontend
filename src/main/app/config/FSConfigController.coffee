@@ -18,6 +18,7 @@ angular.module(name, []).controller(name, [
     $scope.status = undefined
     $scope.config = {}
     $scope.configChanged = false
+    $scope.calibrationStarted = false
 
     $scope.softwareVersion = FSDeviceService.getSoftwareVersion()
     $scope.firmwareVersion = FSDeviceService.getFirmwareVersion()
@@ -96,10 +97,13 @@ angular.module(name, []).controller(name, [
         $scope.getWifiStatus()
         $scope.searchWifiNetworks()
         $scope.wifi_lookup_interval = $interval($scope.searchWifiNetworks, 5000);
+      if $scope.selectedTab == 'general'
+        #$scope.startStream()
       else
         $interval.cancel $scope.wifi_lookup_interval
         $scope.showPasswordInputField = false
         $scope.showSearchNotification = false
+        #$scope.stopStream()
 
     $scope.selectWifi = (ssid) ->
       $interval.cancel $scope.wifi_lookup_interval
@@ -142,7 +146,7 @@ angular.module(name, []).controller(name, [
       FSWebGlService.clearView()
       FSWebGlService.scansLoaded = false
       FSScanService.startCalibration()
-      $scope.closeDialog()
+      $mdDialog.cancel()
       $scope.$applyAsync()
 
     $scope.$on '$destroy', ->
@@ -152,7 +156,7 @@ angular.module(name, []).controller(name, [
     $scope.closeDialog = ->
       $scope.showStream = false
       $scope.streamUrl = ""
-      #FSScanService.stopScan()
+      FSScanService.stopScan()
       $mdDialog.cancel()
 
 ])

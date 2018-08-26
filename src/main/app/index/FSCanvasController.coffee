@@ -58,6 +58,7 @@ angular.module(name, []).controller(name, [
         $scope.showStream = true
 
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
+        console.log("State Changed... ")
         if data['state'] == FSEnum.states.IDLE
           stopStream()
           resetSate()
@@ -91,11 +92,6 @@ angular.module(name, []).controller(name, [
 
 
     $scope.$on(FSEnum.events.ON_NEW_PROGRESS,  (event, data) ->
-
-      if (data['state'] == 'texture_scan') || (data['state'] == 'calibration')
-            startStream()
-      else
-            stopStream()
 
       if  FSScanService.state != FSEnum.states.IDLE
             $scope.resolution = data['resolution']
