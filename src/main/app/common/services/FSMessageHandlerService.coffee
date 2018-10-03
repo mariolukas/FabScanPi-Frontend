@@ -38,7 +38,7 @@ angular.module(name, []).factory(name, [
             $rootScope.$broadcast("CONNECTION_STATE_CHANGED", scope.isConnected)
             $timeout(() ->
               FSMessageHandlerService.connectToScanner(scope)
-            ,2000)
+            ,100)
             console.log "Connection closed"
 
         socket.onmessage = (event) ->

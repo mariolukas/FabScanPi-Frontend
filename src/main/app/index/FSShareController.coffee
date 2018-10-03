@@ -83,7 +83,7 @@ angular.module(name, []).controller(name, [
 
     $scope.deleteFile = (filename) ->
       $scope.toggleShareDialog()
-      promise = $http.delete(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId()+'/files/'+filename)
+      promise = $http.delete(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId()+'/files?filename='+filename)
       promise.then (payload) ->
         $log.info payload.data
         $scope.getScans()
@@ -98,7 +98,7 @@ angular.module(name, []).controller(name, [
 
     $scope.deleteScan = ()->
       $scope.toggleShareDialog()
-      promise = $http.delete(Configuration.installation.httpurl+'api/v1/delete/'+FSScanService.getScanId())
+      promise = $http.delete(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
       promise.then (payload) ->
         $log.info payload.data
 

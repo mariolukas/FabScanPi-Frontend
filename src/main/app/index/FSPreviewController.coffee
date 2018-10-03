@@ -36,7 +36,7 @@ angular.module(name, []).controller(name, [
       $scope.$apply()
 
     startStream = () ->
-      $scope.streamUrl = Configuration.installation.httpurl+'stream/texture.mjpeg'
+      $scope.streamUrl = Configuration.installation.httpurl+'api/v1/streams/?type=textures'
       $scope.showStream = true
       $scope.$apply()
 

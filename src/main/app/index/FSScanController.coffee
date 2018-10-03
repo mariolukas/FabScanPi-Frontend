@@ -23,7 +23,7 @@ angular.module(name, []).controller(name, [
 
     $scope.loadFilters = () ->
 
-      filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters')
+      filter_promise = $http.get(Configuration.installation.httpurl+'api/v1/filters/')
       filter_promise.then (payload) ->
         $log.info payload
         $scope.m_filters = payload.data.filters
@@ -75,7 +75,7 @@ angular.module(name, []).controller(name, [
     $scope.toggleLoadDialog =  () ->
       $scope.displayNews(false)
       if !$scope.loadDialog
-        promise = $http.get(Configuration.installation.httpurl+'api/v1/scans')
+        promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/')
         promise.then (payload) ->
             $scope.scans = payload.data.scans
             $scope.scanListLoaded = true

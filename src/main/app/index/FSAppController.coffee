@@ -31,7 +31,7 @@ angular.module(name, []).controller(name, [
     $timeout (->
       $scope.appInitError()
       return
-    ), 8000
+    ), 15000
 
     $scope.appInitError = () ->
       $scope.initError = true
@@ -77,6 +77,7 @@ angular.module(name, []).controller(name, [
 
     $scope.$on(FSEnumService.events.ON_CLIENT_INIT, (event, data) ->
       $log.info "Initing"
+      $scope.appIsInitialized = true
       $scope.remainingTime = []
       $log.info "State: "+data['state']
       document.title = "FabScanPi " + data['server_version']
@@ -101,7 +102,7 @@ angular.module(name, []).controller(name, [
       $log.debug("WebSocket connection ready...")
 
       #toastr.info(FSi18nService.translateKey('main','CONNECTED_TO_SERVER'))
-      $scope.appIsInitialized = true
+
 
       $scope.$apply()
     )
