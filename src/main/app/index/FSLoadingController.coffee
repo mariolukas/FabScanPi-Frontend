@@ -6,7 +6,8 @@ angular.module(name, []).controller(name, [
   '$rootScope',
   'fabscan.services.FSScanService',
   'fabscan.services.FSEnumService'
-  ($log, $scope, $rootScope, FSScanService, FSEnum) ->
+  'common.services.Configuration',
+  ($log, $scope, $rootScope, FSScanService, FSEnum, Configuration) ->
 
     $scope.loadPointCloud = (pointcloud, id) ->
         $scope.setScanIsLoading(true)
@@ -16,7 +17,7 @@ angular.module(name, []).controller(name, [
         $scope.setScanLoaded(false)
 
         toastr.info("Loading scanned Pointcloud "+id)
-        $scope.loadPLY(pointcloud)
+        $scope.loadPLY( pointcloud)
 
     $scope.loadMesh = (mesh, id) ->
         return

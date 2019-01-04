@@ -27,7 +27,7 @@ angular.module(name, []).controller(name, [
     $scope.selectedFormat = $scope.file_formats[0]
 
     $scope.getScans = () ->
-      scan_promise = $http.get(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
+      scan_promise = $http.get(Configuration.installation.apiurl+'api/v1/scans/'+FSScanService.getScanId())
       scan_promise.then (payload) ->
         $log.debug payload
         $scope.raw_scans = payload.data.raw_scans
@@ -83,7 +83,7 @@ angular.module(name, []).controller(name, [
 
     $scope.deleteFile = (filename) ->
       $scope.toggleShareDialog()
-      promise = $http.delete(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId()+'/files?filename='+filename)
+      promise = $http.delete(Configuration.installation.apiurl+'api/v1/scans/'+FSScanService.getScanId()+'/files?filename='+filename)
       promise.then (payload) ->
         $log.info payload.data
         $scope.getScans()
@@ -98,7 +98,7 @@ angular.module(name, []).controller(name, [
 
     $scope.deleteScan = ()->
       $scope.toggleShareDialog()
-      promise = $http.delete(Configuration.installation.httpurl+'api/v1/scans/'+FSScanService.getScanId())
+      promise = $http.delete(Configuration.installation.apiurl+'api/v1/scans/'+FSScanService.getScanId())
       promise.then (payload) ->
         $log.info payload.data
 

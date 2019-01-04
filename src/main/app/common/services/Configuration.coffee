@@ -9,23 +9,31 @@ angular.module(name, []).factory(name, [
 
     config = null
     host = $location.host()
-    $log.info(host)
+    http = 'http'
+    ws = 'ws'
+
+    console.log($location.protocol())
+    if $location.protocol() is 'https'
+      http = 'https'
+      ws = 'wss'
 
     if localDebug
       config = {
           installation:
             host: "fabscanpi.local"
-            websocketurl: 'ws://fabscanpi.local/websocket'
-            httpurl: 'http://fabscanpi.local:8080/'
-            newsurl: 'http://mariolukas.github.io/FabScanPi-Server/news/'
+            websocketurl: ws+'://fabscanpi.local/websocket'
+            httpurl: http+'://fabscanpi.local/'
+            newsurl: http+'://mariolukas.github.io/FabScanPi-Server/news/'
+            apiurl: http + '://fabscanpi.local/'
       }
     else
       config = {
         installation:
           host: host
-          websocketurl: 'ws://'+host+'/websocket'
-          httpurl: 'http://'+host+':8080/'
-          newsurl: 'http://mariolukas.github.io/FabScanPi-Server/news/'
+          websocketurl: ws + '://' + host + '/websocket'
+          httpurl: http + '://' + host + ':8080/'
+          newsurl: http + '://mariolukas.github.io/FabScanPi-Server/news/'
+          apiurl: http + '://' + host + '/'
       }
 
     config

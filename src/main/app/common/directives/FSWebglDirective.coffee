@@ -210,7 +210,7 @@ angular.module(name, []).directive("fsWebgl", [
 
       scope.createPreviewImage = (id) ->
         screenshot = renderer.domElement.toDataURL('image/png')
-        $http.post(Configuration.installation.httpurl + "api/v1/scans/" + id + "/previews",
+        $http.post(Configuration.installation.apiurl + "api/v1/scans/" + id + "/previews",
           image: screenshot
         ).success (response) ->
           $log.info response

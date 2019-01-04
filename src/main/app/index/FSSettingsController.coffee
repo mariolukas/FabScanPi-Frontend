@@ -12,7 +12,7 @@ angular.module(name, []).controller(name, [
   ($log, $scope, $timeout, $swipe, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
 
       #if FSScanService.getScannerState() == FSEnumService.states.UPDATING_SETTINGS
-      $scope.streamUrl = Configuration.installation.httpurl+'api/v1/streams/?type=laser'
+      $scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=laser'
 
       $scope.previewMode = "laser"
       $scope.selectedTab = 'general'
@@ -49,12 +49,12 @@ angular.module(name, []).controller(name, [
           $scope.showLaserPreview()
 
       $scope.showCalibrationPreview = () ->
-         $scope.streamUrl = Configuration.installation.httpurl+'api/v1/streams/?type=texture'
+         $scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=texture'
          $scope.previewMode = "calibration"
          $scope.$apply()
 
       $scope.showLaserPreview = () ->
-         $scope.streamUrl = Configuration.installation.httpurl+'api/v1/streams/?type=laser'
+         $scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=laser'
          $scope.previewMode = "laser"
          $scope.$apply()
 
@@ -62,7 +62,7 @@ angular.module(name, []).controller(name, [
           updateSettings()
 
       $scope.colorIsSelected = () ->
-          if $scope.settings.color == "True"
+          if $scope.settings.color
             return true
           else
             return false
