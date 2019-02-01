@@ -175,21 +175,14 @@
                             </div>
                         </div>
                             <div class="tab-content" ng-show="(selectedTab == 'hardware')">
-                                <div>
-                                    <div ng-class="{'fadeOut':!showLedRedValue}" class="slider-value-label" >{{settings.led.red}}</div>
-                                    <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Red</div>
-                                    <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.red"></slider>
-                                </div>
-                                <div>
-                                    <div ng-class="{'fadeOut':!showLedGreenValue}" class="slider-value-label" >{{settings.led.green}}</div>
-                                    <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Green</div>
-                                    <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.green"></slider>
-                                </div>
-                                <div>
-                                    <div ng-class="{'fadeOut':!showLedBlueValue}" class="slider-value-label" >{{settings.led.blue}}</div>
-                                    <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Blue</div>
-                                    <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.blue"></slider>
-                                </div>
+
+                                    <div ng-repeat="(key,values) in devices">
+                                        {{devices[key]['LABEL']}}
+                                        <div>
+                                            <button ng-repeat="function in devices[key]['FUNCTIONS']" ng-click="sendDeviceCommand(key, function)">{{function}}</button>
+                                        </div>
+                                    </div>
+
                             </div>
                         <!--
                         <div class="tab-content" ng-if="(selectedTab == 'calibration')">

@@ -5,11 +5,12 @@ angular.module(name, []).controller(name, [
   '$scope',
   '$timeout',
   '$swipe',
+  '$http',
   'common.services.Configuration'
   'fabscan.services.FSEnumService',
   'fabscan.services.FSMessageHandlerService',
   'fabscan.services.FSScanService'
-  ($log, $scope, $timeout, $swipe, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
+  ($log, $scope, $timeout, $swipe, $http, Configuration ,FSEnumService, FSMessageHandlerService,FSScanService) ->
 
       #if FSScanService.getScannerState() == FSEnumService.states.UPDATING_SETTINGS
       $scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=laser'
@@ -17,6 +18,10 @@ angular.module(name, []).controller(name, [
       $scope.previewMode = "laser"
       $scope.selectedTab = 'general'
 
+      devices_promise = $http.get(Configuration.installation.httpurl+'api/v1/devices/')
+      devices_promise.then (payload) ->
+         $log.info payload
+         $scope.devices = payload.data
 
       $scope.timeout = null
 
