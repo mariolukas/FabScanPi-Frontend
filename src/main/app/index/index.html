@@ -103,6 +103,9 @@
                             <div ng-click="selectTab('light')" class="tab icon settings" ng-class="{'active':(selectedTab == 'light')}">
                                 <i class="fa fa-sun-o fa-2x"></i>
                             </div>
+                            <div ng-click="selectTab('hardware')" class="tab icon settings" ng-class="{'active':(selectedTab == 'hardware')}">
+                                <i class="fa fa-sun-o fa-2x"></i>
+                            </div>
                             <!--
                             <div ng-click="setCalibrationTab()" class="tab icon settings" ng-class="{'active':(selectedTab == 'calibration')}">
                                 <i class="fa fa-crosshairs fa-2x"></i>
@@ -171,6 +174,23 @@
                                <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.blue"></slider>
                             </div>
                         </div>
+                            <div class="tab-content" ng-show="(selectedTab == 'hardware')">
+                                <div>
+                                    <div ng-class="{'fadeOut':!showLedRedValue}" class="slider-value-label" >{{settings.led.red}}</div>
+                                    <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Red</div>
+                                    <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.red"></slider>
+                                </div>
+                                <div>
+                                    <div ng-class="{'fadeOut':!showLedGreenValue}" class="slider-value-label" >{{settings.led.green}}</div>
+                                    <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Green</div>
+                                    <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.green"></slider>
+                                </div>
+                                <div>
+                                    <div ng-class="{'fadeOut':!showLedBlueValue}" class="slider-value-label" >{{settings.led.blue}}</div>
+                                    <div style="display:inline-block; width:5em; color:white; padding-left:1em;">Blue</div>
+                                    <slider style="width:70%; margin-left:1em;" floor="0" ceiling="255" step="1" precision="1" ng-model="settings.led.blue"></slider>
+                                </div>
+                            </div>
                         <!--
                         <div class="tab-content" ng-if="(selectedTab == 'calibration')">
                             <div style="display:inline-block; width:100%; margin-top:1em; color:white; padding-left:1em;">
@@ -374,6 +394,7 @@
                                          </ul>
                                      </div>
                                  </div>
+
                              </div>
 
                          </div>
