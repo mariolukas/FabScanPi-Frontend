@@ -28,6 +28,7 @@ angular.module(name, []).factory(name, () ->
           MESHING: 'MESHING'
           UPGRADE_SERVER: 'UPGRADE_SERVER'
           RESTART_SERVER: 'RESTART_SERVER'
+          HARDWARE_TEST_FUNCTION: 'HARDWARE_TEST_FUNCTION'
 
     return FSEnumService
 

@@ -19,6 +19,7 @@ mods = [
   'fabscan.services.FSScanService'
   'fabscan.services.FSi18nService'
 	'common.filters.scanDataAvailableFilter'
+  'fabscan.directives.onSizeChanged'
 
   'common.services.Configuration'
   'common.services.toastrWrapperSvc'

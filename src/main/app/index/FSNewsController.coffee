@@ -36,8 +36,8 @@ angular.module(name, []).controller(name, [
     deferred = $q.defer();
 
     $scope.news = "No news available."
-    #$http({method: 'GET', url: configuration.installation.newsurl, timeout: deferred.promise }).
-    #  success((data, status, headers, config) ->
+    $http({method: 'GET', url: configuration.installation.newsurl, timeout: deferred.promise }).
+      success((data, status, headers, config) ->
 
 
     #    newsHASH = hashCode(data)
@@ -47,10 +47,10 @@ angular.module(name, []).controller(name, [
     #      $log.debug("Some news are available")
 
         #$log.info("News Hash "+hashCode(data))
-     #   $scope.news = data
-     #   $timeout.cancel(timeoutPromise);
-     # ).
-     # error((data, status, headers, config) ->
-     #   $scope.news = "Error retrieving news."
-     # )
+         $scope.news = data
+         $timeout.cancel(timeoutPromise)
+       ).
+       error((data, status, headers, config) ->
+         $scope.news = "Error retrieving news."
+       )
 ])

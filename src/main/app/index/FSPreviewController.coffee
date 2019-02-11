@@ -52,7 +52,11 @@ angular.module(name, []).controller(name, [
         $scope.showStream = true
 
     $scope.$on(FSEnum.events.ON_STATE_CHANGED, (event, data)->
-        if data['state'] == FSEnum.states.IDLE
+
+     # if data['state'] == FSEnum.states.SETTINGS
+     #    startStream()
+
+      if data['state'] == FSEnum.states.IDLE
           stopStream()
     )
 
@@ -60,12 +64,13 @@ angular.module(name, []).controller(name, [
         $scope.clearView()
     )
 
-    $scope.start_stream_conditions = ['SCANNING_TEXTURE', 'START_CALIBRATION']
-    $scope.stop_stream_conditions = ['STOP_CALIBRATION', 'SCANNING_OBJECT']
+    $scope.start_stream_conditions = [ 'SCANNING_TEXTURE', 'START_CALIBRATION']
+    $scope.stop_stream_conditions = [ 'STOP_CALIBRATION', 'SCANNING_OBJECT']
     $scope.reset_conditions = ['SCAN_CANCELED', 'SCAN_STOPED']
 
 
     $scope.$on(FSEnum.events.ON_INFO_MESSAGE, (event, data) ->
+
         if data['message'] in $scope.start_stream_conditions
           startStream()
 

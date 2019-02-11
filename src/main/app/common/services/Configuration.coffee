@@ -23,7 +23,7 @@ angular.module(name, []).factory(name, [
             host: "fabscanpi.local"
             websocketurl: ws+'://fabscanpi.local/websocket'
             httpurl: http+'://fabscanpi.local/'
-            newsurl: http+'://mariolukas.github.io/FabScanPi-Server/news/'
+            newsurl: http+'://fabscanpi-server.readthedocs.io/en/latest/news/'
             apiurl: http + '://fabscanpi.local/'
       }
     else
@@ -32,7 +32,7 @@ angular.module(name, []).factory(name, [
           host: host
           websocketurl: ws + '://' + host + '/websocket'
           httpurl: http + '://' + host + ':8080/'
-          newsurl: http + '://mariolukas.github.io/FabScanPi-Server/news/'
+          newsurl: http + '://fabscanpi-server.readthedocs.io/en/latest/news/'
           apiurl: http + '://' + host + '/'
       }
 

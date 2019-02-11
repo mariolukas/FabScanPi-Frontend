@@ -23,6 +23,29 @@ angular.module(name, []).controller(name, [
          $log.info payload
          $scope.devices = payload.data
 
+
+      #$scope.logResize = ()->
+      #  element = angular.element(document.querySelector('#settingsWindow'));
+      #  height = element[0].offsetHeight;
+      #  width = element[0].offsetWidth;
+      #  console.log(width)
+      #  #height = window.innerHeight
+      #  document.getElementById('settings-preview').setAttribute("style","height:" + height + "px");
+      #  #console.log(height)
+
+      $scope.sendDeviceCommand= (device, f_name) ->
+
+        message = {}
+        message =
+          event: FSEnumService.events.COMMAND
+          data:
+            command: FSEnumService.commands.HARDWARE_TEST_FUNCTION
+            device:
+              name: device,
+              function: f_name
+
+        FSMessageHandlerService.sendData(message)
+
       $scope.timeout = null
 
       updateSettings = ->
@@ -56,12 +79,30 @@ angular.module(name, []).controller(name, [
       $scope.showCalibrationPreview = () ->
          $scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=texture'
          $scope.previewMode = "calibration"
-         $scope.$apply()
+         #$scope.$apply()
 
       $scope.showLaserPreview = () ->
          $scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=laser'
          $scope.previewMode = "laser"
-         $scope.$apply()
+         #$scope.$apply()
+
+      $scope.calibrationPatternSelected = () ->
+        if $scope.settings.show_calibration_pattern
+          return true
+        else
+          return false
+
+      $scope.laserOverlaySelected = () ->
+        if $scope.settings.show_laser_overlay
+          return true
+        else
+          return false
+
+      $scope.setCalibrationPattern = () ->
+          updateSettings()
+
+      $scope.setLaserOverlay = () ->
+          updateSettings()
 
       $scope.setColor = () ->
           updateSettings()
