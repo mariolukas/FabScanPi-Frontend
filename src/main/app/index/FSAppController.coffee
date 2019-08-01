@@ -1,8 +1,8 @@
 name = 'fabscan.controller.FSAppController'
 
 angular.module(name, []).controller(name, [
-	'$log',
-	'$scope',
+  '$log',
+  '$scope',
   '$timeout',
   '$http',
   '$rootScope',
@@ -12,7 +12,7 @@ angular.module(name, []).controller(name, [
   'fabscan.services.FSEnumService'
   'fabscan.services.FSScanService'
   'fabscan.services.FSi18nService'
-	($log, $scope, $timeout, $http, $rootScope,ngProgress, toastr , FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
+  ($log, $scope, $timeout, $http, $rootScope,ngProgress, toastr , FSMessageHandlerService, FSEnumService, FSScanService, FSi18nService) ->
 
     $scope.streamUrl = " "
     $scope.settings = {}

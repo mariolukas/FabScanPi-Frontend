@@ -5,8 +5,8 @@
 mods = [
   'common.services.envProvider'
   'common.filters.currentStateFilter'
-	'common.filters.toLabelFilter'
-	'common.filters.toResolutionValue'
+  'common.filters.toLabelFilter'
+  'common.filters.toResolutionValue'
 
   'fabscan.directives.FSWebglDirective'
   'fabscan.directives.FSMJPEGStream'
@@ -18,7 +18,7 @@ mods = [
   'fabscan.services.FSWebsocketConnectionFactory'
   'fabscan.services.FSScanService'
   'fabscan.services.FSi18nService'
-	'common.filters.scanDataAvailableFilter'
+  'common.filters.scanDataAvailableFilter'
   'fabscan.directives.onSizeChanged'
 
   'common.services.Configuration'
@@ -29,18 +29,18 @@ mods = [
   'fabscan.controller.FSNewsController'
   'fabscan.controller.FSSettingsController'
   'fabscan.controller.FSScanController'
-	'fabscan.controller.FSLoadingController'
-	'fabscan.controller.FSShareController'
+  'fabscan.controller.FSLoadingController'
+  'fabscan.controller.FSShareController'
 
-	'ngSanitize'
-	'ngTouch'
+  'ngSanitize'
+  'ngTouch'
   'ngCookies'
 
-	'720kb.tooltips'
-	'ngProgress'
+  '720kb.tooltips'
+  'ngProgress'
 
   'vr.directives.slider'
-	'slickCarousel'
+  'slickCarousel'
    #'ng.jsoneditor'
 ]
 
