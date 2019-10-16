@@ -30,7 +30,7 @@ angular.module(name, []).controller(name, [
       console.log 'News request timeout...'
       $scope.displayNews(false)
       return
-    ), 30)
+    ), 1)
 
 
     deferred = $q.defer();

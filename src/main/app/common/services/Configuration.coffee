@@ -12,7 +12,7 @@ angular.module(name, []).factory(name, [
     http = 'http'
     ws = 'ws'
 
-    console.log($location.protocol())
+    #console.log($location.protocol())
     if $location.protocol() is 'https'
       http = 'https'
       ws = 'wss'
@@ -32,7 +32,7 @@ angular.module(name, []).factory(name, [
           host: host
           websocketurl: ws + '://' + host + '/websocket'
           httpurl: http + '://' + host + ':8080/'
-          newsurl: http + '://fabscanpi-server.readthedocs.io/en/latest/news/'
+          newsurl: 'https://fabscanpi-server.readthedocs.io/en/latest/news/'
           apiurl: http + '://' + host + '/'
       }
 

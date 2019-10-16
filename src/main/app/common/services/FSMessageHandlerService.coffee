@@ -24,7 +24,7 @@ angular.module(name, []).factory(name, [
 
         socket.onopen = (event) ->
             scope.isConnected = true
-            $rootScope.$broadcast("CONNECTION_STATE_CHANGED", scope.isConnected)
+            $rootScope.$broadcast("CONNECTION_STATE_CHANGED", true)
             console.log 'Websocket connected to '+socket.url
 
 

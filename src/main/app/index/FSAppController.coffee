@@ -31,7 +31,7 @@ angular.module(name, []).controller(name, [
     $timeout (->
       $scope.appInitError()
       return
-    ), 15000
+    ), 60000
 
     $scope.appInitError = () ->
       $scope.initError = true
@@ -67,8 +67,10 @@ angular.module(name, []).controller(name, [
       FSScanService.upgradeServer()
 
     $scope.$on("CONNECTION_STATE_CHANGED", (event, connected) ->
-        $log.info("Connected")
+        $log.info("Connected: "+ connected)
+
         $scope.isConnected = connected
+        #$scope.appIsInitialized = true
         if not connected
           $scope.appIsInitialized = false
 

@@ -118,7 +118,7 @@ angular.module(name, []).directive("fsWebgl", [
         )
         plane.rotation.x = -Math.PI / 2;
         #thickness of turntable
-        plane.position.y = -turntable_thickness;
+        plane.position.y = -2*turntable_thickness;
         scene.add(plane)
 
         plane.receiveShadow = true
@@ -164,6 +164,7 @@ angular.module(name, []).directive("fsWebgl", [
         geometry = new THREE.CylinderGeometry(turntable_radius, turntable_radius, turntable_thickness, 32);
         material = new THREE.MeshPhongMaterial({color: 0xd3d2c9});
         turntable = new THREE.Mesh(geometry, material)
+        turntable.position.y -= turntable_thickness
         turntable.name = "turntable"
         scene.add(turntable)
 
