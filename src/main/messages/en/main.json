@@ -19,6 +19,10 @@
     "UPGRADE_IN_PROGRESS": "Upgrading software, please wait...",
     "SCANNER_IN_CALIBRATION_MODE" :"Calibrating, please stand by...",
     "STOPPED_CALIBRATION" : "Calibration stopped",
-    "SCANNER_NOT_CALIBRATED": "Scanner is not calibrated. For instructions visit: <a href='http://mariolukas.github.io/FabScanPi-Server/software/'>fabscan.org</a>",
-    "SCANNER_CALIBRATION_FAILED": "Scanner calibration failed. Please try again."
+    "SCANNER_NOT_CALIBRATED": "Scanner is not calibrated. For instructions visit: <a href='https://fabscanpi-server.readthedocs.io/en/latest/scanner_calibration.html'>fabscan.org</a>",
+    "SCANNER_CALIBRATION_FAILED": "Scanner calibration failed. Please try again.",
+    "UPGRADE_SUCCESS": "Upgrade was successful. Server will restart soon.",
+    "UPGRADE_FAILED": "Upgrade failed. See log for further information.",
+    "UPGRADE_STARTED": "Upgrade process started...",
+    "RESTARRING_SERVER": "Server is going down for Restart."
 }
