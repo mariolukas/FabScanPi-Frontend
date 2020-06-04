@@ -107,6 +107,15 @@ angular.module(name, []).controller(name, [
       $scope.setColor = () ->
           updateSettings()
 
+      $scope.setAutoThreshold = () ->
+          updateSettings()
+
+      $scope.autoThreshHoldIsSelected = () ->
+          if $scope.settings.auto_threshold
+            return true
+          else
+            return false
+
       $scope.colorIsSelected = () ->
           if $scope.settings.color
             return true

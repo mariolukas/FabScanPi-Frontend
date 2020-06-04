@@ -14,6 +14,7 @@ angular.module(name, []).controller(name, [
     $scope.settings = null
     $scope.id = FSScanService.getScanId()
     $scope.selectedTab = 'download'
+    $scope.selectedFile = null
     $scope.raw_scans = []
     $scope.meshes = []
 
@@ -72,7 +73,8 @@ angular.module(name, []).controller(name, [
     $scope.selectTab  = (tab)->
       $scope.selectedTab = tab
 
-    $scope.nextSubSelection= () ->
+    $scope.nextSubSelection= (id) ->
+      $scope.selectedFile = id
       $('.filter-container').slick('slickNext')
       return false
 
@@ -128,11 +130,11 @@ angular.module(name, []).controller(name, [
         if extension == 'ply'
           $scope.loadPLY(mesh)
 
-    $scope.runMeshing = () ->
+    $scope.runMeshing = (file) ->
         $scope.toggleShareDialog()
         $log.info $scope.selectedFilter
         $log.info $scope.selectedFormat
-        FSScanService.runMeshing(FSScanService.getScanId(), $scope.selectedFilter, $scope.selectedFormat)
+        FSScanService.runMeshing(FSScanService.getScanId(), $scope.selectedFilter, $scope.selectedFormat, $scope.selectedFile)
 
 
 

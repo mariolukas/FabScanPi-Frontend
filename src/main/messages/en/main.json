@@ -21,7 +21,7 @@
     "STOPPED_CALIBRATION" : "Calibration stopped",
     "SCANNER_NOT_CALIBRATED": "Scanner is not calibrated. For instructions visit: <a href='https://fabscanpi-server.readthedocs.io/en/latest/scanner_calibration.html'>fabscan.org</a>",
     "SCANNER_CALIBRATION_FAILED": "Scanner calibration failed. Please try again.",
-    "UPGRADE_SUCCESS": "Upgrade was successful. Server will restart soon.",
+    "UPGRADE_SUCCESS": "Upgrade was successful.",
     "UPGRADE_FAILED": "Upgrade failed. See log for further information.",
     "UPGRADE_STARTED": "Upgrade process started...",
     "RESTARTING_SERVER": "Server is going down for Restart."

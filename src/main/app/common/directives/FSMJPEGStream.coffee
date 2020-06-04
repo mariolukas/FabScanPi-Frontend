@@ -15,14 +15,20 @@ angular.module(name, []).directive 'mjpeg', ->
           iframe.setAttribute 'scrolling', 'no'
           element.replaceWith iframe
           iframeHtml = '<html><head><base target="_parent" /><style type="text/css">html, body { margin: 0; padding: 0; height: 100%; width: 100%; }</style><script> function resizeParent() { var ifs = window.top.document.getElementsByTagName("iframe"); for (var i = 0, len = ifs.length; i < len; i++) { var f = ifs[i]; var fDoc = f.contentDocument || f.contentWindow.document; if (fDoc === document) { f.height = 0; f.height = document.body.scrollHeight; } } }</script></head><body onresize="resizeParent()"><img src=\"' + newVal + '\" style="width: 100%; height: auto" onload="resizeParent()" /></body></html>'
-          doc = iframe.document
-          if iframe.contentDocument
+
+          doc = undefined
+
+          if iframe.contentDocument?
             doc = iframe.contentDocument
-          else if iframe.contentWindow
+          else
             doc = iframe.contentWindow.document
-          doc.open()
-          doc.writeln iframeHtml
-          doc.close()
+
+          if doc
+            doc.open()
+            doc.writeln iframeHtml
+            doc.close()
+          else
+            return
         else
           element.html '<span></span>'
         return

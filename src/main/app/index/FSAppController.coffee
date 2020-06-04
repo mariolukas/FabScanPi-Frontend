@@ -139,6 +139,9 @@ angular.module(name, []).controller(name, [
         when "success" then toastr.success(message)
         else toastr.info(message)
 
+      if data['message'] == "RESTARTING_SERVER"
+        location.reload()
+
       $scope.$apply()
     )
 

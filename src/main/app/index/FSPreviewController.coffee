@@ -36,9 +36,9 @@ angular.module(name, []).controller(name, [
       $scope.$apply()
 
     startStream = () ->
-      $scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=textures'
-      $scope.showStream = true
-      $scope.$apply()
+      #$scope.streamUrl = Configuration.installation.apiurl+'api/v1/streams/?type=textures'
+      #$scope.showStream = true
+      #$scope.$apply()
 
     resetSate = () ->
       $scope.remainingTime = []

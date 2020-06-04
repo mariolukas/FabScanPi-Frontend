@@ -112,7 +112,7 @@ angular.module(name, []).factory(name, [
       FSMessageHandlerService.sendData(message)
       $rootScope.$broadcast(FSEnumService.commands.CALIBRATE)
 
-    service.runMeshing = (scan_id, filter, format) ->
+    service.runMeshing = (scan_id, filter, format, file) ->
 
       message = {}
       message =
@@ -120,6 +120,7 @@ angular.module(name, []).factory(name, [
         data:
           command: FSEnumService.commands.MESHING
           scan_id: scan_id
+          file: file
           format: format
           filter: filter
 
